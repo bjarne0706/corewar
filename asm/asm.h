@@ -33,6 +33,6 @@ void			error(char *str);
 unsigned int	reverse_byte(unsigned int num);
 void			write_header();
 char			*get_name(char *name);
-void			write_player_name();
+void			write_player_name(char *line);
 
 #endif //COREWAR_COREWAR_H
