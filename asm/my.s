@@ -1,5 +1,4 @@
-.name       "Bat
-man"
+.name       "Batman"
 .comment    "This city needs me"
 
 loop:

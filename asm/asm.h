@@ -20,6 +20,8 @@
 # include <stdio.h>
 # include "../op.h"
 
+
+# define f printf("KEK\n");
 typedef struct	s_files
 {
 	int 		f_fd;
@@ -33,6 +35,8 @@ void			error(char *str);
 unsigned int	reverse_byte(unsigned int num);
 void			write_header();
 char			*get_name(char *name);
-void			write_player_name(char *line);
+char 			*read_betw_brack(char *str);
+void			write_exec_code_size();
+void			write_name_or_comment(char *line, int flag);
 
 #endif //COREWAR_COREWAR_H

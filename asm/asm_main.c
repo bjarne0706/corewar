@@ -46,9 +46,40 @@ int				main(int ac, char **av)
 	while (get_next_line(g_files->f_fd, &line) > 0)
 	{
 		if (ft_strstr(line, ".name"))
-			write_player_name(line);
+			write_name_or_comment(line, 1);
+		if (ft_strstr(line, ".comment"))
+			write_name_or_comment(line, 0);
 		free(line);
 	}
+}
+
+void			write_name_or_comment(char *line, int flag)// 1->name    0->comment
+{
+	int 	brack_flag;
+	char 	*name;
+	char 	*tmp_name;
+	long int	num;
+
+	num = (flag == 1) ? PROG_NAME_LENGTH : COMMENT_LENGTH;
+	name = (char *)ft_memalloc(num);
+	tmp_name = (char *)ft_memalloc(num);
+	brack_flag = 0;
+	while (brack_flag != 2)
+	{
+		if (ft_strchr(line, '"'))
+			brack_flag++;
+		if (ft_strrchr(line, '"'))
+			brack_flag++;
+		tmp_name = ft_strjoin(tmp_name, line);
+		if (brack_flag != 2)
+			get_next_line(g_files->f_fd, &line);
+	}
+	tmp_name = read_betw_brack(tmp_name);
+	name = ft_memcpy(name, tmp_name, num);
+	write(g_files->s_fd, name, num);
+	write(g_files->s_fd, 0, 4);
+	//	write_exec_code_size();
+
 }
 
 void			write_header()
@@ -62,30 +93,37 @@ void			write_header()
 	write(g_files->s_fd, tmp, 4);
 }
 
-void				write_player_name(char *line)
+void			write_exec_code_size()
 {
-	int 	brack_flag;
-	char 	*name;
-	char 	*tmp_name;
+	char		*code;
+	long int	num;
+	code = ft_memalloc(4);
+	num = CHAMP_MAX_SIZE;
+	code = ft_memcpy(code, &num, 4);
+	write(g_files->s_fd, code, 4);
+}
 
-	name = (char *)ft_memalloc(PROG_NAME_LENGTH);
-	tmp_name = (char *)ft_memalloc(PROG_NAME_LENGTH);
-	brack_flag = 0;
-	while (brack_flag != 2)
+char 			*read_betw_brack(char *str)
+{
+	char	*new;
+	int		i;
+	int		y;
+
+	i = 0;
+	y = 0;
+	new = (char *)ft_memalloc(PROG_NAME_LENGTH);
+	while (str[i] != '"')
+		i++;
+	i++;
+	while (str[i] != '"' && str[i])
 	{
-		if (ft_strchr(line, '"'))
-			brack_flag++;
-		if (ft_strrchr(ft_strchr(line, '"'), '"'))
-			brack_flag++;
-		tmp_name = ft_strjoin(tmp_name, line);
-		get_next_line(g_files->f_fd, &line);
-		if (brack_flag != 2)
-			tmp_name = ft_strjoin(tmp_name, line);
-//		printf("%s\n", line);
+		new[y] = str[i];
+		y++;
+		i++;
 	}
-		printf("%s\n", tmp_name);
-	name = ft_memcpy(name, &tmp_name, 128);
-	write(g_files->s_fd, name, 128);
+	new[y] = '\0';
+	free(str);
+	return (new);
 }
 
 unsigned int	reverse_byte(unsigned int num)
