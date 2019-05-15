@@ -28,7 +28,14 @@ typedef struct	s_files
 	int 		s_fd;
 }				t_files;
 
+typedef struct	s_strings
+{
+	char 		*name;
+	char 		*comment;
+}				t_strings;
+
 t_files			*g_files;
+t_strings		*g_str;
 char 			*g_cor_line;
 //asm_main
 void			error(char *str);

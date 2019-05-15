@@ -75,9 +75,12 @@ void			write_name_or_comment(char *line, int flag)// 1->name    0->comment
 			get_next_line(g_files->f_fd, &line);
 	}
 	tmp_name = read_betw_brack(tmp_name);
-	name = ft_memcpy(name, tmp_name, num);
-	write(g_files->s_fd, name, num);
-	write(g_files->s_fd, 0, 4);
+	if (flag)
+		g_str->name = ft_memcpy(name, tmp_name, num);
+	else
+		g_str->comment = ft_memcpy(name, tmp_name, num);
+//	write(g_files->s_fd, name, num);
+//	write(g_files->s_fd, 0, 4);
 	//	write_exec_code_size();
 
 }
