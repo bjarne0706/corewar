@@ -1,0 +1,11 @@
+#my
+.vscode/
+.DS_Store
+
+
+# Object files
+*.o
+
+# Precompiled Headers
+*.gch
+*.pch
