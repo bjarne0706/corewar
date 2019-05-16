@@ -47,10 +47,17 @@ int				main(int ac, char **av)
 	{
 		if (ft_strstr(line, ".name"))
 			write_name(line);
-		if (ft_strstr(line, ".comment"))
+		else if (ft_strstr(line, ".comment"))
 			write_comment(line);
+		else
+			write_token();
 		free(line);
 	}
+}
+
+void			write_token()
+{
+
 }
 
 void			write_name(char *line)// 1->name    0->comment
