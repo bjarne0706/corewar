@@ -46,21 +46,21 @@ int				main(int ac, char **av)
 	while (get_next_line(g_files->f_fd, &line) > 0)
 	{
 		if (ft_strstr(line, ".name"))
-			write_name_or_comment(line, 1);
+			write_name(line);
 		if (ft_strstr(line, ".comment"))
-			write_name_or_comment(line, 0);
+			write_comment(line);
 		free(line);
 	}
 }
 
-void			write_name_or_comment(char *line, int flag)// 1->name    0->comment
+void			write_name(char *line)// 1->name    0->comment
 {
-	int 	brack_flag;
-	char 	*name;
-	char 	*tmp_name;
+	int 		brack_flag;
+	char 		*name;
+	char 		*tmp_name;
 	long int	num;
 
-	num = (flag == 1) ? PROG_NAME_LENGTH : COMMENT_LENGTH;
+	num = PROG_NAME_LENGTH;
 	name = (char *)ft_memalloc(num);
 	tmp_name = (char *)ft_memalloc(num);
 	brack_flag = 0;
@@ -75,14 +75,37 @@ void			write_name_or_comment(char *line, int flag)// 1->name    0->comment
 			get_next_line(g_files->f_fd, &line);
 	}
 	tmp_name = read_betw_brack(tmp_name);
-	if (flag)
-		g_str->name = ft_memcpy(name, tmp_name, num);
-	else
-		g_str->comment = ft_memcpy(name, tmp_name, num);
-//	write(g_files->s_fd, name, num);
+	name = ft_memcpy(name, tmp_name, num);
+	write(g_files->s_fd, name, num);
 //	write(g_files->s_fd, 0, 4);
 	//	write_exec_code_size();
+}
 
+void			write_comment(char *line)
+{
+	int 		brack_flag;
+	char 		*name;
+	char 		*tmp_name;
+	long int	num;
+
+	num = COMMENT_LENGTH;
+	name = (char *)ft_memalloc(num);
+	tmp_name = (char *)ft_memalloc(num);
+	brack_flag = 0;
+	while (brack_flag != 2)
+	{
+		if (ft_strchr(line, '"'))
+			brack_flag++;
+		if (ft_strrchr(line, '"'))
+			brack_flag++;
+		tmp_name = ft_strjoin(tmp_name, line);
+		if (brack_flag != 2)
+			get_next_line(g_files->f_fd, &line);
+	}
+	tmp_name = read_betw_brack(tmp_name);
+	name = ft_memcpy(name, tmp_name, num);
+	write(g_files->s_fd, name, num);
+//	write(g_files->s_fd, 0, 4);
 }
 
 void			write_header()
