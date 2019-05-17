@@ -13,17 +13,13 @@
 #ifndef VM_H
 # define VM_H
 
-# include "../../libft/libft.h"
+# include "../../libft/includes/libft.h"
 # include "../../op.h"
 
+# include <stdio.h>
+# include <errno.h>
 # include <limits.h>	//?
-# include <stdio.h>		//TMP
 
-typedef 	enum 
-{
-	false = 0,
-	true = !false
-}			t_bool;
 
 typedef struct		s_champ
 {
@@ -41,15 +37,30 @@ typedef struct		s_carr
 	struct s_carr	*nxt;
 }					t_carr;
 
+/*
+** options: [0] -d; [1] -s; [2] -v
+** dump_cycles: [0] -d; [1] -s
+*/
+
 typedef struct		s_vm
 {
 	unsigned char	arena[MEM_SIZE];
 	t_champ			champs[MAX_PLAYERS];
 	t_carr			*carrs;
+	
+	char			options[3];
+	int				dump_cycles[2];
 
 }					t_vm;
 
-
 void				print_usage(void);
+t_vm				*init_vm(void);
+
+void				parse_args(int ac, char *av[], t_vm *v);
+void				flag_d(char *av[], int ac, int *i, t_vm *v);
+void				flag_s(char *av[], int ac, int *i, t_vm *v);
+
+void				vm_error(char *msg);
+
 
 #endif
