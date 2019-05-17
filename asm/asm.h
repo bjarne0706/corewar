@@ -20,8 +20,11 @@
 # include <stdio.h>
 # include "../op.h"
 
-
 # define f printf("KEK\n");
+# define f2 printf("KEK2\n");
+# define f3 printf("KEK3\n");
+# define f4 printf("KEK4\n");
+
 typedef struct		s_files
 {
 	int 			f_fd;
@@ -38,7 +41,7 @@ typedef struct		s_oken
 {
 	char			label;
 	char 			inst;
-	char
+	char			arg1;
 	char			arg2;
 	char			arg2_type;
 	char			arg3;
@@ -59,4 +62,7 @@ void				write_exec_code_size();
 void				write_name(char *line);
 void				write_comment(char *line);
 void				write_token();
+int					search_bracks(char *line);
+int 				search_r_bracks(char *line, int num);
+char				*ft_itoa_base(int value, int base);
 #endif //COREWAR_COREWAR_H
