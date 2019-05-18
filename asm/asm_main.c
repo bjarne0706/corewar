@@ -19,6 +19,7 @@ int				main(int ac, char **av)
 
 	g_files = (t_files *)ft_memalloc(sizeof(t_files));
 	g_str = (t_strings *)ft_memalloc(sizeof(t_strings));
+	g_exec_size = 0;
 	if (ac != 2)
 		error("Error: incorrect number of files");
 	arr = ft_strsplit(av[1], '.');
@@ -27,26 +28,26 @@ int				main(int ac, char **av)
 	g_files->f_fd = open(av[1], O_RDONLY);
 	filename = get_name(av[1]);
 	g_files->s_fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, 0666);
+	write_header();
 	write_all();
 }
 
 void			write_all(void)
 {
 	char	*line;
-	long str4;
-	char *str2;
+	long	str4;
+	char	*str2;
+	int 	num;
 
-	write_header();
+	num = 0;
 	str4 = 0x0;
 	str2 = ft_memalloc(4);
-	while (get_next_line(g_files->f_fd, &line) > 0)
+	while (get_next_line(g_files->f_fd, &line) > 0 && num != 2)
 	{
 		if (ft_strstr(line, ".name"))
-			write_name(line);
+			num += write_name(line);
 		else if (ft_strstr(line, ".comment"))
-			write_comment(line);
-//		else
-//			write_token();
+			num += write_comment(line);
 		free(line);
 	}
 	write(g_files->s_fd, g_str->name, PROG_NAME_LENGTH);
@@ -106,72 +107,4 @@ char	*ft_itoa_base(int value, int base)
 		value /=base;
 	}
 	return (str);
-}
-
-int 			search_bracks(char *line)
-{
-	int 		i;
-
-	i = -1;
-	while (line[++i])
-		if (line[i] == '"')
-			return (i);
-	return (0);
-}
-
-int 			search_r_bracks(char *line, int num)
-{
-	int 		i;
-
-	i = ft_strlen(line);
-	while (line[--i])
-		if (line[i] == '"' && i != num)
-			return (i);
-	return (0);
-}
-
-char 			*read_betw_brack(char *str)
-{
-	char	*new;
-	int		i;
-	int		y;
-
-	i = 0;
-	y = 0;
-	new = (char *)ft_memalloc(PROG_NAME_LENGTH);
-	while (str[i] != '"')
-		i++;
-	i++;
-	while (str[i] != '"' && str[i])
-	{
-		new[y] = str[i];
-		y++;
-		i++;
-	}
-	new[y] = '\0';
-	free(str);
-	return (new);
-}
-
-unsigned int	reverse_byte(unsigned int num)
-{
-	unsigned   write;
-	unsigned   bt;
-	int     i;
-
-	i = -1;
-	write = 0;
-	while (++i < 4)
-	{
-		bt = (num >> 8 * i) & 0xff;
-		write |= bt << (24 - 8 * i);
-	}
-	return (write);
-}
-
-void			error(char *str)
-{
-	ft_putstr(str);
-	write(1, "\n", 1);
-	exit(1);
 }

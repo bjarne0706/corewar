@@ -37,21 +37,29 @@ typedef struct		s_strings
 	char 			*comment;
 }					t_strings;
 
+typedef struct		s_op
+{
+	char			*name;
+	long			code;
+	long 			arg_count;
+	uint8_t			argums[3];
+	long			cycles;
+	int 			arg_code_type;
+	u_int8_t		t_dir_size;
+
+}					t_op;
+
 typedef struct		s_oken
 {
-	char			label;
-	char 			inst;
-	char			arg1;
-	char			arg2;
-	char			arg2_type;
-	char			arg3;
-	char			arg3_type;
+	t_op			token;
+	char 			*label;
 	struct s_oken	*next;
 }					t_oken;
 
 t_files				*g_files;
 t_strings			*g_str;
 char 				*g_cor_line;
+long 				g_exec_size;
 //asm_main
 void				error(char *str);
 unsigned int		reverse_byte(unsigned int num);
@@ -59,8 +67,8 @@ void				write_header();
 char				*get_name(char *name);
 char 				*read_betw_brack(char *str);
 void				read_asm_put_code_size();
-void				write_name(char *line);
-void				write_comment(char *line);
+int					write_name(char *line);
+int					write_comment(char *line);
 void				write_token();
 int					search_bracks(char *line);
 int 				search_r_bracks(char *line, int num);

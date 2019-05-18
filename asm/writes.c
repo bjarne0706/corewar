@@ -23,7 +23,7 @@ void			write_header()
 	write(g_files->s_fd, tmp, 4);
 }
 
-void			write_name(char *line)
+int				write_name(char *line)
 {
 	int 		brack_flag;
 	char 		*tmp_name;
@@ -47,9 +47,10 @@ void			write_name(char *line)
 	}
 	tmp_name = read_betw_brack(tmp_name);
 	g_str->name = ft_memcpy(g_str->name, tmp_name, num);
+	return (1);
 }
 
-void			write_comment(char *line)
+int				write_comment(char *line)
 {
 	int 		brack_flag;
 	char 		*tmp_name;
@@ -73,6 +74,7 @@ void			write_comment(char *line)
 	}
 	tmp_name = read_betw_brack(tmp_name);
 	g_str->comment = ft_memcpy(g_str->comment, tmp_name, num);
+	return (1);
 }
 
 void			write_token()
@@ -95,14 +97,4 @@ void			write_token()
 //	str = ft_itoa_base(str, 16);
 	str3 = ft_memcpy(str3, &str, 1);
 	write(g_files->s_fd, str3, 1);
-}
-
-void			read_asm_put_code_size(void)
-{
-	char		*code;
-	long int	num;
-	code = ft_memalloc(4);
-	num = 16;
-	code = ft_memcpy(code, &num, 4);
-	write(g_files->s_fd, code, 4);
 }
