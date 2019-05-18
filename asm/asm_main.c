@@ -16,30 +16,45 @@ int				main(int ac, char **av)
 {
 	char		*filename;
 	char 		**arr;
-	char		*line;
 
 	g_files = (t_files *)ft_memalloc(sizeof(t_files));
-	if (ac != 2) {
+	g_str = (t_strings *)ft_memalloc(sizeof(t_strings));
+	if (ac != 2)
 		error("Error: incorrect number of files");
-	}
 	arr = ft_strsplit(av[1], '.');
-	if (ft_strcmp(arr[1], "s") != 0) {
+	if (ft_strcmp(arr[1], "s") != 0)
 		error("Error: incorrect file extension");
-	}
 	g_files->f_fd = open(av[1], O_RDONLY);
 	filename = get_name(av[1]);
 	g_files->s_fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, 0666);
+	write_all();
+}
+
+void			write_all(void)
+{
+	char	*line;
+	long str4;
+	char *str2;
+
 	write_header();
+	str4 = 0x0;
+	str2 = ft_memalloc(4);
 	while (get_next_line(g_files->f_fd, &line) > 0)
 	{
 		if (ft_strstr(line, ".name"))
 			write_name(line);
-//		else if (ft_strstr(line, ".comment"))
-//			write_comment(line);
-		else
-			write_token();
+		else if (ft_strstr(line, ".comment"))
+			write_comment(line);
+//		else
+//			write_token();
 		free(line);
 	}
+	write(g_files->s_fd, g_str->name, PROG_NAME_LENGTH);
+	str2 = ft_memcpy(str2, &str4, 4);
+	write(g_files->s_fd, str2, 4);
+	read_asm_put_code_size();
+	write(g_files->s_fd, g_str->comment, COMMENT_LENGTH);
+	write_token();
 }
 
 char			*get_name(char *name)
@@ -53,96 +68,6 @@ char			*get_name(char *name)
 	str = ft_strsub(name, 0, name_len);
 	str = ft_strjoin(str, ".cor");
 	return (str);
-}
-
-void			write_header()
-{
-	char		*tmp;
-	long int	i;
-
-	tmp = (char *)ft_memalloc(4);
-	i = reverse_byte(COREWAR_EXEC_MAGIC);
-	tmp = ft_memcpy(tmp, &i, 4);
-	write(g_files->s_fd, tmp, 4);
-}
-
-void			write_name(char *line)
-{
-	int 		brack_flag;
-	char 		*name;
-	char 		*tmp_name;
-	long int	num;
-	int 		i;
-
-	i = 0;
-	num = PROG_NAME_LENGTH;
-	name = (char *)ft_memalloc(num);
-	tmp_name = (char *)ft_memalloc(num);
-	brack_flag = 0;
-	while (brack_flag != 2)
-	{
-		if ((i = search_bracks(line)))
-			brack_flag++;
-		if (search_r_bracks(line, i))
-			brack_flag++;
-		tmp_name = ft_strjoin(tmp_name, line);
-		if (brack_flag != 2)
-			get_next_line(g_files->f_fd, &line);
-	}
-	tmp_name = read_betw_brack(tmp_name);
-	name = ft_memcpy(name, tmp_name, num);
-	write(g_files->s_fd, name, num);
-//	write_exec_code_size();
-}
-
-void			write_comment(char *line)
-{
-	int 		brack_flag;
-	char 		*name;
-	char 		*tmp_name;
-	long int	num;
-	int 		i;
-
-	i = 0;
-	num = COMMENT_LENGTH;
-	name = (char *)ft_memalloc(num);
-	tmp_name = (char *)ft_memalloc(num);
-	brack_flag = 0;
-	while (brack_flag != 2)
-	{
-		if ((i = search_bracks(line)))
-			brack_flag++;
-		if (search_r_bracks(line, i))
-			brack_flag++;
-		tmp_name = ft_strjoin(tmp_name, line);
-		if (brack_flag != 2)
-			get_next_line(g_files->f_fd, &line);
-	}
-	tmp_name = read_betw_brack(tmp_name);
-	name = ft_memcpy(name, tmp_name, num);
-	write(g_files->s_fd, name, num);
-//	write(g_files->s_fd, 0, 4);
-}
-
-void			write_token()
-{
-//	long str;
-//	long str3;
-	char *str4;
-	char *str2;
-
-	str2 = ft_memalloc(1);
-
-//	str = 104;
-//	str3 = 0x0b;
-	str4 = NULL;
-//	str = str & 0xff;
-//	printf("%s\n", ft_itoa_base(str, 16));
-//	str = ft_itoa_base(str, 16);
-//	str2 = ft_memcpy(str2, &str, 1);
-//	write(g_files->s_fd, str2, 1);
-	str2 = ft_memcpy(str2, &str4, 1);
-	write(g_files->s_fd, str2, 1);
 }
 
 int		ft_abs(int nb)
@@ -203,16 +128,6 @@ int 			search_r_bracks(char *line, int num)
 		if (line[i] == '"' && i != num)
 			return (i);
 	return (0);
-}
-
-void			write_exec_code_size()
-{
-	char		*code;
-	long int	num;
-	code = ft_memalloc(4);
-	num = 256;
-	code = ft_memcpy(code, &num, 4);
-	write(g_files->s_fd, code, 4);
 }
 
 char 			*read_betw_brack(char *str)

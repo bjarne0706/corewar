@@ -30,7 +30,6 @@ obj/%.o:%.c
 	 $(CC) $< -o $@ $(FLAGS) $(HDR)
 
 clean:
-	rm 42.cor
 	rm -rf *.o
 	make clean -C ../libft
 

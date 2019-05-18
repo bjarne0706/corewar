@@ -58,11 +58,12 @@ unsigned int		reverse_byte(unsigned int num);
 void				write_header();
 char				*get_name(char *name);
 char 				*read_betw_brack(char *str);
-void				write_exec_code_size();
+void				read_asm_put_code_size();
 void				write_name(char *line);
 void				write_comment(char *line);
 void				write_token();
 int					search_bracks(char *line);
 int 				search_r_bracks(char *line, int num);
 char				*ft_itoa_base(int value, int base);
-#endif //COREWAR_COREWAR_H
+void				write_all(void);
+#endif
