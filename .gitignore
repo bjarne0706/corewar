@@ -1,6 +1,8 @@
 #my
 .vscode/
 .DS_Store
+corewar
+asm
 
 
 # Object files

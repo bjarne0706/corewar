@@ -20,9 +20,11 @@ INC_DIR		= ./inc/
 
 LIB_DIR		= ../libft/
 LIBFT 		= $(LIB_DIR)libft.a
-LIB_INC		= $(LIB_DIR)libft.h
+LIB_INC		= $(LIB_DIR)includes/
 
-SRC 		=	vm_main.c
+SRC			=	vm_main.c \
+				init.c \
+				byebye.c
 
 OBJ 		= $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 
