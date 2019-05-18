@@ -24,6 +24,9 @@ LIB_INC		= $(LIB_DIR)includes/
 
 SRC			=	vm_main.c \
 				init.c \
+				parse_flags.c \
+				parse_players.c \
+				utils.c \
 				byebye.c
 
 OBJ 		= $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
