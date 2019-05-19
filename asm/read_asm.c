@@ -16,4 +16,14 @@ void		read_asm_put_code_size(void)
 {
 	char	*line;
 
+	while (get_next_line(g_files->s_fd, &line) > 0)
+	{
+		disassemble_line(line);
+		free(line);
+	}
+}
+
+void		disassemble_line(char *line)
+{
+
 }

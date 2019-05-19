@@ -61,17 +61,21 @@ t_strings			*g_str;
 char 				*g_cor_line;
 long 				g_exec_size;
 //asm_main
-void				error(char *str);
-unsigned int		reverse_byte(unsigned int num);
-void				write_header();
+void				write_all(void);
 char				*get_name(char *name);
-char 				*read_betw_brack(char *str);
-void				read_asm_put_code_size();
+char				*ft_itoa_base(int value, int base);
+//writes
+void				write_header();
 int					write_name(char *line);
 int					write_comment(char *line);
 void				write_token();
+//addit_for_writes
 int					search_bracks(char *line);
 int 				search_r_bracks(char *line, int num);
-char				*ft_itoa_base(int value, int base);
-void				write_all(void);
+char 				*read_betw_brack(char *str);
+unsigned int		reverse_byte(unsigned int num);
+void				error(char *str);
+//read_asm
+void				read_asm_put_code_size();
+void				disassemble_line(char *line);
 #endif
