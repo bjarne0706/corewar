@@ -18,6 +18,7 @@
 
 # include <stdio.h>
 # include <errno.h>
+# include <fcntl.h>
 # include <limits.h>	//?
 
 
@@ -45,7 +46,8 @@ typedef struct		s_carr
 typedef struct		s_vm
 {
 	unsigned char	arena[MEM_SIZE];
-	t_champ			champs[MAX_PLAYERS];
+	int				champs_num;
+	t_champ			*champs[MAX_PLAYERS];
 	t_carr			*carrs;
 	
 	char			options[3];
@@ -59,6 +61,15 @@ t_vm				*init_vm(void);
 void				parse_args(int ac, char *av[], t_vm *v);
 void				flag_d(char *av[], int ac, int *i, t_vm *v);
 void				flag_s(char *av[], int ac, int *i, t_vm *v);
+void				flag_v(t_vm *v);
+
+void				flag_n(char *av[], int ac, int *i, t_vm *v);
+t_bool				find_champ(t_vm *v, int n);
+t_bool				cor_filename(const char *s);
+void				parse_champ(t_vm *v, char *filecor);
+t_bool				validate_magic(int fd);
+
+unsigned int		reverse_byte(unsigned int num);
 
 void				vm_error(char *msg);
 
