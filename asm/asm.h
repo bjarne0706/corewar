@@ -51,13 +51,21 @@ typedef struct		s_op
 
 typedef struct		s_oken
 {
-	t_op			token;
+	t_op			*token;
 	char 			*label;
 	struct s_oken	*next;
 }					t_oken;
 
-t_files				*g_files;
-t_strings			*g_str;
+typedef struct		s_file
+{
+	char			*line;
+	struct s_file	*next;
+}					t_file;
+
+t_file				*g_file;
+t_files				*g_files; // files
+t_strings			*g_str;// parts of .cor file
+t_oken				*g_tkns; //tokens
 char 				*g_cor_line;
 long 				g_exec_size;
 //asm_main
@@ -78,4 +86,6 @@ void				error(char *str);
 //read_asm
 void				read_asm_put_code_size();
 void				disassemble_line(char *line);
+void				create_token(char *line, t_oken *tkn);
+//void				create_token(void);
 #endif

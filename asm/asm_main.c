@@ -19,6 +19,7 @@ int				main(int ac, char **av)
 
 	g_files = (t_files *)ft_memalloc(sizeof(t_files));
 	g_str = (t_strings *)ft_memalloc(sizeof(t_strings));
+	g_tkns = NULL;
 	g_exec_size = 0;
 	if (ac != 2)
 		error("Error: incorrect number of files");
