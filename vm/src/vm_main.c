@@ -55,7 +55,10 @@ int				main(int ac, char *av[])
 	{
 		v = init_vm();
 		parse_args(ac, av, v);
-			printf("dump_cycles: %d||%d\nO: %s\n", v->dump_cycles[0], v->dump_cycles[1], v->options);	//
+			printf("> Options: ");		//
+			for (size_t i = 0; i < ft_strlen(v->options); i++)	//
+					printf("%c]", v->options[i]);		///
+			printf("\n> dump_cycles: %d||%d\n", v->dump_cycles[0], v->dump_cycles[1]);	//
 	}
 	else
 		print_usage();
