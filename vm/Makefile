@@ -26,8 +26,10 @@ SRC			=	vm_main.c \
 				init.c \
 				parse_flags.c \
 				parse_players.c \
+				parse_players2.c \
 				utils.c \
-				byebye.c
+				byebye.c \
+				debug.c 						####TMP!!!!!!!!!!!!!
 
 OBJ 		= $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 
@@ -42,7 +44,7 @@ $(OBJ): | $(OBJ_DIR)
 $(OBJ_DIR):
 	@mkdir $(OBJ_DIR)
 
-$(OBJ_DIR)%.o: %.c $(INC_DIR)vm.h
+$(OBJ_DIR)%.o: %.c $(INC_DIR)vm.h ../op.h
 	@$(CC) $(FLAGS) -c $< -o $@ -I $(INC_DIR) -I $(LIB_INC)
 	@echo "	\033[96m$@\033[0m"
 

@@ -42,8 +42,11 @@ void			print_usage(void)
 	ft_printf("	{b}-d N{0}	: Dumps memory after N cycles then exits\n");
 	ft_printf("	{b}-s N{0}	: Runs N cycles, dumps memory, pauses, then repeats\n");
 	ft_printf("	{b}-v{0}	: Visual mode\n");
-	ft_printf("	{b}-n N{0}	: Specifies player's number\n");
-	exit(0);
+	ft_printf("	{b}-n N{0}	: Specifies player's number ");
+	ft_printf("(0 < N <= number_of_players (%d max))\n", MAX_PLAYERS);
+//		printf("\n++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");		//
+//		system("leaks -q corewar");		//
+	exit(1);
 }
 
 int				main(int ac, char *av[])
@@ -59,8 +62,16 @@ int				main(int ac, char *av[])
 			for (size_t i = 0; i < ft_strlen(v->options); i++)	//
 					printf("%c]", v->options[i]);		///
 			printf("\n> dump_cycles: %d||%d\n", v->dump_cycles[0], v->dump_cycles[1]);	//
+			printf("How many champs? %d\n", v->champs_num);	//
+		if (v->champs_num < 1)
+			vm_error("Where are these little naughty players?");
+		assign_champ_nums(v);
+			print_champs(v);		//
+
 	}
 	else
 		print_usage();
+//		printf("\n++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");		//
+//		system("leaks -q corewar");	//
 	return (0);
 }

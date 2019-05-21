@@ -40,6 +40,7 @@ t_champ			*add_champ(int n)
 	ft_bzero(champ->name, PROG_NAME_LENGTH);
 	ft_bzero(champ->comment, COMMENT_LENGTH);
 	champ->size = 0;
+	ft_bzero(champ->code, CHAMP_MAX_SIZE);
 	return (champ);
 }
 
