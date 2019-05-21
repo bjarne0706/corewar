@@ -62,6 +62,14 @@ typedef struct		s_file
 	struct s_file	*next;
 }					t_file;
 
+typedef struct		s_tmp
+{
+	char			*op;
+	char			*label;
+	struct s_tmp	*next;
+}					t_tmp;
+
+t_tmp				*g_tmp_op;
 t_file				*g_file;
 t_files				*g_files; // files
 t_strings			*g_str;// parts of .cor file
@@ -86,6 +94,9 @@ void				error(char *str);
 //read_asm
 void				read_asm_put_code_size();
 void				disassemble_line(char *line);
-void				create_token(char *line, t_oken *tkn);
+void				create_token();
+int					get_op_name();
+int					choose_name(char *line);
+void				work_on_op(int num, t_tmp *tmp);
 //void				create_token(void);
 #endif

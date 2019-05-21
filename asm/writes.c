@@ -21,6 +21,7 @@ void			write_header()
 	i = reverse_byte(COREWAR_EXEC_MAGIC);
 	tmp = ft_memcpy(tmp, &i, 4);
 	write(g_files->s_fd, tmp, 4);
+	free(tmp);
 }
 
 int				write_name(char *line)
