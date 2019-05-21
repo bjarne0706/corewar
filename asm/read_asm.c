@@ -1,16 +1,5 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   read_asm.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dchantse <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/18 18:55:19 by dchantse          #+#    #+#             */
-/*   Updated: 2019/05/18 18:55:24 by dchantse         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "asm.h"
+#include "../op.c"
 
 void		read_asm_put_code_size(void)
 {
@@ -32,6 +21,21 @@ void		read_asm_put_code_size(void)
 		tmp = tmp->next;
 	}
 	create_token();
+	// t_oken *tmp2;
+
+	// tmp2 = g_tkns;
+	// while (tmp2 != NULL)
+	// {
+	// 	if (tmp2->label)
+	// 		printf("Label: %s\n", tmp2->label);
+	// 	printf("name: %s\n", tmp2->token->name);
+	// 	printf("code: %lx\n", tmp2->token->code);
+	// 	printf("arg_count: %ld\n", tmp2->token->arg_count);
+	// 	printf("cycles: %ld\n", tmp2->token->cycles);
+	// 	printf("arg_code_type: %d\n", tmp2->token->arg_code_type);
+	// 	printf("dir_size: %d\n\n", tmp2->token->t_dir_size);
+	// 	tmp2 = tmp2->next;
+	// }
 }
 
 void		disassemble_line(char *line)
@@ -84,17 +88,36 @@ void		work_on_op(int num, t_tmp *tmp)
 	t_oken	*new;
 
 	new = (t_oken *)ft_memalloc(sizeof(t_oken));
+	new->token = (t_op *)ft_memalloc(sizeof(t_op));
+	if (tmp->label)
+		new->label = tmp->label;
+	fill_token(num, new);
+	fill_args(num, tmp->op, new);
 	if (g_tkns == NULL)
 		g_tkns = new;
 	else
 	{
-		tmp = g_tkns;
-		while (tmp->next != NULL)
-			tmp = tmp->next;
-		tmp->next = new;
+		tmp1 = g_tkns;
+		while (tmp1->next != NULL)
+			tmp1 = tmp1->next;
+		tmp1->next = new;
 	}
 }
 
+void		fill_token(int num, t_oken *tkn)
+{
+	tkn->token->name = op_tab[num].name;
+	tkn->token->code = op_tab[num].code;
+	tkn->token->arg_count = op_tab[num].arg_count;
+	tkn->token->cycles = op_tab[num].cycles;
+	tkn->token->arg_code_type = op_tab[num].arg_code_type;
+	tkn->token->t_dir_size = op_tab[num].t_dir_size;
+}
+
+void		fill_args(int num, char *tmp, t_oken *new)
+{
+	
+}
 
 int			get_op_name(char *line)
 {

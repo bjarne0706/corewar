@@ -98,5 +98,6 @@ void				create_token();
 int					get_op_name();
 int					choose_name(char *line);
 void				work_on_op(int num, t_tmp *tmp);
+void				fill_token(int num, t_oken *tkn);
 //void				create_token(void);
 #endif
