@@ -68,7 +68,7 @@ void			parse_args(int ac, char *av[], t_vm *v)
 		else if (!ft_strcmp(av[i], "-n"))
 			flag_n(av, ac, &i, v);
 		else if (cor_filename(av[i]))
-			parse_champ(v, av[i]);
+			parse_champ(v, av[i], 0);
 		else
 			print_usage();
 		i++;
