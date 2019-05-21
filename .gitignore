@@ -2,10 +2,9 @@
 .vscode/
 .DS_Store
 corewar
-asm
 *.cor
 vm/test_cors
-
+CMakeLists.txt
 
 # Object files
 *.o
