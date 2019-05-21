@@ -20,5 +20,7 @@ void			vm_error(char *msg)
 	else
 		perror(msg);
 	ft_printf("{0}");
+//		printf("\n++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");		//
+//		system("leaks -q corewar");		//
 	exit(1);
 }

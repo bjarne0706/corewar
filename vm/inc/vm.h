@@ -27,7 +27,8 @@ typedef struct		s_champ
 	int				num;
 	char			name[PROG_NAME_LENGTH];
 	char			comment[COMMENT_LENGTH];
-	size_t			size;
+	unsigned int	size;
+	unsigned char	code[CHAMP_MAX_SIZE];
 
 }					t_champ;
 
@@ -71,11 +72,19 @@ t_bool				cor_filename(const char *s);
 void				parse_champ(t_vm *v, char *filecor, int n);
 t_bool				validate_magic(int fd);
 t_bool				parse_name(int fd, t_champ *champ);
-void				validate_size_and_comment(int fd);
+void				parse_size_and_comment(int fd, t_champ *ch);
+
+void				validate_champ_nums(t_vm *v);
+void				assign_champ_nums(t_vm *v);
+void				rearrange_champs(t_vm *v);
+
 
 unsigned int		reverse_byte(unsigned int num);
 
 void				vm_error(char *msg);
 
+
+///DEBUG
+void			print_champs(t_vm *v);
 
 #endif

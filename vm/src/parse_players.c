@@ -12,38 +12,6 @@
 
 #include "../inc/vm.h"
 
-void				validate_size_and_comment(int fd)
-{
-	unsigned int	size;
-	char			comment[COMMENT_LENGTH];
-	unsigned int	null_check;
-
-	size = 0;
-	if (read(fd, &size, 4) < 4)
-		vm_error("Invalid file (exec code size)");
-		printf("> size: %d\n", size);		//
-	if (read(fd, &comment, COMMENT_LENGTH) < COMMENT_LENGTH)
-		vm_error("Invalid file (comment)");
-		printf("> comment: %s\n", comment);	
-	null_check = 0;
-	if ((read(fd, &null_check, 4) < 4) || null_check != 0)
-		vm_error("Invalid file (NULL-delimiter)");
-}
-t_bool				parse_name(int fd, t_champ *ch)
-{
-	unsigned int	null_check;
-
-	if (read(fd, &ch->name, PROG_NAME_LENGTH) < PROG_NAME_LENGTH)
-		return (false);
-		printf("> name: %s\n", ch->name);		//
-	null_check = 0;
-	if ((read(fd, &null_check, 4) < 4) || null_check != 0)
-		return (false);
-		printf("null: %#x\n", null_check);	//
-	return (true);
-
-}
-
 t_bool				validate_magic(int fd)
 {
 	unsigned int	exec_magic;
@@ -52,7 +20,7 @@ t_bool				validate_magic(int fd)
 	if (read(fd, &exec_magic, 4) < 4)
 		return (false);
 	exec_magic = reverse_byte(exec_magic);
-		printf("magic is: %x\n must be: %x\n", exec_magic, COREWAR_EXEC_MAGIC);	//
+//		printf("magic is: %x\n must be: %x\n", exec_magic, COREWAR_EXEC_MAGIC);	//
 	return (exec_magic == COREWAR_EXEC_MAGIC);
 }
 
@@ -64,13 +32,13 @@ void				parse_champ(t_vm *v, char *filecor, int n)
 		vm_error("Can't open this rubbish");
 	if (!validate_magic(fd))
 		vm_error("Invalid file (magic header)");
-		else printf("	Valid magic header!\n");		//
+//		else printf("	Valid magic header!\n");		//
 	if (++v->champs_num > MAX_PLAYERS)
 		vm_error("Too many guys for such a tiny, tight VM!");
 	v->champs[v->champs_num - 1] = add_champ(n);
 	if (!parse_name(fd, v->champs[v->champs_num - 1]))
 		vm_error("Invalid file (champion name)");
-	validate_size_and_comment(fd);
+	parse_size_and_comment(fd, v->champs[v->champs_num - 1]);
 }
 
 t_bool				cor_filename(const char *s)
