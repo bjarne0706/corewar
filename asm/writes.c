@@ -77,25 +77,3 @@ int				write_comment(char *line)
 	g_str->comment = ft_memcpy(g_str->comment, tmp_name, num);
 	return (1);
 }
-
-void			write_token()
-{
-	long str;
-	char *str3;
-	char *str2;
-
-	str2 = ft_memalloc(4);
-	str3 = ft_memalloc(1);
-
-	str = 104 & 0xff;
-//	str3 = 0x0b;
-	long str4;
-	str4 = 0x0;
-	str2 = ft_memcpy(str2, &str4, 4);
-	write(g_files->s_fd, str2, 4);
-//	str = str & 0xff;
-//	printf("%s\n", ft_itoa_base(str, 16));
-//	str = ft_itoa_base(str, 16);
-	str3 = ft_memcpy(str3, &str, 1);
-	write(g_files->s_fd, str3, 1);
-}
