@@ -1,10 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   read_asm.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dchantse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/05/22 15:22:04 by dchantse          #+#    #+#             */
+/*   Updated: 2019/05/22 15:22:06 by dchantse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "asm.h"
-#include "../op.c"
 
 void		read_asm_put_code_size(void)
 {
 	char	*line;
+	long	num;
+	char	*code;
 
+	code = ft_memalloc(4);
 	while (get_next_line(g_files->f_fd, &line) > 0)
 	{
 		if (line[0] !='\n')
@@ -21,21 +35,27 @@ void		read_asm_put_code_size(void)
 		tmp = tmp->next;
 	}
 	create_token();
-	// t_oken *tmp2;
+	num = reverse_byte(g_exec_size & 0xff);
+	code = ft_memcpy(code, &num, 4);
+	write(g_files->s_fd, code, 4);
+	printf("\n%ld\n", g_exec_size);
+	t_oken *tmp2;
 
-	// tmp2 = g_tkns;
-	// while (tmp2 != NULL)
-	// {
-	// 	if (tmp2->label)
-	// 		printf("Label: %s\n", tmp2->label);
-	// 	printf("name: %s\n", tmp2->token->name);
-	// 	printf("code: %lx\n", tmp2->token->code);
-	// 	printf("arg_count: %ld\n", tmp2->token->arg_count);
-	// 	printf("cycles: %ld\n", tmp2->token->cycles);
-	// 	printf("arg_code_type: %d\n", tmp2->token->arg_code_type);
-	// 	printf("dir_size: %d\n\n", tmp2->token->t_dir_size);
-	// 	tmp2 = tmp2->next;
-	// }
+	tmp2 = g_tkns;
+	while (tmp2 != NULL)
+	{
+		if (tmp2->label)
+			printf("Label: %s\n", tmp2->label);
+		printf("code_size: %d\n", tmp2->code_size);
+		printf("mem_pos: %d\n", tmp2->mem_pos);
+		printf("name: %s\n", tmp2->token->name);
+		printf("code: %lx\n", tmp2->token->code);
+		printf("arg_count: %ld\n", tmp2->token->arg_count);
+		printf("cycles: %ld\n", tmp2->token->cycles);
+		printf("arg_code_type: %d\n", tmp2->token->arg_code_type);
+		printf("dir_size: %d\n\n", tmp2->token->t_dir_size);
+		tmp2 = tmp2->next;
+	}
 }
 
 void		disassemble_line(char *line)
@@ -55,7 +75,7 @@ void		disassemble_line(char *line)
 	}
 	if (ft_strchr(line, LABEL_CHAR) != 0 && ft_strchr(line, DIRECT_CHAR) == 0)
 	{
-		new->label = ft_strdup(line);
+		new->label = ft_strsub(line, 0, ft_strlen(line) - 1);
 		free(line);
 		get_next_line(g_files->f_fd, &line);
 		new->op = ft_strdup(line);
@@ -106,17 +126,78 @@ void		work_on_op(int num, t_tmp *tmp)
 
 void		fill_token(int num, t_oken *tkn)
 {
-	tkn->token->name = op_tab[num].name;
-	tkn->token->code = op_tab[num].code;
-	tkn->token->arg_count = op_tab[num].arg_count;
-	tkn->token->cycles = op_tab[num].cycles;
-	tkn->token->arg_code_type = op_tab[num].arg_code_type;
-	tkn->token->t_dir_size = op_tab[num].t_dir_size;
+	tkn->mem_pos = g_exec_size;
+	tkn->token->name = g_op_tab[num].name;
+	g_exec_size++;												//cause of operation code
+	tkn->code_size++;
+	tkn->token->code = g_op_tab[num].code;
+	tkn->token->arg_count = g_op_tab[num].arg_count;
+	tkn->token->cycles = g_op_tab[num].cycles;
+	tkn->token->arg_code_type = g_op_tab[num].arg_code_type;
+	if (g_op_tab[num].arg_code_type)
+	{
+		g_exec_size++;
+		tkn->code_size++;
+	}
+	tkn->token->t_dir_size = g_op_tab[num].t_dir_size;
 }
 
-void		fill_args(int num, char *tmp, t_oken *new)
+void		fill_args(int num, char *line, t_oken *new)
 {
-	
+	char	*tmp;
+	int		i;
+	char	**arr;
+
+	i = trim_space(0, line);
+	tmp = ft_strchr(&line[i], ' ');
+	arr = ft_strsplit(tmp, SEPARATOR_CHAR);
+	// int kek = 0;
+	// while (arr[kek])
+	// {
+	// 	printf("%d: |%s|\n", kek + 1, arr[kek]);
+	// 	kek++;
+	// }
+	printf("%s\n", tmp);
+	handle_args(arr, new, num);
+}
+
+void		handle_args(char **arr, t_oken *new, int num)
+{
+	int		y;
+	int		x;
+
+	y = 0;
+	while (arr[y])
+	{
+		x = trim_space(0, arr[y]);
+		if (arr[y][x] == 'r')
+		{
+			new->code_size++;
+		g_exec_size++;
+
+		}
+		else if (arr[y][x] == '%')
+		{
+			new->code_size += g_op_tab[num].t_dir_size;
+			g_exec_size += g_op_tab[num].t_dir_size;
+
+		}
+		else
+		{
+			new->code_size += 2;
+			g_exec_size += 2;
+		}
+			// if (arr[y][x])
+		y++;
+	}
+	num = 1;
+}
+
+int			trim_space(int i, char *line)
+{
+	while (line[i] == ' ' || line[i] == '\t')
+		i++;
+	return (i);
 }
 
 int			get_op_name(char *line)
@@ -132,7 +213,7 @@ int			get_op_name(char *line)
 	y = 0;
 	while (line[i] == ' ')
 		i++;
-	while (line[i] && line[i] != 'r' && line[i] != '%' && line[i] != ' ')
+	while (line[i] && line[i] != 'r' && line[i] != DIRECT_CHAR && line[i] != ' ')
 	{
 		name[y++] = line[i++];
 		if (choose_name(name) > 0)
@@ -180,7 +261,3 @@ int 		choose_name(char *line)
 	else
 		return (0);
 }
-//void		create_token(void)
-//{
-//
-//}

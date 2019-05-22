@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dchantse <dchantse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dchantse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 19:55:32 by dchantse          #+#    #+#             */
-/*   Updated: 2019/05/21 19:52:29 by dchantse         ###   ########.fr       */
+/*   Updated: 2019/05/22 11:42:42 by dchantse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void			write_all(void)
 	str2 = ft_memalloc(4);
 	while (get_next_line(g_files->f_fd, &line) > 0 && num != 2)
 	{
-		if (ft_strstr(line, ".name"))
+		if (ft_strstr(line, NAME_CMD_STRING))
 			num += write_name(line);
-		else if (ft_strstr(line, ".comment"))
+		else if (ft_strstr(line, COMMENT_CMD_STRING))
 			num += write_comment(line);
 		free(line);
 	}
@@ -57,7 +57,7 @@ void			write_all(void)
 	read_asm_put_code_size();
 	write(g_files->s_fd, g_str->comment, COMMENT_LENGTH);
 	write_token();
-	free(str2);
+	// free(str2);
 }
 
 char			*get_name(char *name)
@@ -87,6 +87,7 @@ char	*ft_itoa_base(int value, int base)
 	char	*tab;
 	int		flag;
 	int		tmp;
+
 	flag = 0;
 	size = 0;
 	tab = "0123456789ABCDEF";
