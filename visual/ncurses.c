@@ -11,8 +11,7 @@
 /* ************************************************************************** */
 
 #include <ncurses.h>
-
-int	interface(WINDOW *menu);
+#include "header.h"
 
 
 int main(int argc, char *argv[])
@@ -55,13 +54,13 @@ int main(int argc, char *argv[])
     int	prot;
     prot = 1;
     while (1 && prot != 0)
-    	prot = interface(menu);
+    	prot = interface(menu, yMax, xMax);
 	// getch();
     endwin();
     return 0;
 }
 
-int	interface(WINDOW *menu)
+int	interface(WINDOW *menu, int yMax, int xMax)
 {
 	const char *choices[] = {"Start", "Authors", "Exit"};
 	static int	highlight;
@@ -75,7 +74,7 @@ int	interface(WINDOW *menu)
 	{
 		if (i == highlight)
 			wattron(menu, A_REVERSE);
-		mvwprintw(menu, i + 1, 1, &*choices[i]);
+		mvwprintw(menu, i + yMax / 9, xMax / 4 - 3, &*choices[i]);
 		wattroff(menu, A_REVERSE);
 	}
 	key = wgetch(menu);
@@ -91,7 +90,24 @@ int	interface(WINDOW *menu)
 			if (highlight == 3)
 		highlight = 2;
 	}
-	else if (key == 10)
+	else if (key == 10 && highlight == 2)
 		return (0);
+	else if (key == 10 && highlight == 0)
+	{
+		start_game(menu, yMax, xMax);
+		return (0);
+	}
 	return (1);
 }
+
+void	start_game(WINDOW *game, int yMax, int xMax)
+{
+	wclear(game);
+	wrefresh(game);
+	mvwin(game, 0, 0);
+	wresize(game, yMax - yMax / 4, xMax - xMax / 4);
+	box(game, 0, 0);
+	wgetch(game);// before it gets char it refresh the screen
+
+}
+
