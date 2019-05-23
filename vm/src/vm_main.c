@@ -39,10 +39,16 @@ void			print_usage(void)
 	ft_printf("	{yellow}./corewar [-d N -s N] [-v] <[-n N]");
 	ft_printf(" champ1.cor> <[-n N] champ2.cor> <...>{-}\n");
 	ft_printf("\n{u}{b}FLAGS:\n{0}");
-	ft_printf("	{b}-d N{0}	: Dumps memory after N cycles then exits\n");
-	ft_printf("	{b}-s N{0}	: Runs N cycles, dumps memory, pauses, then repeats\n");
+	ft_printf("	{b}-d N (-dump N){0}	: ");
+	ft_printf("Dump memory (32 octets/line) after N cycles then exit\n");
+	ft_printf("	{b}-D N{0}		: ");
+	ft_printf("Dump memory (64 octets/line) after N cycles then exit\n");
+	ft_printf("	{b}-s N{0}	: Run N cycles, ");
+	ft_printf("dump memory (32 octets/line), pause, then repeat\n");
+	ft_printf("	{b}-S N{0}	: Run N cycles, ");
+	ft_printf("dump memory (64 octets/line), pause, then repeat\n");
 	ft_printf("	{b}-v{0}	: Visual mode\n");
-	ft_printf("	{b}-n N{0}	: Specifies player's number ");
+	ft_printf("	{b}-n N{0}	: Specify player's number ");
 	ft_printf("(0 < N <= number_of_players (%d max))\n", MAX_PLAYERS);
 //		printf("\n++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");		//
 //		system("leaks -q corewar");		//
@@ -60,14 +66,15 @@ int				main(int ac, char *av[])
 		parse_args(ac, av, v);
 			printf("> Options: ");		//
 			for (size_t i = 0; i < ft_strlen(v->options); i++)	//
-					printf("%c]", v->options[i]);		///
+					printf("[%c]", v->options[i]);		///
 			printf("\n> dump_cycles: %d||%d\n", v->dump_cycles[0], v->dump_cycles[1]);	//
 			printf("How many champs? %d\n", v->champs_num);	//
 		if (v->champs_num < 1)
 			vm_error("Where are these little naughty players?");
 		assign_champ_nums(v);
 			print_champs(v);		//
-
+		setup_arena(v);
+			print_arena(v, v->options[0]);		//
 	}
 	else
 		print_usage();

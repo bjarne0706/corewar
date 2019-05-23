@@ -20,7 +20,12 @@ void			flag_d(char *av[], int ac, int *i, t_vm *v)
 		if (v->dump_cycles[0] < 0)
 			v->dump_cycles[0] = -1;
 		else
-			v->options[0] = 'd';
+		{
+			if (!ft_strcmp(av[*i], "-D"))
+				v->options[0] = 'D';
+			else
+				v->options[0] = 'd';
+		}
 		*i += 1;
 	}
 	else
@@ -36,7 +41,12 @@ void			flag_s(char *av[], int ac, int *i, t_vm *v)
 		if (v->dump_cycles[1] < 0)
 			v->dump_cycles[1] = -1;
 		else
-			v->options[1] = 's';
+		{
+			if (!ft_strcmp(av[*i], "-S"))
+				v->options[1] = 's';
+			else
+				v->options[1] = 's';
+		}
 		*i += 1;
 	}
 	else
@@ -59,9 +69,10 @@ void			parse_args(int ac, char *av[], t_vm *v)
 	i = 1;
 	while (i < ac)
 	{
-		if (!ft_strcmp(av[i], "-d"))
+		if (!ft_strcmp(av[i], "-D") || !ft_strcmp(av[i], "-d") ||
+				!ft_strcmp(av[i], "-dump"))
 			flag_d(av, ac, &i, v);
-		else if (!ft_strcmp(av[i], "-s"))
+		else if (!ft_strcmp(av[i], "-S") || !ft_strcmp(av[i], "-s"))
 			flag_s(av, ac, &i, v);
 		else if (!ft_strcmp(av[i], "-v"))
 			flag_v(v);
