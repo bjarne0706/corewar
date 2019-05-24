@@ -124,8 +124,12 @@ int					get_op_name();
 int					choose_name(char *line);
 void				work_on_op(int num, t_tmp *tmp);
 void				fill_token(int num, t_oken *tkn);
-void				fill_args(int num, char *tmp, t_oken *new);
+void				fill_args(int num, t_tmp *tmp1, t_oken *new);
 int					trim_space(int i, char *line);
-void				handle_args(char **arr, t_oken *new, int num);
+void				handle_args(char **arr, t_oken *new, int num, t_tmp *tmp);
+//handle_exec_code
+void				analize_token(t_tmp *line, t_oken *tkn);
+uint8_t				get_value_of_arg(char *arg, int *pos, t_oken *tkn);
+u_int8_t			work_on_label(char *arg, int pos);
 //void				create_token(void);
 #endif

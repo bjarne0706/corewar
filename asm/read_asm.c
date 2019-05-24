@@ -112,7 +112,7 @@ void		work_on_op(int num, t_tmp *tmp)
 	if (tmp->label)
 		new->label = tmp->label;
 	fill_token(num, new);
-	fill_args(num, tmp->op, new);
+	fill_args(num, tmp, new);
 	if (g_tkns == NULL)
 		g_tkns = new;
 	else
@@ -142,14 +142,14 @@ void		fill_token(int num, t_oken *tkn)
 	tkn->token->t_dir_size = g_op_tab[num].t_dir_size;
 }
 
-void		fill_args(int num, char *line, t_oken *new)
+void		fill_args(int num, t_tmp *tmp1, t_oken *new)
 {
 	char	*tmp;
 	int		i;
 	char	**arr;
 
-	i = trim_space(0, line);
-	tmp = ft_strchr(&line[i], ' ');
+	i = trim_space(0, tmp1->op);
+	tmp = ft_strchr(&tmp1->op[i], ' ');
 	arr = ft_strsplit(tmp, SEPARATOR_CHAR);
 	// int kek = 0;
 	// while (arr[kek])
@@ -158,36 +158,36 @@ void		fill_args(int num, char *line, t_oken *new)
 	// 	kek++;
 	// }
 	printf("%s\n", tmp);
-	handle_args(arr, new, num);
+	handle_args(arr, new, num, tmp1);
 }
 
-void		handle_args(char **arr, t_oken *new, int num)
+void		handle_args(char **arr, t_oken *new, int num, t_tmp *tmp)
 {
 	int		y;
 	int		x;
 
 	y = 0;
+	tmp->args = (char **)ft_memalloc(3);
 	while (arr[y])
 	{
 		x = trim_space(0, arr[y]);
 		if (arr[y][x] == 'r')
 		{
 			new->code_size++;
-		g_exec_size++;
-
+			g_exec_size++;
 		}
 		else if (arr[y][x] == '%')
 		{
 			new->code_size += g_op_tab[num].t_dir_size;
 			g_exec_size += g_op_tab[num].t_dir_size;
-
 		}
 		else
 		{
 			new->code_size += 2;
 			g_exec_size += 2;
 		}
-			// if (arr[y][x])
+		tmp->args[y] = arr[y];
+		printf("str: %s d: %d\n", tmp->args[y], y);
 		y++;
 	}
 	num = 1;

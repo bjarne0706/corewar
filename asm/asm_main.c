@@ -56,6 +56,7 @@ void			write_all(void)
 	write(g_files->s_fd, str2, 4);
 	read_asm_put_code_size();
 	write(g_files->s_fd, g_str->comment, COMMENT_LENGTH);
+	write(g_files->s_fd, str2, 4);
 	write_token();
 	// free(str2);
 }
