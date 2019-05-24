@@ -11,24 +11,21 @@
 /* ************************************************************************** */
 
 #include "../inc/vm.h"
-/*
-void			init_champs(t_vm *v)
+
+void			setup_arena(t_vm *v)
 {
-	int			i;
+	int		i;
+	int		pos;
 
 	i = 0;
-	while (i < MAX_PLAYERS)
+	pos = 0;
+	while (i < v->champs_num)
 	{
-		if (!(v->champs[i] = (t_champ *)ft_memalloc(sizeof(t_champ))))
-			vm_error("Champions initialization failed");
-		v->champs[i]->num = 0;
-		v->champs[i]->name = NULL;
-		v->champs[i]->comment = NULL;
-		v->champs[i]->size = 0;
+		ft_memcpy(&v->arena[pos], v->champs[i]->code, v->champs[i]->size);
+		pos += MEM_SIZE / v->champs_num;
 		i++;
 	}
 }
-*/
 
 t_champ			*add_champ(int n)
 {
@@ -44,30 +41,28 @@ t_champ			*add_champ(int n)
 	return (champ);
 }
 
-void			null_champs(t_vm *v)
+t_vm			*init_vm(void)
 {
+	t_vm		*v;
 	int			i;
 
+
+	if(!(v = (t_vm *)ft_memalloc(sizeof(t_vm))))
+		vm_error("VM initialization failed");
+	i = 0;
+	while (i < MEM_SIZE)
+		v->arena[i++] = 0; 
+	v->champs_num = 0;
+	v->carrs = NULL;
+	ft_bzero(v->options, 3);
+	v->dump_cycles[0] = -1;
+	v->dump_cycles[1] = -1;
+	
 	i = 0;
 	while (i < MAX_PLAYERS)
 	{
 		v->champs[i] = NULL;
 		i++;
 	}
-}
-
-t_vm			*init_vm(void)
-{
-	t_vm		*v;
-
-	
-	if(!(v = (t_vm *)ft_memalloc(sizeof(t_vm))))
-		vm_error("VM initialization failed");
-	v->champs_num = 0;
-	v->carrs = NULL;
-	ft_bzero(v->options, 3);
-	v->dump_cycles[0] = -1;
-	v->dump_cycles[1] = -1;
-	null_champs(v);
 	return (v);
 }

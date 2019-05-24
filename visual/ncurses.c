@@ -53,11 +53,31 @@ int main(int argc, char *argv[])
     /////////menu interface
     int	prot;
     prot = 1;
+	WINDOW *picture = newwin(30, 30, 0, 0);
     while (1 && prot != 0)
+    {
+    	animation(picture);
     	prot = interface(menu, yMax, xMax);
+    }
 	// getch();
     endwin();
     return 0;
+}
+
+void	animation(WINDOW *picture)
+{
+	static int i;
+
+	if (!i)
+		i = 0;
+	if (i % 2 == 0)
+		wprintw(picture, " \\o/ \n  #  \n_/ \\_ ");
+	else if (i % 2 != 0)
+		wprintw(picture, "  o  \n /#\\ \n _|_");
+	i++;
+	wrefresh(picture);
+	wclear(picture);
+	// wgetch(picture);
 }
 
 int	interface(WINDOW *menu, int yMax, int xMax)

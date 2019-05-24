@@ -1,10 +1,15 @@
-#my
+#sys/editors
 .vscode/
 .DS_Store
-corewar
+CMakeLists.txt
+.idea
+
+#tmps
+vm/asm
+vm/corewar
 *.cor
 vm/test_cors
-CMakeLists.txt
+vm/*.s
 
 # Object files
 *.o

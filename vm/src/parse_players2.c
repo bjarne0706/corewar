@@ -65,7 +65,7 @@ void				assign_champ_nums(t_vm *v)
 		{
 			if (v->champs[i]->num == 0)
 			{
-				v->champs[i]->num = n;
+				v->champs[i]->num = n++;
 				break ;
 			}
 			i++;

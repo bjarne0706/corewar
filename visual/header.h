@@ -18,5 +18,7 @@
 
 int	interface(WINDOW *menu, int yMax, int xMax);
 void	start_game(WINDOW *game, int yMax, int xMax);
+void	animation(WINDOW *picture);
+
 
 #endif

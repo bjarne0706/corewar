@@ -41,7 +41,9 @@ typedef struct		s_carr
 }					t_carr;
 
 /*
-** options: [0] -d; [1] -s; [2] -v
+** options: [0] (-dump/-d = 'd' = 32 | -D = 'D' = 64); 
+**			[1] (-s = 's' = 32 | -S = 'S' = 64);
+**			[2] -v
 ** dump_cycles: [0] -d; [1] -s
 */
 
@@ -52,7 +54,7 @@ typedef struct		s_vm
 	t_champ			*champs[MAX_PLAYERS];
 	t_carr			*carrs;
 	
-	char			options[3];
+	char			options[4];
 	int				dump_cycles[2];
 
 }					t_vm;
@@ -73,11 +75,12 @@ void				parse_champ(t_vm *v, char *filecor, int n);
 t_bool				validate_magic(int fd);
 t_bool				parse_name(int fd, t_champ *champ);
 void				parse_size_and_comment(int fd, t_champ *ch);
-
 void				validate_champ_nums(t_vm *v);
 void				assign_champ_nums(t_vm *v);
 void				rearrange_champs(t_vm *v);
 
+void				setup_arena(t_vm *v);
+void				print_arena(t_vm *v, char flag);
 
 unsigned int		reverse_byte(unsigned int num);
 
