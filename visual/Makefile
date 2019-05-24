@@ -1,4 +1,4 @@
 all: visual
 
 visual: ncurses.c
-	gcc -lncurses ncurses.c -I header.h -o visual
+	gcc -lncurses -std=c99 -lpthread ncurses.c -I header.h -o visual

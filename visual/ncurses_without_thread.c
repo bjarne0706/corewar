@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 
 
 	pthread_create(&thread_1, NULL, animation(picture), NULL); 
-
+	
 
 	pthread_create(&thread_2, NULL, inter_loop(menu, yMax, xMax), NULL); 
 
@@ -79,11 +79,7 @@ void	*inter_loop(WINDOW *menu, int yMax, int xMax)
 	while (1 && prot != 0)
     {
     	// animation(picture);
-
-
     	prot = interface(menu, yMax, xMax);
-    	refresh();
-		wrefresh(menu);
     }
     return (NULL);
 }

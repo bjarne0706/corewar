@@ -14,11 +14,18 @@
 # define HEADER_H
 
 #include <ncurses.h>
+#include <pthread.h>
+#include <unistd.h>
+#include <stdlib.h>
 
 
-int	interface(WINDOW *menu, int yMax, int xMax);
+
+
+int		interface(WINDOW *menu, int yMax, int xMax);
 void	start_game(WINDOW *game, int yMax, int xMax);
-void	animation(WINDOW *picture);
+void	*animation(WINDOW *picture);
+void	*inter_loop(WINDOW *menu, int yMax, int xMax);
+
 
 
 #endif
