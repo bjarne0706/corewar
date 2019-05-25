@@ -42,7 +42,7 @@ typedef struct		s_op
 	char			*name;
 	long			code;
 	long 			arg_count;
-	uint8_t			argums[3];
+	int				argums[3];
 	long			cycles;
 	int 			arg_code_type;
 	u_int8_t		t_dir_size;
@@ -52,9 +52,11 @@ typedef struct		s_op
 typedef struct		s_oken
 {
 	t_op			*token;
+	int				args_type[3];
 	char 			*label;
 	int				code_size;
 	int				mem_pos;
+	char			*code_types;
 	struct s_oken	*next;
 }					t_oken;
 
@@ -129,7 +131,15 @@ int					trim_space(int i, char *line);
 void				handle_args(char **arr, t_oken *new, int num, t_tmp *tmp);
 //handle_exec_code
 void				analize_token(t_tmp *line, t_oken *tkn);
-uint8_t				get_value_of_arg(char *arg, int *pos, t_oken *tkn);
-u_int8_t			work_on_label(char *arg, int pos);
+int					get_value_of_arg(char *arg, t_oken *tkn, char **type_code);
+int					work_on_label(t_oken *tkn, char *arg);
+void				fill_type_code(char **code);
+void				put_exec_code(void);
+void				print_op_code(long code);
+void				print_code_type(char *str);
+int					make_from_binary(char *str);
+void				print_args(t_oken *tkn);
+int					make_neg_num(int num);
+void				swap_0_to_1(char **num);
 //void				create_token(void);
 #endif

@@ -157,7 +157,7 @@ void		fill_args(int num, t_tmp *tmp1, t_oken *new)
 	// 	printf("%d: |%s|\n", kek + 1, arr[kek]);
 	// 	kek++;
 	// }
-	printf("%s\n", tmp);
+	// printf("%s\n", tmp);
 	handle_args(arr, new, num, tmp1);
 }
 
@@ -167,7 +167,7 @@ void		handle_args(char **arr, t_oken *new, int num, t_tmp *tmp)
 	int		x;
 
 	y = 0;
-	tmp->args = (char **)ft_memalloc(3);
+	tmp->args = (char **)ft_memalloc(sizeof(char *) * 3);
 	while (arr[y])
 	{
 		x = trim_space(0, arr[y]);
@@ -175,18 +175,22 @@ void		handle_args(char **arr, t_oken *new, int num, t_tmp *tmp)
 		{
 			new->code_size++;
 			g_exec_size++;
+			new->args_type[y] = 1; // T_REG
 		}
 		else if (arr[y][x] == '%')
 		{
 			new->code_size += g_op_tab[num].t_dir_size;
 			g_exec_size += g_op_tab[num].t_dir_size;
+			new->args_type[y] = 2;//T_DIR
 		}
 		else
 		{
 			new->code_size += 2;
 			g_exec_size += 2;
+			new->args_type[y] = 3;//T_IND
 		}
-		tmp->args[y] = arr[y];
+		tmp->args[y] = ft_strdup(arr[y]);
+		printf("address: %p\n", tmp->args[y]);
 		printf("str: %s d: %d\n", tmp->args[y], y);
 		y++;
 	}

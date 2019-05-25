@@ -43,63 +43,199 @@ void		write_token()
 		tmp_tmp = tmp_tmp->next;
 		tmp_tkn = tmp_tkn->next;	
 	}
+	put_exec_code();
+}
+
+void		put_exec_code(void)
+{
+	t_tmp	*tmp_tmp;
+	t_oken	*tmp_tkn;
+
+	tmp_tkn = g_tkns;
+	tmp_tmp = g_tmp_op;
+	while (tmp_tmp != NULL && tmp_tkn != NULL)
+	{
+		print_op_code(tmp_tkn->token->code);
+		if (tmp_tkn->token->arg_code_type)
+			print_code_type(tmp_tkn->code_types);
+		print_args(tmp_tkn);
+		tmp_tmp = tmp_tmp->next;
+		tmp_tkn = tmp_tkn->next;
+	}
+}
+
+void		print_op_code(long code)
+{
+	char	*str;
+
+	str = ft_memalloc(1);
+	code = code & 0xff;
+	str = ft_memcpy(str, &code, 1);
+	write(g_files->s_fd, str, 1);
+}
+
+void		print_code_type(char *str)
+{
+	int		num;
+	char	*mas;
+
+	num = make_from_binary(str);
+	mas = ft_memalloc(1);
+	num = num & 0xff;
+	mas = ft_memcpy(mas, &num, 1);
+	write(g_files->s_fd, mas, 1);
+}
+
+int			make_from_binary(char *str)
+{
+	int		i;
+	int		sum;
+	int		mult;
+
+	sum = 0;
+	mult = 1;
+	i = ft_strlen(str) - 1;
+	while (i >= 0)
+	{
+		if (str[i] == '1')
+			sum += mult;
+		mult *= 2;
+		// printf("str[i]: %c mult: %d sum: %d\n",str[i], mult, sum);
+		i--;
+	}
+	printf("sumsumsum: %d\n", sum);
+	return (sum);
+}
+//0b68 0100 0700 0101 0000 0000 0290 0000
+//0000 0209 ffed
+void		print_args(t_oken *tkn)
+{
+	int		size;
+	int		y;
+	char	*str;
+
+	
+	y = -1;
+	while (tkn->token->argums[++y])
+	{
+		if (tkn->args_type[y] == 1)
+			size = 1;
+		else if (tkn->args_type[y] == 2)
+			size = tkn->token->t_dir_size;
+		else if (tkn->args_type[y] == 3)
+			size = 2;
+		str = ft_memalloc(size);
+		if (tkn->token->argums[y] < 0)
+			tkn->token->argums[y] = make_neg_num(tkn->token->argums[y]) & 0xff;
+		else
+			tkn->token->argums[y] = tkn->token->argums[y] & 0xff;
+		str = ft_memcpy(str, &tkn->token->argums[y], size);
+		write(g_files->s_fd, str, size);
+		free(str);
+	}
+}
+
+int			make_neg_num(int num)
+{
+	char	*number;
+	int		i;
+	char	*num2;
+	int		size;
+
+	num2 = ft_memalloc(16);
+	i = 0;
+	number = ft_itoa_base(num, 2);
+	size = 16 - ft_strlen(number);
+	while (i < size)
+	{
+		num2[i] = '0';
+		i++;
+	}
+	num2 = ft_strjoin(num2, number);
+	printf("number: %s\n", num2);
+	swap_0_to_1(&num2);
+	printf("number: %s\n", num2);
+	return (make_from_binary(num2));
+}
+
+void		swap_0_to_1(char **num)
+{
+	int		i;
+
+	i = 0;
+	while ((*num)[i])
+	{
+		if ((*num)[i] == '1')
+			(*num)[i] = '0';
+		else
+			(*num)[i] = '1';
+		i++;
+	}
+	(*num)[i - 1] = '1';
 }
 
 void		analize_token(t_tmp *line, t_oken *tkn)
 {
-	int		mem_pos;
 	int		i;
+	char	*type_code;
 
+	type_code = ft_memalloc(8);
 	i = 0;
-	mem_pos = 1 + tkn->mem_pos;
-	if (tkn->token->arg_code_type == 1)
-		mem_pos++;
 	while (line->args[i] && i < 3)
 	{
-		printf("i:%d\n", i);
-		printf("arguments: %p\n", line->args[i]);
-		tkn->token->argums[i] = get_value_of_arg(line->args[i], &mem_pos, tkn);
+		tkn->token->argums[i] = get_value_of_arg(line->args[i], tkn, &type_code);
 		i++;
 	}
+	fill_type_code(&type_code);
+	if (tkn->token->arg_code_type)
+		tkn->code_types = ft_strdup(type_code);
+	else
+		tkn->code_types = NULL;
 }
 
-uint8_t		get_value_of_arg(char *arg, int *pos, t_oken *tkn)
+void		fill_type_code(char **code)
 {
-	uint8_t value;
 	int		i;
-f
+
+	i = ft_strlen((*code)) - 1;
+	while (++i != 8)
+		(*code)[i] = '0';
+}
+
+int			get_value_of_arg(char *arg, t_oken *tkn, char **type_code)
+{
+	int		value;
+	int		i;
+
 	i = trim_space(0, arg);
 	value = 0;
-	printf("argums:%s\n", arg);
 	if (arg[i] == 'r')
 	{
-		value = (u_int8_t)ft_atoi(&arg[i + 1]);
-		(*pos)++;
+		value = ft_atoi(&arg[i + 1]);
+		(*type_code) = ft_strjoin((*type_code), "01");
 	}
 	else if (arg[i] == '%' && arg[i + 1] == ':')
 	{
-		value = work_on_label(&arg[i + 2], *pos);
-		(*pos) += tkn->token->t_dir_size;
+		value = work_on_label(tkn, &arg[i + 2]);
+		(*type_code) = ft_strjoin((*type_code), "10");
 	}
 	else if (arg[i] == '%')
 	{
-		value = (u_int8_t)ft_atoi(&arg[i + 1]);
-		(*pos) += tkn->token->t_dir_size;
+		value = ft_atoi(&arg[i + 1]);
+		(*type_code) = ft_strjoin((*type_code), "10");
 	}
 	else
 	{
-		value = (u_int8_t)ft_atoi(&arg[i]);
-		(*pos) += 2;		
+		value = ft_atoi(&arg[i]);
+		(*type_code) = ft_strjoin((*type_code), "11");
 	}
-	printf("position: %d\n", *pos);
-	printf("value:%d\n", value);
 	return (value);
 }
 
-u_int8_t	work_on_label(char *arg, int pos)
+int				work_on_label(t_oken *tkn, char *arg)
 {
 	t_oken		*tmp;
-	u_int8_t	value;
+	int			value;
 
 	value = 0;
 	tmp = g_tkns;
@@ -107,7 +243,10 @@ u_int8_t	work_on_label(char *arg, int pos)
 	{
 		if (tmp->label)
 			if (ft_strcmp(tmp->label, arg) == 0)
-				value = tmp->mem_pos - pos;
+			{
+				value = tmp->mem_pos - tkn->mem_pos;
+				break ;
+			}
 		tmp = tmp->next;
 	}
 	return (value);
