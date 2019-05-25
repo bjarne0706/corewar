@@ -33,28 +33,6 @@ Usage: ./corewar [-d N -s N -v N | -b --stealth | -n --stealth] [-a] <champion1.
 ################################################################################
 */
 
-void			print_usage(void)
-{
-	ft_printf("{b}{yellow}{u}USAGE:{0}\n");
-	ft_printf("	{yellow}./corewar [-d N -s N] [-v] <[-n N]");
-	ft_printf(" champ1.cor> <[-n N] champ2.cor> <...>{-}\n");
-	ft_printf("\n{u}{b}FLAGS:\n{0}");
-	ft_printf("	{b}-d N (-dump N){0}	: ");
-	ft_printf("Dump memory (32 octets/line) after N cycles then exit\n");
-	ft_printf("	{b}-D N{0}		: ");
-	ft_printf("Dump memory (64 octets/line) after N cycles then exit\n");
-	ft_printf("	{b}-s N{0}	: Run N cycles, ");
-	ft_printf("dump memory (32 octets/line), pause, then repeat\n");
-	ft_printf("	{b}-S N{0}	: Run N cycles, ");
-	ft_printf("dump memory (64 octets/line), pause, then repeat\n");
-	ft_printf("	{b}-v{0}	: Visual mode\n");
-	ft_printf("	{b}-n N{0}	: Specify player's number ");
-	ft_printf("(0 < N <= number_of_players (%d max))\n", MAX_PLAYERS);
-//		printf("\n++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");		//
-//		system("leaks -q corewar");		//
-	exit(1);
-}
-
 int				main(int ac, char *av[])
 {
 	t_vm		*v;
@@ -75,6 +53,9 @@ int				main(int ac, char *av[])
 			print_champs(v);		//
 		setup_arena(v);
 			print_arena(v, v->options[0]);		//
+			introduce_champs(v);		//
+		setup_carriages(v);
+			print_carriages(v);		//
 	}
 	else
 		print_usage();

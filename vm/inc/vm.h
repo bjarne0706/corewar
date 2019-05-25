@@ -21,7 +21,6 @@
 # include <fcntl.h>
 # include <limits.h>	//?
 
-
 typedef struct		s_champ
 {
 	int				num;
@@ -34,8 +33,15 @@ typedef struct		s_champ
 
 typedef struct		s_carr
 {
+	int			 	id;
 	t_champ			*champ;
+	int				pos;
+	unsigned char	op;
+	int				wait_cycles;
+	unsigned int	step;
+	size_t			last_live;
 	t_bool			carry;
+	int				reg[REG_NUMBER];
 
 	struct s_carr	*nxt;
 }					t_carr;
@@ -49,19 +55,21 @@ typedef struct		s_carr
 
 typedef struct		s_vm
 {
+	char			options[4];
+	int				dump_cycles[2];
+	
 	unsigned char	arena[MEM_SIZE];
 	int				champs_num;
 	t_champ			*champs[MAX_PLAYERS];
+	t_champ			*last_standing;
 	t_carr			*carrs;
-	
-	char			options[4];
-	int				dump_cycles[2];
+	size_t			carrs_num;
+	size_t			cycles;
+	size_t			cycles_to_die;
+	size_t			lives_in_cycle;
+	size_t			checks_done;
 
 }					t_vm;
-
-void				print_usage(void);
-t_vm				*init_vm(void);
-t_champ				*add_champ(int n);
 
 void				parse_args(int ac, char *av[], t_vm *v);
 void				flag_d(char *av[], int ac, int *i, t_vm *v);
@@ -79,7 +87,13 @@ void				validate_champ_nums(t_vm *v);
 void				assign_champ_nums(t_vm *v);
 void				rearrange_champs(t_vm *v);
 
+t_vm				*init_vm(void);
+t_champ				*add_champ(int n);
 void				setup_arena(t_vm *v);
+void				setup_carriages(t_vm *v);
+
+void				print_usage(void);
+void				introduce_champs(t_vm *v);
 void				print_arena(t_vm *v, char flag);
 
 unsigned int		reverse_byte(unsigned int num);
@@ -89,5 +103,6 @@ void				vm_error(char *msg);
 
 ///DEBUG
 void			print_champs(t_vm *v);
+void			print_carriages(t_vm *v);
 
 #endif

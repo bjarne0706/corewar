@@ -12,6 +12,43 @@
 
 #include "../inc/vm.h"
 
+void			add_carriage(t_carr **carr, t_champ *chmp, unsigned int pos)
+{
+	t_carr		*new;
+	static int	id = 0;
+
+	if (!(new = (t_carr *)malloc(sizeof(t_carr))))
+		vm_error("Carriage initialization failed");
+	new->id = ++id;
+	new->champ = chmp;
+	new->pos = pos;
+	new->op = 0;
+	new->wait_cycles = 0;
+	new->step = 0;
+	new->last_live = 0;
+	new->carry = false;
+	new->reg[0] = -(chmp->num);
+	ft_bzero(&new->reg[1], sizeof(new->reg) - sizeof(int));
+	new->nxt = *carr;
+	*carr = new; 
+}
+
+void			setup_carriages(t_vm *v)
+{
+	int				n;
+	unsigned int	pos;
+
+	n = 1;
+	pos = 0;
+	while (n <= v->champs_num)
+	{
+		add_carriage(&(v->carrs), v->champs[n - 1], pos);
+		v->carrs_num++;
+		pos += MEM_SIZE / v->champs_num;
+		n++; 
+	}
+}
+
 void			setup_arena(t_vm *v)
 {
 	int		i;
@@ -46,23 +83,27 @@ t_vm			*init_vm(void)
 	t_vm		*v;
 	int			i;
 
-
 	if(!(v = (t_vm *)ft_memalloc(sizeof(t_vm))))
 		vm_error("VM initialization failed");
+	ft_bzero(v->options, 3);
+	v->dump_cycles[0] = -1;
+	v->dump_cycles[1] = -1;
 	i = 0;
 	while (i < MEM_SIZE)
 		v->arena[i++] = 0; 
 	v->champs_num = 0;
+		i = 0;
+		while (i < MAX_PLAYERS)
+		{
+			v->champs[i] = NULL;
+			i++;
+		}
+	v->last_standing = NULL;
 	v->carrs = NULL;
-	ft_bzero(v->options, 3);
-	v->dump_cycles[0] = -1;
-	v->dump_cycles[1] = -1;
-	
-	i = 0;
-	while (i < MAX_PLAYERS)
-	{
-		v->champs[i] = NULL;
-		i++;
-	}
+	v->carrs_num = 0;
+	v->cycles = 0;
+	v->cycles_to_die = CYCLE_TO_DIE;
+	v->lives_in_cycle = 0;
+	v->checks_done = 0;
 	return (v);
 }
