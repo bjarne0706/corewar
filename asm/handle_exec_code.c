@@ -113,20 +113,30 @@ void		print_args(t_oken *tkn)
 	int		size;
 	int		y;
 	char	*str;
+	t_tmp	*tmp;
 
-	
+	tmp = g_tmp_op;
 	y = -1;
 	while (tkn->token->argums[++y])
 	{
+		printf("TYPE: %d ", tkn->args_type[y]);
+		printf("argums: %s\n", tmp->args[y]);
+
 		if (tkn->args_type[y] == 1)
 			size = 1;
 		else if (tkn->args_type[y] == 2)
+		{
 			size = tkn->token->t_dir_size;
+		}
 		else if (tkn->args_type[y] == 3)
 			size = 2;
+		printf("SIZE: %d\n", size);
 		str = ft_memalloc(size);
 		if (tkn->token->argums[y] < 0)
+		{
+			printf("THIIIIIS: %x\n", tkn->token->argums[y] & 0xff);
 			tkn->token->argums[y] = make_neg_num(tkn->token->argums[y]) & 0xff;
+		}
 		else
 			tkn->token->argums[y] = tkn->token->argums[y] & 0xff;
 		str = ft_memcpy(str, &tkn->token->argums[y], size);
@@ -212,6 +222,7 @@ int			get_value_of_arg(char *arg, t_oken *tkn, char **type_code)
 	if (arg[i] == 'r')
 	{
 		value = ft_atoi(&arg[i + 1]);
+		printf("value of arg R:%d", value);
 		(*type_code) = ft_strjoin((*type_code), "01");
 	}
 	else if (arg[i] == '%' && arg[i + 1] == ':')

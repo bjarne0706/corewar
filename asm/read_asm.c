@@ -110,7 +110,7 @@ void		work_on_op(int num, t_tmp *tmp)
 	new = (t_oken *)ft_memalloc(sizeof(t_oken));
 	new->token = (t_op *)ft_memalloc(sizeof(t_op));
 	if (tmp->label)
-		new->label = tmp->label;
+		new->label = ft_strdup(tmp->label);
 	fill_token(num, new);
 	fill_args(num, tmp, new);
 	if (g_tkns == NULL)
@@ -151,13 +151,6 @@ void		fill_args(int num, t_tmp *tmp1, t_oken *new)
 	i = trim_space(0, tmp1->op);
 	tmp = ft_strchr(&tmp1->op[i], ' ');
 	arr = ft_strsplit(tmp, SEPARATOR_CHAR);
-	// int kek = 0;
-	// while (arr[kek])
-	// {
-	// 	printf("%d: |%s|\n", kek + 1, arr[kek]);
-	// 	kek++;
-	// }
-	// printf("%s\n", tmp);
 	handle_args(arr, new, num, tmp1);
 }
 
@@ -172,7 +165,7 @@ void		handle_args(char **arr, t_oken *new, int num, t_tmp *tmp)
 	{
 		x = trim_space(0, arr[y]);
 		if (arr[y][x] == 'r')
-		{
+		{printf("prev_arg: %s\n", arr[y]);
 			new->code_size++;
 			g_exec_size++;
 			new->args_type[y] = 1; // T_REG
@@ -190,8 +183,7 @@ void		handle_args(char **arr, t_oken *new, int num, t_tmp *tmp)
 			new->args_type[y] = 3;//T_IND
 		}
 		tmp->args[y] = ft_strdup(arr[y]);
-		printf("address: %p\n", tmp->args[y]);
-		printf("str: %s d: %d\n", tmp->args[y], y);
+		printf("\nstr: %s d: %d\n", tmp->args[y], y);
 		y++;
 	}
 	num = 1;
