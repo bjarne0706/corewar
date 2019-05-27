@@ -21,8 +21,7 @@ void			add_carriage(t_carr **carr, t_champ *chmp, unsigned int pos)
 		vm_error("Carriage initialization failed");
 	new->id = ++id;
 	new->champ = chmp;
-	new->pos = pos;
-	new->op = 0;
+	new->pc = pos;
 	new->wait_cycles = 0;
 	new->step = 0;
 	new->last_live = 0;

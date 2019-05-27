@@ -35,7 +35,7 @@ typedef struct		s_carr
 {
 	int			 	id;
 	t_champ			*champ;
-	int				pos;
+	int				pc;
 	unsigned char	op;
 	int				wait_cycles;
 	unsigned int	step;
@@ -50,6 +50,7 @@ typedef struct		s_carr
 ** options: [0] (-dump/-d = 'd' = 32 | -D = 'D' = 64); 
 **			[1] (-s = 's' = 32 | -S = 'S' = 64);
 **			[2] -v
+**			[3] -a
 ** dump_cycles: [0] -d; [1] -s
 */
 
@@ -74,7 +75,6 @@ typedef struct		s_vm
 void				parse_args(int ac, char *av[], t_vm *v);
 void				flag_d(char *av[], int ac, int *i, t_vm *v);
 void				flag_s(char *av[], int ac, int *i, t_vm *v);
-void				flag_v(t_vm *v);
 
 void				flag_n(char *av[], int ac, int *i, t_vm *v);
 t_bool				find_champ(t_vm *v, int n);

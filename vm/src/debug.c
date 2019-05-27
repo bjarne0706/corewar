@@ -22,7 +22,8 @@ void			print_carriages(t_vm *v)
 	{
 		printf("> id:		%d\n", cur->id);
 		printf("> champ:	#%d \"%s\"\n", cur->champ->num, cur->champ->name);
-		printf("> pos:		%d\n", cur->pos);
+		printf("> pos:		%d\n", cur->pc);
+			cur->op = v->arena[cur->pc];
 		printf("> op:		%.2x\n", cur->op);
 		printf("> wait_cycles:	%d\n", cur->wait_cycles);
 		printf("> step:		%u\n", cur->step);

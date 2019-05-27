@@ -54,14 +54,6 @@ void			flag_s(char *av[], int ac, int *i, t_vm *v)
 	
 }
 
-void			flag_v(t_vm *v)
-{
-	if (!v->options[2])
-		v->options[2] = 'v';
-	else
-		print_usage();
-}
-
 void			parse_args(int ac, char *av[], t_vm *v)
 {
 	int		i;
@@ -75,7 +67,9 @@ void			parse_args(int ac, char *av[], t_vm *v)
 		else if (!ft_strcmp(av[i], "-S") || !ft_strcmp(av[i], "-s"))
 			flag_s(av, ac, &i, v);
 		else if (!ft_strcmp(av[i], "-v"))
-			flag_v(v);
+			v->options[2] = 'v';
+		else if (!ft_strcmp(av[i], "-a"))
+			v->options[3] = 'a';
 		else if (!ft_strcmp(av[i], "-n"))
 			flag_n(av, ac, &i, v);
 		else if (cor_filename(av[i]))

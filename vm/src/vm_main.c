@@ -43,7 +43,7 @@ int				main(int ac, char *av[])
 		v = init_vm();
 		parse_args(ac, av, v);
 			printf("> Options: ");		//
-			for (size_t i = 0; i < ft_strlen(v->options); i++)	//
+			for (size_t i = 0; i < sizeof(v->options); i++)	//
 					printf("[%c]", v->options[i]);		///
 			printf("\n> dump_cycles: %d||%d\n", v->dump_cycles[0], v->dump_cycles[1]);	//
 			printf("How many champs? %d\n", v->champs_num);	//
@@ -52,10 +52,10 @@ int				main(int ac, char *av[])
 		assign_champ_nums(v);
 			print_champs(v);		//
 		setup_arena(v);
-			print_arena(v, v->options[0]);		//
+//			print_arena(v, v->options[0]);		//
 			introduce_champs(v);		//
 		setup_carriages(v);
-			print_carriages(v);		//
+//			print_carriages(v);		//
 	}
 	else
 		print_usage();
