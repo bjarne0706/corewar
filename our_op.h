@@ -10,9 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "op.h"
 #include "asm/asm.h"
 
-t_op    g_op_tab[17] =
+typedef struct		s_op
+{
+	char			*name;
+	long			code;
+	long 			arg_count;
+	int				argums[3];
+	long			cycles;
+	int 			arg_code_type;
+	u_int8_t		t_dir_size;
+}					t_op;
+
+static  t_op    g_op_tab[17] =
 		{
 			{"live", 0x01, 1, {T_DIR}, 10, 0, 4},                         //1
 			{"ld", 0x02, 2, {T_DIR | T_IND, T_REG}, 5, 1, 4},//2

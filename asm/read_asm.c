@@ -38,24 +38,24 @@ void		read_asm_put_code_size(void)
 	num = reverse_byte(g_exec_size & 0xff);
 	code = ft_memcpy(code, &num, 4);
 	write(g_files->s_fd, code, 4);
-	printf("\n%ld\n", g_exec_size);
-	t_oken *tmp2;
+	// printf("\n%ld\n", g_exec_size);
+	// t_oken *tmp2;
 
-	tmp2 = g_tkns;
-	while (tmp2 != NULL)
-	{
-		if (tmp2->label)
-			printf("Label: %s\n", tmp2->label);
-		printf("code_size: %d\n", tmp2->code_size);
-		printf("mem_pos: %d\n", tmp2->mem_pos);
-		printf("name: %s\n", tmp2->token->name);
-		printf("code: %lx\n", tmp2->token->code);
-		printf("arg_count: %ld\n", tmp2->token->arg_count);
-		printf("cycles: %ld\n", tmp2->token->cycles);
-		printf("arg_code_type: %d\n", tmp2->token->arg_code_type);
-		printf("dir_size: %d\n\n", tmp2->token->t_dir_size);
-		tmp2 = tmp2->next;
-	}
+	// tmp2 = g_tkns;
+	// while (tmp2 != NULL)
+	// {
+	// 	if (tmp2->label)
+	// 		printf("Label: %s\n", tmp2->label);
+	// 	printf("code_size: %d\n", tmp2->code_size);
+	// 	printf("mem_pos: %d\n", tmp2->mem_pos);
+	// 	printf("name: %s\n", tmp2->token->name);
+	// 	printf("code: %lx\n", tmp2->token->code);
+	// 	printf("arg_count: %ld\n", tmp2->token->arg_count);
+	// 	printf("cycles: %ld\n", tmp2->token->cycles);
+	// 	printf("arg_code_type: %d\n", tmp2->token->arg_code_type);
+	// 	printf("dir_size: %d\n\n", tmp2->token->t_dir_size);
+	// 	tmp2 = tmp2->next;
+	// }
 }
 
 void		disassemble_line(char *line)
@@ -183,7 +183,7 @@ void		handle_args(char **arr, t_oken *new, int num, t_tmp *tmp)
 			new->args_type[y] = 3;//T_IND
 		}
 		tmp->args[y] = ft_strdup(arr[y]);
-		printf("\nstr: %s d: %d\n", tmp->args[y], y);
+		// printf("\nstr: %s d: %d\n", tmp->args[y], y);
 		y++;
 	}
 	num = 1;
