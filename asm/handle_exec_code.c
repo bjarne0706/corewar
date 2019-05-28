@@ -108,6 +108,34 @@ int			make_from_binary(char *str)
 }
 //0b68 0100 0700 0101 0000 0000 0290 0000
 //0000 0209 ffed
+void hex_con(int32_t nbr, int size)
+{
+	unsigned int tmp;
+	int    i;
+	unsigned int max;
+	char   *res;
+
+	if (size == 1)
+		max = 255;
+	if (size == 2)
+		max = 65535;
+	if (size == 4)
+		max = 4294967295;
+	if (nbr < 0)
+		tmp = max + nbr + 1;
+	else
+		tmp = nbr;
+	res = (char *)malloc(size);
+	i = size;
+	while (--i >= 0)
+	{
+		res[i] = tmp % 256;
+		tmp /= 256;
+	}
+	write(g_files->s_fd, res, size);
+	free(res);
+}
+
 void		print_args(t_oken *tkn)
 {
 	int		size;
@@ -129,18 +157,22 @@ void		print_args(t_oken *tkn)
 			size = tkn->token->t_dir_size;
 		else if (tkn->args_type[y] == 3)
 			size = 2;
-		// printf("SIZE: %d\n", size);
+		printf("SIZE: %d\n", size);
 		str = ft_memalloc(size);
 		if (tkn->token->argums[y] < 0)
 		{
-			tkn->token->argums[y] = make_neg_num(tkn->token->argums[y]) & 0xff;
+			tkn->token->argums[y] = make_neg_num(tkn->token->argums[y]);
 			// printf("THIIIIIS: %x\n", tkn->token->argums[y]);
 		}
 		else
-				tkn->token->argums[y] = tkn->token->argums[y] & 0xff;
-		str = ft_memcpy(str, &tkn->token->argums[y], size);
-		write(g_files->s_fd, str, size);
+			tkn->token->argums[y] = tkn->token->argums[y];
+		hex_con((int32_t)tkn->token->argums[y], size);
+		// if (size == 2 && tkn->args_type[y] == 2)
+		// 	tkn->token->argums[y] = reverse_byte(tkn->token->argums[y]);
+		// str = ft_memcpy(str, &tkn->token->argums[y], size);
+		// write(g_files->s_fd, str, size);
 		ft_strdel(&str);
+		// sleep(7);
 		y++;
 	}
 }
@@ -192,7 +224,7 @@ void		analize_token(t_tmp *line, t_oken *tkn)
 	while (line->args[i] && i < 3)
 	{
 		tkn->token->argums[i] = get_value_of_arg(line->args[i], tkn, &type_code);
-		printf("value in %s token: %d\n", tkn->token->name, tkn->token->argums[i]);
+		printf("value in %s token: %ld\n", tkn->token->name, tkn->token->argums[i]);
 		i++;
 	}
 	fill_type_code(&type_code);
