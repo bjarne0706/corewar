@@ -18,7 +18,7 @@ typedef struct		s_op
 	char			*name;
 	long			code;
 	long 			arg_count;
-	int				argums[3];
+	long			argums[3];
 	long			cycles;
 	int 			arg_code_type;
 	u_int8_t		t_dir_size;
