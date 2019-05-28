@@ -22,7 +22,8 @@ void			add_carriage(t_carr **carr, t_champ *chmp, unsigned int pos)
 	new->id = ++id;
 	new->champ = chmp;
 	new->pc = pos;
-	new->wait_cycles = 0;
+	new->op = 0;
+	new->wait_cycles = -1;
 	new->step = 0;
 	new->last_live = 0;
 	new->carry = false;
@@ -101,7 +102,8 @@ t_vm			*init_vm(void)
 	v->carrs = NULL;
 	v->carrs_num = 0;
 	v->cycles = 0;
-	v->cycles_to_die = CYCLE_TO_DIE;
+	v->cyc_since_check = 0;
+	v->cyc_to_die = CYCLE_TO_DIE;
 	v->lives_in_cycle = 0;
 	v->checks_done = 0;
 	return (v);

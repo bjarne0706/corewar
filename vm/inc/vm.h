@@ -14,7 +14,7 @@
 # define VM_H
 
 # include "../../libft/includes/libft.h"
-# include "../../op.h"
+# include "../../our_op.h"
 
 # include <stdio.h>
 # include <errno.h>
@@ -66,7 +66,8 @@ typedef struct		s_vm
 	t_carr			*carrs;
 	size_t			carrs_num;
 	size_t			cycles;
-	size_t			cycles_to_die;
+	size_t			cyc_since_check;
+	size_t			cyc_to_die;
 	size_t			lives_in_cycle;
 	size_t			checks_done;
 
@@ -91,6 +92,10 @@ t_vm				*init_vm(void);
 t_champ				*add_champ(int n);
 void				setup_arena(t_vm *v);
 void				setup_carriages(t_vm *v);
+
+void				run_cycle(t_vm *v);
+void				process_carriage(t_vm *v, t_carr *c);
+t_bool				validate_operation(t_vm *v, t_carr *c, t_op *op);
 
 void				print_usage(void);
 void				introduce_champs(t_vm *v);
