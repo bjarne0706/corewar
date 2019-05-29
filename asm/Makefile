@@ -12,7 +12,7 @@
 
 NAME = asm
 
-FLAGS = -Werror -Wextra -Wall
+FLAGS = 
 
 all: $(NAME)
 

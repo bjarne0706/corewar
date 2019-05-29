@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "op.h"
-#include "asm/asm.h"
+#include "stdint.h"
 
 typedef struct		s_op
 {
