@@ -23,7 +23,7 @@ void			add_carriage(t_carr **carr, t_champ *chmp, unsigned int pos)
 	new->champ = chmp;
 	new->pc = pos;
 	new->op = 0;
-	new->wait_cycles = -1;
+	new->wait_cycles = 0;
 	new->step = 0;
 	new->last_live = 0;
 	new->carry = false;

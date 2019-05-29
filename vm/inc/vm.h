@@ -14,7 +14,8 @@
 # define VM_H
 
 # include "../../libft/includes/libft.h"
-# include "../../our_op.h"
+# include "../../op.h"
+# include "vm_op.h"
 
 # include <stdio.h>
 # include <errno.h>
@@ -95,7 +96,8 @@ void				setup_carriages(t_vm *v);
 
 void				run_cycle(t_vm *v);
 void				process_carriage(t_vm *v, t_carr *c);
-t_bool				validate_operation(t_vm *v, t_carr *c, t_op *op);
+t_bool				validate_args_types(t_vm *v, t_carr *c, t_op *op);
+void				byte_to_arr3(uint8_t *arg_types, unsigned char byte);
 
 void				print_usage(void);
 void				introduce_champs(t_vm *v);
