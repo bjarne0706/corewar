@@ -253,6 +253,8 @@ int			get_value_of_arg(char *arg, t_oken *tkn, char **type_code)
 	if (arg[i] == 'r')
 	{
 		value = ft_atoi(&arg[i + 1]);
+		if (value < 0 || value > 99)
+			error("Incorrect register");
 		(*type_code) = ft_strjoin((*type_code), "01");
 	}
 	else if (arg[i] == '%' && arg[i + 1] == ':')

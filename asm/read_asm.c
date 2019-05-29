@@ -24,16 +24,16 @@ void		read_asm_put_code_size(void)
 		if (line[0] !='\n')
 			disassemble_line(line);
 	}
-	t_tmp *tmp;
+	// t_tmp *tmp;
 
-	tmp = g_tmp_op;
-	while (tmp != NULL)
-	{
-		if (tmp->label)
-			printf("|%s\n", tmp->label);
-		printf("%s|\n", tmp->op);
-		tmp = tmp->next;
-	}
+	// tmp = g_tmp_op;
+	// while (tmp != NULL)
+	// {
+	// 	if (tmp->label)
+	// 		printf("|%s\n", tmp->label);
+	// 	printf("%s|\n", tmp->op);
+	// 	tmp = tmp->next;
+	// }
 	create_token();
 	num = reverse_byte(g_exec_size & 0xff);
 	code = ft_memcpy(code, &num, 4);
@@ -96,9 +96,11 @@ void		create_token()
 	tmp = g_tmp_op;
 	while (tmp != NULL)
 	{
+		printf("tmp op:%s\n", tmp->op);
 		type_of_op = get_op_name(tmp->op);
 		work_on_op(type_of_op, tmp);
 		tmp = tmp->next;
+		printf("\n");
 	}
 }
 
@@ -111,6 +113,7 @@ void		work_on_op(int num, t_tmp *tmp)
 	new->token = (t_op *)ft_memalloc(sizeof(t_op));
 	if (tmp->label)
 		new->label = ft_strdup(tmp->label);
+	printf("num: %d\n", num);
 	fill_token(num, new);
 	fill_args(num, tmp, new);
 	if (g_tkns == NULL)
@@ -149,9 +152,30 @@ void		fill_args(int num, t_tmp *tmp1, t_oken *new)
 	char	**arr;
 
 	i = trim_space(0, tmp1->op);
-	tmp = ft_strchr(&tmp1->op[i], ' ');
+	if (!(tmp = ft_strchr(&tmp1->op[i], ' ')))
+		tmp = ft_strchr(&tmp1->op[i], '\t');
 	arr = ft_strsplit(tmp, SEPARATOR_CHAR);
+	printf("arr[y]: %p\n", arr[0]);
+	if (count_separ(tmp1->op) != new->token->arg_count - 1)
+		error("Incorrect line");
 	handle_args(arr, new, num, tmp1);
+}
+
+int			count_separ(char *str)
+{
+	int		i;
+	int		counter;
+
+	counter = 0;
+	i = -1;
+	printf("str:%s\n", str);
+	while (str[++i])
+	{
+		if (str[i] == SEPARATOR_CHAR)
+			counter++;
+	}
+	printf("counter: %d\n", counter);
+	return (counter);
 }
 
 void		handle_args(char **arr, t_oken *new, int num, t_tmp *tmp)
@@ -161,11 +185,13 @@ void		handle_args(char **arr, t_oken *new, int num, t_tmp *tmp)
 
 	y = 0;
 	tmp->args = (char **)ft_memalloc(sizeof(char *) * 3);
+	f4
+	printf("arr[y]: %p\n", arr[y]);
 	while (arr[y])
-	{
+	{f3
 		x = trim_space(0, arr[y]);
 		if (arr[y][x] == 'r')
-		{printf("prev_arg: %s\n", arr[y]);
+		{
 			new->code_size++;
 			g_exec_size++;
 			new->args_type[y] = 1; // T_REG
@@ -207,14 +233,15 @@ int			get_op_name(char *line)
 	name = (char *)ft_memalloc(6);
 	i = 0;
 	y = 0;
-	while (line[i] == ' ')
+	while (line[i] == ' ' || line[i] == '\t')
 		i++;
-	while (line[i] && line[i] != 'r' && line[i] != DIRECT_CHAR && line[i] != ' ')
+	while (line[i] && line[0] != 'r' && line[i] != DIRECT_CHAR && line[i] != ' ' && line[i] != '\t')
 	{
 		name[y++] = line[i++];
 		if (choose_name(name) > 0)
 			op_type = choose_name(name);
 	}
+	free(name);
 //	printf("1: %s\n", name);
 //	printf("type: %d\n", op_type);
 	return (op_type - 1);
