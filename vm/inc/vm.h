@@ -39,6 +39,7 @@ typedef struct		s_carr
 	int				pc;
 	unsigned char	op;
 	int				wait_cycles;
+	uint8_t			arg_types[3];
 	unsigned int	step;
 	size_t			last_live;
 	t_bool			carry;
@@ -96,17 +97,20 @@ void				setup_carriages(t_vm *v);
 
 void				run_cycle(t_vm *v);
 void				process_carriage(t_vm *v, t_carr *c);
+
 t_bool				validate_args_types(t_vm *v, t_carr *c, t_op *op);
 void				byte_to_arr3(uint8_t *arg_types, unsigned char byte);
+t_bool				validate_reg_args(t_vm *v, t_carr *c, t_op *op);
+uint32_t			arg_size(uint8_t arg_type, t_op *op);
 
 void				print_usage(void);
 void				introduce_champs(t_vm *v);
 void				print_arena(t_vm *v, char flag);
 
 unsigned int		reverse_byte(unsigned int num);
+uint32_t			step_calc(t_carr *c, t_op *op);
 
 void				vm_error(char *msg);
-
 
 ///DEBUG
 void			print_champs(t_vm *v);

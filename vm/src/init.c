@@ -24,6 +24,7 @@ void			add_carriage(t_carr **carr, t_champ *chmp, unsigned int pos)
 	new->pc = pos;
 	new->op = 0;
 	new->wait_cycles = 0;
+	ft_bzero(new->arg_types, 3);
 	new->step = 0;
 	new->last_live = 0;
 	new->carry = false;

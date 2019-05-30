@@ -26,6 +26,7 @@ void			print_carriages(t_vm *v)
 //			cur->op = v->arena[cur->pc];
 		printf("> op:		%.2x\n", cur->op);
 		printf("> wait_cycles:	%d\n", cur->wait_cycles);
+		printf("> args_types:	%d|%d|%d\n", cur->arg_types[0], cur->arg_types[1], cur->arg_types[2]);
 		printf("> step:		%u\n", cur->step);
 		printf("> last live:	%zu\n", cur->last_live);
 		printf("> carry:	%d\n", cur->carry);

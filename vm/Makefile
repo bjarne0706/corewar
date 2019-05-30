@@ -28,6 +28,7 @@ SRC			=	vm_main.c \
 				parse_players.c \
 				parse_players2.c \
 				cycle.c \
+				parse_args.c \
 				printer.c \
 				utils.c \
 				byebye.c \
