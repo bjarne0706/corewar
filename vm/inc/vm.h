@@ -15,7 +15,6 @@
 
 # include "../../libft/includes/libft.h"
 # include "../../op.h"
-# include "vm_op.h"
 
 # include <stdio.h>
 # include <errno.h>
@@ -60,7 +59,6 @@ typedef struct		s_vm
 {
 	char			options[4];
 	int				dump_cycles[2];
-	
 	unsigned char	arena[MEM_SIZE];
 	int				champs_num;
 	t_champ			*champs[MAX_PLAYERS];
@@ -72,8 +70,9 @@ typedef struct		s_vm
 	size_t			cyc_to_die;
 	size_t			lives_in_cycle;
 	size_t			checks_done;
-
 }					t_vm;
+
+# include "vm_op.h"
 
 void				parse_args(int ac, char *av[], t_vm *v);
 void				flag_d(char *av[], int ac, int *i, t_vm *v);

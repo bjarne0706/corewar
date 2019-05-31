@@ -23,7 +23,7 @@ uint32_t		arg_size(uint8_t arg_type, t_op *op)
 		size = op->t_dir_size;
 	else if (arg_type == T_IND)
 		size = IND_SIZE;
-		printf("size of <%d> arg is: %d\n", arg_type, size);	//
+//		printf("size of <%d> arg is: %d\n", arg_type, size);	//
 	return (size);
 }
 
@@ -41,7 +41,7 @@ t_bool			validate_reg_args(t_vm *v, t_carr *c, t_op *op)
 		if (c->arg_types[i] == T_REG)
 		{
 			reg = v->arena[c->pc + pos];
-				printf("..reg: %.2x\n", reg);	//
+//				printf("..reg: %.2x\n", reg);	//
 			if (reg < 1 || reg > REG_NUMBER)
 				return (false);
 		}
@@ -74,9 +74,9 @@ t_bool			validate_args_types(t_vm *v, t_carr *c, t_op *op)
 	uint8_t			arg_types[3];
 	int				i;
 
- 			ft_printf("T_REG: %08b\n", T_REG);		//
-			ft_printf("T_DIR: %08b\n", T_DIR);
-			ft_printf("T_IND: %08b\n", T_IND);
+ //			ft_printf("T_REG: %08b\n", T_REG);		//
+//		ft_printf("T_DIR: %08b\n", T_DIR);
+//			ft_printf("T_IND: %08b\n", T_IND);
 	if (op->types_byte)
 	{
 		byte_to_arr3(arg_types, v->arena[c->pc + 1]);
@@ -88,9 +88,9 @@ t_bool			validate_args_types(t_vm *v, t_carr *c, t_op *op)
 			c->arg_types[i] = arg_types[i];
 			i++;
 		}
-			ft_printf("c->ar_types[0]: %08b\n", c->arg_types[0]);	//
-			ft_printf("c->ar_types[1]: %08b\n", c->arg_types[1]);
-			ft_printf("c->ar_types[2]: %08b\n", c->arg_types[2]);
+//			ft_printf("c->ar_types[0]: %08b\n", c->arg_types[0]);	//
+//			ft_printf("c->ar_types[1]: %08b\n", c->arg_types[1]);
+//			ft_printf("c->ar_types[2]: %08b\n", c->arg_types[2]);
 		if (i < op->ar_num)
 			return (false);
 		else
@@ -99,7 +99,7 @@ t_bool			validate_args_types(t_vm *v, t_carr *c, t_op *op)
 	else
 	{
 		c->arg_types[0] = arg_types[0];
-			ft_printf("c->ar_types[0]: %08b\n", c->arg_types[0]);
+//			ft_printf("c->ar_types[0]: %08b\n", c->arg_types[0]);
 		return (true);
 	}
 }

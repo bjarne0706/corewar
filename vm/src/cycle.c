@@ -32,11 +32,12 @@ void			process_carriage(t_vm *v, t_carr *c)
 			op = &g_ops[c->op - 1];
 			if (validate_args_types(v, c, op) && validate_reg_args(v, c, op))
 			{
-					printf("))) Valid OP!\n");	//
+//					printf("))) Valid OP!\n");	//
+				g_func_arr[op->code - 1](v, c, op);
 			}
 			else
 			{
-					printf("((( Invalid OP!\n");		//
+//					printf("((( Invalid OP!\n");		//
 				c->step = step_calc(c, op);
 			}
 		}
