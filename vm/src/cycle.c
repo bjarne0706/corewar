@@ -34,6 +34,7 @@ void			process_carriage(t_vm *v, t_carr *c)
 			{
 //					printf("))) Valid OP!\n");	//
 				g_func_arr[op->code - 1](v, c, op);
+//				g_func_arr[0](v, c, op);
 			}
 			else
 			{

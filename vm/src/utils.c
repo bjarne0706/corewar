@@ -12,7 +12,30 @@
 
 #include "../inc/vm.h"
 
-uint32_t				step_calc(t_carr *c, t_op *op)
+uint32_t			get_int(t_vm *v, int pc, int size)
+{
+	char 		str[size];
+	int			num;
+	int 		i;
+	uint8_t		sign;
+
+	num = 0;
+	i = -1;
+	ft_bzero(str, size);
+	sign = 0;
+	sign = v->arena[pc] & 0x80;
+		printf("SIGN: %d\n", sign);
+	while (++i < size)
+	{
+		str[i] = v->arena[pc++ % MEM_SIZE];
+		num |= str[i];
+		if (i + 1 != size)
+			num <<= 8;
+	}
+	return (num);
+}
+
+uint32_t			step_calc(t_carr *c, t_op *op)
 {
 	uint32_t		step;
 	int				i;
@@ -29,7 +52,7 @@ uint32_t				step_calc(t_carr *c, t_op *op)
 	return (step);
 }
 
-unsigned int			reverse_byte(unsigned int num)
+unsigned int		reverse_byte(unsigned int num)
 {
 	unsigned	write;
 	unsigned	bt;

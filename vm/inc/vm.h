@@ -108,6 +108,7 @@ void				print_arena(t_vm *v, char flag);
 
 unsigned int		reverse_byte(unsigned int num);
 uint32_t			step_calc(t_carr *c, t_op *op);
+uint32_t			get_int(t_vm *v, int pc, int size);
 
 void				vm_error(char *msg);
 
