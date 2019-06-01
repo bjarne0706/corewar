@@ -12,27 +12,28 @@
 
 #include "../inc/vm.h"
 
-uint32_t			get_int(t_vm *v, int pc, int size)
+int32_t			get_int(t_vm *v, int pc, int size)
 {
 	char 		str[size];
-	int			num;
+	int32_t		num;
 	int 		i;
-	uint8_t		sign;
+//	t_bool		sign;
 
+	ft_bzero(str, size);
+//	sign = v->arena[pc] & 0x80;
+//		printf("SIGN: %d\n", sign);		//
 	num = 0;
 	i = -1;
-	ft_bzero(str, size);
-	sign = 0;
-	sign = v->arena[pc] & 0x80;
-		printf("SIGN: %d\n", sign);
 	while (++i < size)
 	{
 		str[i] = v->arena[pc++ % MEM_SIZE];
+//str[i] = (sign) ? v->arena[pc++ % MEM_SIZE] & 0xFF : v->arena[pc++ % MEM_SIZE];
 		num |= str[i];
 		if (i + 1 != size)
 			num <<= 8;
+			ft_printf("{green}%032b{0}\n", num);	//
 	}
-	return (num);
+	return (/*(sign) ? ~(num) :*/ num);
 }
 
 uint32_t			step_calc(t_carr *c, t_op *op)
