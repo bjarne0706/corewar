@@ -12,28 +12,33 @@
 
 #include "../inc/vm.h"
 
+size_t			calc_adrr(int pc, int16_t arg_ind)
+{
+	int		adrr;
+
+	adrr = ((pc + arg_ind) % MEM_SIZE) % IDX_MOD;
+	if (adrr < 0)
+		adrr += MEM_SIZE;
+	return (adrr);
+}
+
 int32_t			get_int(t_vm *v, int pc, int size)
 {
-	char 		str[size];
-	int32_t		num;
-	int 		i;
-//	t_bool		sign;
+	int32_t				num;
+ 	int 				i;
+	unsigned char		str[size];
+// num = ((v->arena[(pc) % MEM_SIZE] << 24) + (v->arena[(pc + 1) % MEM_SIZE] << 16) + (v->arena[(pc + 2) % MEM_SIZE] << 8) +(v->arena[(pc + 3) % MEM_SIZE]));
 
-	ft_bzero(str, size);
-//	sign = v->arena[pc] & 0x80;
-//		printf("SIGN: %d\n", sign);		//
-	num = 0;
-	i = -1;
-	while (++i < size)
+ 	num = 0;
+ 	i = 0;
+ 	while (i < size)
 	{
-		str[i] = v->arena[pc++ % MEM_SIZE];
-//str[i] = (sign) ? v->arena[pc++ % MEM_SIZE] & 0xFF : v->arena[pc++ % MEM_SIZE];
-		num |= str[i];
-		if (i + 1 != size)
+		str[i] = v->arena[(pc + i) % MEM_SIZE];
+		num += str[i];
+		if (++i < size)
 			num <<= 8;
-			ft_printf("{green}%032b{0}\n", num);	//
 	}
-	return (/*(sign) ? ~(num) :*/ num);
+	return (num);
 }
 
 uint32_t			step_calc(t_carr *c, t_op *op)
@@ -43,13 +48,16 @@ uint32_t			step_calc(t_carr *c, t_op *op)
 
 	step = 1;
 	step += (op->types_byte) ? 1 : 0; 
+	// printf("TB: %d\n", op->types_byte);	
+	// printf("OP: %2x __step__: %d\n", op->code, step);		//
+	// printf("ar num: %d\n", op->ar_num);	
 	i = 0;
 	while (i < op->ar_num)
 	{
 		step += arg_size(c->arg_types[i], op);
 		i++;
 	}
-		printf("__step__: %d\n", step);		//
+		printf("OP: %2x __step__: %d\n", op->code, step);		//
 	return (step);
 }
 

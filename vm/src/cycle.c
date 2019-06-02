@@ -47,20 +47,21 @@ void			process_carriage(t_vm *v, t_carr *c)
 			c->wait_cycles = 0;
 			c->step = 1;
 		}
+		c->pc = (c->pc + c->step) % MEM_SIZE;
 	}
-	c->pc = (c->pc + c->step) % MEM_SIZE;
 }
 
 void			run_cycle(t_vm *v)
 {
 	t_carr		*c;
 
+	v->cycles++;
+	v->cyc_since_check++;
 	c = v->carrs;
 	while (c)
 	{
 		process_carriage(v, c);
 		c = c->nxt;
 	}
-	v->cycles++;
-	v->cyc_since_check++;
+
 }

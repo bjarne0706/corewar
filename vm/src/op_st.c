@@ -1,33 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   op_live.c                                          :+:      :+:    :+:   */
+/*   op_st.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstepane <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/31 16:36:17 by dstepane          #+#    #+#             */
-/*   Updated: 2019/05/31 16:36:19 by dstepane         ###   ########.fr       */
+/*   Created: 2019/06/02 20:05:37 by dstepane          #+#    #+#             */
+/*   Updated: 2019/06/02 20:05:39 by dstepane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/vm.h"
 
-void			op_live(t_vm *v, t_carr *c, t_op *op)
+void			op_st(t_vm *v, t_carr *c, t_op *op)
 {
-	int			arg;
-	t_champ		*ch;
+	int16_t		arg_ind;
+	int8_t		reg;
+	int8_t		reg2;
+	int32_t		pc;
 
-	arg = get_int(v, (c->pc + 1) % MEM_SIZE, op->t_dir_size);
-		ft_printf("{yellow}ARG::: %d{0}\n", arg);		//
-	c->last_live = v->cycles;
-		ft_printf("{red}c->last_live: %d{0}\n", c->last_live);		//
-	v->lives_in_cycle++;
-	ch = NULL;
-	if (arg < 0 && arg > -(v->champs_num))
+	pc = c->pc + 2;
+	reg = v->arena[pc % MEM_SIZE];
+	pc += 1;
+	if (c->arg_types[1] == T_REG)
 	{
-		ch = v->champs[-arg - 1];
-		ch->last_live_cyc = v->cycles;
-		ch->current_lives++;
+		reg2 = v->arena[pc % MEM_SIZE];
+		c->reg[reg2 - 1] = c->reg[reg - 1];
+	}
+	else
+	{
+		arg_ind = get_int(v, pc, IND_SIZE);
+		pc = calc_adrr(c->pc, arg_ind);
+		if (pc < 0)
+			pc += MEM_SIZE;
+		v->arena[pc] = c->reg[reg - 1];
 	}
 	c->step = step_calc(c, op);
 }

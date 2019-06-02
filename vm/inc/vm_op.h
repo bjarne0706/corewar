@@ -49,25 +49,28 @@ static t_op g_ops[17] =
 };
 
 void		op_live(t_vm *v, t_carr *c, t_op *op);
+void		op_ld(t_vm *v, t_carr *c, t_op *op);
+void		op_st(t_vm *v, t_carr *c, t_op *op);
+void		op_aff(t_vm *v, t_carr *c, t_op *op);
 
 static void (*g_func_arr[16])(t_vm *v, t_carr *c, t_op *op) = 
 {
 	op_live,
-	NULL,
-	NULL, 
-	NULL, 
-	NULL, 
-	NULL,  
-	NULL, 
-	NULL, 
-	NULL, 
-	NULL, 
-	NULL, 
-	NULL, 
-	NULL, 
-	NULL, 
-	NULL, 
-	NULL, 
+	op_ld,
+	op_st,
+	op_aff,
+	op_aff,
+	op_aff,
+	op_aff,
+	op_aff,
+	op_aff,
+	op_aff,
+	op_aff,
+	op_aff,
+	op_aff,
+	op_aff,
+	op_aff,
+	op_aff
 };
 
 #endif

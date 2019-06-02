@@ -12,14 +12,13 @@
 
 #include "../inc/vm.h"
 
-void			op_live(t_vm *v, t_carr *c, t_op *op)
+void			op_aff(t_vm *v, t_carr *c, t_op *op)
 {
-	int		arg;
-	
-	if (v->options[3])
+	int32_t		reg;
+	if (v->options[3] && !v->options[0] && !v->options[1] && !v->options[2])
 	{
-		arg = get_int(v, (c->pc + 1) % MEM_SIZE, 1);
-		ft_printf("Aff: %c\n", (char)(arg));
+		reg = v->arena[(c->pc + 2) % MEM_SIZE];
+		ft_printf("Aff: %c\n", c->reg[reg - 1]);
 	}
 	c->step = step_calc(c, op);
 }

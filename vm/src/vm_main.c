@@ -59,7 +59,7 @@ int				main(int ac, char *av[])
 		while (v->cycles < 100)			////
 			run_cycle(v);
 				//print_carriages(v);		//
-
+			print_arena(v, v->options[0]);		//
 	}
 	else
 		print_usage();

@@ -28,7 +28,9 @@ typedef struct		s_champ
 	char			comment[COMMENT_LENGTH];
 	unsigned int	size;
 	unsigned char	code[CHAMP_MAX_SIZE];
-
+	size_t			last_live_cyc;
+	size_t			current_lives;
+	size_t			prev_lives;
 }					t_champ;
 
 typedef struct		s_carr
@@ -43,7 +45,6 @@ typedef struct		s_carr
 	size_t			last_live;
 	t_bool			carry;
 	int				reg[REG_NUMBER];
-
 	struct s_carr	*nxt;
 }					t_carr;
 
@@ -108,7 +109,8 @@ void				print_arena(t_vm *v, char flag);
 
 unsigned int		reverse_byte(unsigned int num);
 uint32_t			step_calc(t_carr *c, t_op *op);
-int32_t			get_int(t_vm *v, int pc, int size);
+int32_t				get_int(t_vm *v, int pc, int size);
+size_t				calc_adrr(int pc, int16_t arg_ind);
 
 void				vm_error(char *msg);
 
