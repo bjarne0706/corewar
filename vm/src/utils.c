@@ -44,7 +44,7 @@ int32_t			get_int(t_vm *v, int pc, int size)
 	return (num);
 }
 
-int32_t			calc_address(int pc, t_bool is_ind, int16_t arg_ind)
+int32_t			calc_address(int pc, t_bool is_ind, int32_t arg_ind)
 {
 	int32_t		adrr;
 

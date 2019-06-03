@@ -56,7 +56,7 @@ int				main(int ac, char *av[])
 //			introduce_champs(v);		//
 		setup_carriages(v);
 					print_carriages(v);		//
-		while (v->cycles < 100)			////
+		while (v->cycles < 400)			////
 			run_cycle(v);
 				//print_carriages(v);		//
 			print_arena(v, v->options[0]);		//

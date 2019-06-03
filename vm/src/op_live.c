@@ -17,7 +17,7 @@ void			op_live(t_vm *v, t_carr *c, t_op *op)
 	int			arg;
 	t_champ		*ch;
 
-	arg = get_int(v, (c->pc + 1) % MEM_SIZE, op->t_dir_size);
+	arg = get_int(v, calc_address(c->pc + 1, false, 0), op->t_dir_size);
 		ft_printf("{yellow}ARG::: %d{0}\n", arg);		//
 	c->last_live = v->cycles;
 		ft_printf("{red}c->last_live: %d{0}\n", c->last_live);		//

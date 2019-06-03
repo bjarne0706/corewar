@@ -7,6 +7,7 @@ CMakeLists.txt
 #tmps
 vm/asm
 vm/corewar
+corewar0
 *.cor
 vm/test_cors
 vm/*.s

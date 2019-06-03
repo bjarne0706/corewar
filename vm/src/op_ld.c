@@ -22,9 +22,9 @@ void			op_ld(t_vm *v, t_carr *c, t_op *op)
 	pc = c->pc + 2;
 	if (c->arg_types[0] == T_DIR)
 	{
-		arg_dir = get_int(v, pc, DIR_SIZE);
+		arg_dir = get_int(v, pc, op->t_dir_size);
 			printf("ARG_DIR: %d\n", arg_dir);
-		pc += DIR_SIZE;
+		pc += op->t_dir_size;
 	}
 	else
 	{
