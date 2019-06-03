@@ -12,14 +12,17 @@
 
 #include "../inc/vm.h"
 
-size_t			calc_adrr(int pc, int16_t arg_ind)
+void		int_to_arena(t_vm *v, int32_t pos, int32_t size, int32_t num)
 {
-	int		adrr;
+	int		shift;
 
-	adrr = ((pc + arg_ind) % MEM_SIZE) % IDX_MOD;
-	if (adrr < 0)
-		adrr += MEM_SIZE;
-	return (adrr);
+	shift = 0;
+	while (size)
+	{
+		v->arena[pos + size - 1] = (uint8_t)(num >> shift);
+		shift += 8;
+		size--;
+	}
 }
 
 int32_t			get_int(t_vm *v, int pc, int size)
@@ -39,6 +42,19 @@ int32_t			get_int(t_vm *v, int pc, int size)
 			num <<= 8;
 	}
 	return (num);
+}
+
+int32_t			calc_address(int pc, t_bool is_ind, int16_t arg_ind)
+{
+	int32_t		adrr;
+
+	if (is_ind)
+		adrr = (pc + arg_ind) % MEM_SIZE % IDX_MOD;
+	else
+		adrr = pc % MEM_SIZE;
+	if (adrr < 0)
+		adrr += MEM_SIZE;
+	return (adrr);
 }
 
 uint32_t			step_calc(t_carr *c, t_op *op)

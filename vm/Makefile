@@ -35,6 +35,7 @@ SRC			=	vm_main.c \
 				op_live.c \
 				op_ld.c \
 				op_st.c \
+				op_add.c \
 				op_aff.c \
 				debug.c 						####TMP!!!!!!!!!!!!!
 
