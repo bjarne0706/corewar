@@ -130,5 +130,7 @@ int					make_from_binary(char *str);
 void				print_args(t_oken *tkn);
 int					make_neg_num(int num);
 void				swap_0_to_1(char **num);
+void				hex_con(int32_t nbr, int size);
+int					check_line(char *str);
 //void				create_token(void);
 #endif

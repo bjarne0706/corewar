@@ -21,7 +21,7 @@ void		read_asm_put_code_size(void)
 	code = ft_memalloc(4);
 	while (get_next_line(g_files->f_fd, &line) > 0)
 	{
-		if (line[0] !='\n')
+		if (line[0] !='\n' && line[0] != '#' && check_line(line))
 			disassemble_line(line);
 	}
 	// t_tmp *tmp;
@@ -58,6 +58,23 @@ void		read_asm_put_code_size(void)
 	// }
 }
 
+int			check_line(char *str)
+{
+	int		i;
+
+	i = trim_space(0, str);
+	if (str[i] == '\0')
+		return (0);
+	while (str[i])
+	{
+		if (str[i] != ' ' && str[i] != '\t' && str[i] != SEPARATOR_CHAR &&
+		  str[i] != LABEL_CHAR && str[i] != DIRECT_CHAR && !ft_isalnum(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 void		disassemble_line(char *line)
 {
 	t_tmp	*tmp;
@@ -78,6 +95,7 @@ void		disassemble_line(char *line)
 		new->label = ft_strsub(line, 0, ft_strlen(line) - 1);
 		free(line);
 		get_next_line(g_files->f_fd, &line);
+		
 		new->op = ft_strdup(line);
 		free(line);
 	}
@@ -155,7 +173,6 @@ void		fill_args(int num, t_tmp *tmp1, t_oken *new)
 	if (!(tmp = ft_strchr(&tmp1->op[i], ' ')))
 		tmp = ft_strchr(&tmp1->op[i], '\t');
 	arr = ft_strsplit(tmp, SEPARATOR_CHAR);
-	printf("arr[y]: %p\n", arr[0]);
 	if (count_separ(tmp1->op) != new->token->arg_count - 1)
 		error("Incorrect line");
 	handle_args(arr, new, num, tmp1);
@@ -185,10 +202,9 @@ void		handle_args(char **arr, t_oken *new, int num, t_tmp *tmp)
 
 	y = 0;
 	tmp->args = (char **)ft_memalloc(sizeof(char *) * 3);
-	f4
-	printf("arr[y]: %p\n", arr[y]);
+	// printf("arr[y]: %p\n", arr[y]);
 	while (arr[y])
-	{f3
+	{
 		x = trim_space(0, arr[y]);
 		if (arr[y][x] == 'r')
 		{
@@ -209,7 +225,7 @@ void		handle_args(char **arr, t_oken *new, int num, t_tmp *tmp)
 			new->args_type[y] = 3;//T_IND
 		}
 		tmp->args[y] = ft_strdup(arr[y]);
-		// printf("\nstr: %s d: %d\n", tmp->args[y], y);
+		printf("arg:%s\n", tmp->args[y]);
 		y++;
 	}
 	num = 1;

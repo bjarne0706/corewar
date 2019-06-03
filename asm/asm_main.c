@@ -70,7 +70,7 @@ char			*get_name(char *name)
 	e_len = (int)ft_strlen(ft_strrchr(name, '.'));
 	name_len = (int)ft_strlen(name) - e_len;
 	str = ft_strsub(name, 0, name_len);
-	str = ft_strjoin(str, ".cor");
+	str = ft_strjoin(str, "2.cor");
 	return (str);
 }
 

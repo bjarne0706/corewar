@@ -55,9 +55,10 @@ void		put_exec_code(void)
 	tmp_tmp = g_tmp_op;
 	while (tmp_tmp != NULL && tmp_tkn != NULL)
 	{
-		print_op_code(tmp_tkn->token->code);
+		// print_op_code(tmp_tkn->token->code);
+		hex_con((int32_t)tmp_tkn->token->code, 1);
 		if (tmp_tkn->token->arg_code_type)
-			print_code_type(tmp_tkn->code_types);
+			hex_con((int32_t)make_from_binary(tmp_tkn->code_types), 1);
 		print_args(tmp_tkn);
 		tmp_tmp = tmp_tmp->next;
 		tmp_tkn = tmp_tkn->next;
@@ -221,12 +222,14 @@ void		analize_token(t_tmp *line, t_oken *tkn)
 
 	type_code = ft_memalloc(8);
 	i = 0;
-	while (line->args[i] && i < 3)
+	while (line->args[i] && i < tkn->token->arg_count)
 	{
+		printf("on %d before value in %s token: %s\n", i, tkn->token->name, line->args[i]);
 		tkn->token->argums[i] = get_value_of_arg(line->args[i], tkn, &type_code);
 		printf("value in %s token: %ld\n", tkn->token->name, tkn->token->argums[i]);
 		i++;
 	}
+	printf("type_code:%s\n", type_code);
 	fill_type_code(&type_code);
 	if (tkn->token->arg_code_type)
 		tkn->code_types = ft_strdup(type_code);
