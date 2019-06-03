@@ -32,11 +32,13 @@ void			process_carriage(t_vm *v, t_carr *c)
 			op = &g_ops[c->op - 1];
 			if (validate_args_types(v, c, op) && validate_reg_args(v, c, op))
 			{
-					printf("))) Valid OP!\n");	//
+//					printf("))) Valid OP!\n");	//
+				g_func_arr[op->code - 1](v, c, op);
+//				g_func_arr[0](v, c, op);
 			}
 			else
 			{
-					printf("((( Invalid OP!\n");		//
+//					printf("((( Invalid OP!\n");		//
 				c->step = step_calc(c, op);
 			}
 		}
@@ -45,20 +47,21 @@ void			process_carriage(t_vm *v, t_carr *c)
 			c->wait_cycles = 0;
 			c->step = 1;
 		}
+		c->pc = (c->pc + c->step) % MEM_SIZE;
 	}
-	c->pc = (c->pc + c->step) % MEM_SIZE;
 }
 
 void			run_cycle(t_vm *v)
 {
 	t_carr		*c;
 
+	v->cycles++;
+	v->cyc_since_check++;
 	c = v->carrs;
 	while (c)
 	{
 		process_carriage(v, c);
 		c = c->nxt;
 	}
-	v->cycles++;
-	v->cyc_since_check++;
+
 }

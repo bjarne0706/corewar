@@ -76,6 +76,9 @@ t_champ			*add_champ(int n)
 	ft_bzero(champ->comment, COMMENT_LENGTH);
 	champ->size = 0;
 	ft_bzero(champ->code, CHAMP_MAX_SIZE);
+	champ->last_live_cyc = 0;
+	champ->current_lives = 0;
+	champ->prev_lives = 0;
 	return (champ);
 }
 
