@@ -42,6 +42,8 @@ SRC			=	vm_main.c \
 				op_aff.c \
 				op_and.c \
 				utils2.c \
+				op_or.c \
+				op_xor.c \
 				debug.c 						####TMP!!!!!!!!!!!!!
 
 OBJ 		= $(addprefix $(OBJ_DIR), $(SRC:.c=.o))

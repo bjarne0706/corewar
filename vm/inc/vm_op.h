@@ -54,6 +54,8 @@ void		op_st(t_vm *v, t_carr *c, t_op *op);
 void		op_add(t_vm *v, t_carr *c, t_op *op);
 void		op_sub(t_vm *v, t_carr *c, t_op *op);
 void		op_and(t_vm *v, t_carr *c, t_op *op);
+void		op_or(t_vm *v, t_carr *c, t_op *op);
+void		op_xor(t_vm *v, t_carr *c, t_op *op);
 
 void		op_zjmp(t_vm *v, t_carr *c, t_op *op);
 void		op_ldi(t_vm *v, t_carr *c, t_op *op);
@@ -68,8 +70,8 @@ static void (*g_func_arr[16])(t_vm *v, t_carr *c, t_op *op) =
 	op_add,
 	op_sub,
 	op_and,
-	op_aff,
-	op_aff,
+	op_or,
+	op_xor,
 	op_zjmp,
 	op_ldi,
 	op_aff,
