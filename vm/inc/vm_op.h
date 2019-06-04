@@ -55,6 +55,7 @@ void		op_add(t_vm *v, t_carr *c, t_op *op);
 void		op_sub(t_vm *v, t_carr *c, t_op *op);
 
 void		op_zjmp(t_vm *v, t_carr *c, t_op *op);
+void		op_ldi(t_vm *v, t_carr *c, t_op *op);
 
 void		op_aff(t_vm *v, t_carr *c, t_op *op);
 
@@ -69,7 +70,7 @@ static void (*g_func_arr[16])(t_vm *v, t_carr *c, t_op *op) =
 	op_aff,
 	op_aff,
 	op_zjmp,
-	op_aff,
+	op_ldi,
 	op_aff,
 	op_aff,
 	op_aff,

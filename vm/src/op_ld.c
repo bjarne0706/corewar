@@ -29,7 +29,7 @@ void			op_ld(t_vm *v, t_carr *c, t_op *op)
 	else
 	{
 		arg1_ind = get_int(v, pc, IND_SIZE);
-		arg_dir = v->arena[calc_address(c->pc, true, arg1_ind)];
+		arg_dir = get_int(v, calc_address(c->pc, true, arg1_ind), DIR_SIZE);
 		pc += IND_SIZE;
 	}
 	reg = v->arena[calc_address(pc, false, 0)];

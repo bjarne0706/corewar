@@ -19,7 +19,7 @@ void			op_zjmp(t_vm *v, t_carr *c, t_op *op)
 	if (c->carry)
 	{
 		arg_dir = get_int(v, calc_address(c->pc + 1, false, 0), op->t_dir_size);
-		c->pc = calc_address(c->pc + (arg_dir % IDX_MOD), false, 0);
+		c->pc = calc_address(c->pc, true, arg_dir);
 		c->step = 0;
 	}
 	else

@@ -38,6 +38,7 @@ SRC			=	vm_main.c \
 				op_add.c \
 				op_sub.c \
 				op_zjmp.c \
+				op_ldi.c \
 				op_aff.c \
 				debug.c 						####TMP!!!!!!!!!!!!!
 

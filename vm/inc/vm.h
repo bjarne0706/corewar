@@ -109,9 +109,10 @@ void				print_arena(t_vm *v, char flag);
 
 unsigned int		reverse_byte(unsigned int num);
 uint32_t			step_calc(t_carr *c, t_op *op);
-int32_t				calc_address(int pc, t_bool is_ind, int32_t arg_ind);
+int32_t				calc_address(int32_t pc, t_bool jumps, int32_t step);
 int32_t				get_int(t_vm *v, int pc, int size);
 void				int_to_arena(t_vm *v, int32_t pos, int32_t size, int32_t num);
+int32_t				get_arg(t_vm *v, t_carr *c, uint8_t idx, int32_t *pc);
 
 void				vm_error(char *msg);
 

@@ -12,6 +12,36 @@
 
 #include "../inc/vm.h"
 
+int32_t			get_arg(t_vm *v, t_carr *c, uint8_t idx, int32_t *pc)
+{
+	int32_t		arg;
+	int8_t		r;
+	int16_t		ind;
+	t_op		*op;
+
+	op = &g_ops[c->op - 1];
+	if (c->arg_types[idx] == T_REG)
+	{
+		r = v->arena[calc_address(*pc, false, 0)];
+		arg = c->reg[r - 1];
+		(*pc)++;
+	}
+	else if (c->arg_types[idx] == T_DIR)
+	{
+		arg = get_int(v, calc_address(*pc, false, 0), op->t_dir_size);
+		(op->t_dir_size == 2) ? arg = (int16_t)arg : 0;
+		(*pc) += op->t_dir_size;
+	}
+	else
+	{
+		ind = get_int(v, calc_address(*pc, false, 0), IND_SIZE);
+		arg = get_int(v, calc_address(c->pc, true, ind), DIR_SIZE);
+		(*pc) += IND_SIZE;
+	}
+	return (arg);
+}
+
+
 void		int_to_arena(t_vm *v, int32_t pos, int32_t size, int32_t num)
 {
 	int		shift;
@@ -44,17 +74,18 @@ int32_t			get_int(t_vm *v, int pc, int size)
 	return (num);
 }
 
-int32_t			calc_address(int pc, t_bool is_ind, int32_t arg_ind)
+int32_t			calc_address(int32_t pc, t_bool jumps, int32_t step)
 {
-	int32_t		adrr;
+	int32_t		addr;
 
-	if (is_ind)
-		adrr = (pc + arg_ind) % MEM_SIZE % IDX_MOD;
+	if (jumps)
+		addr = pc + (step % IDX_MOD);
 	else
-		adrr = pc % MEM_SIZE;
-	if (adrr < 0)
-		adrr += MEM_SIZE;
-	return (adrr);
+		addr = pc;
+	addr %= MEM_SIZE;
+	if (addr < 0)
+		addr += MEM_SIZE;
+	return (addr);
 }
 
 uint32_t			step_calc(t_carr *c, t_op *op)
@@ -73,7 +104,7 @@ uint32_t			step_calc(t_carr *c, t_op *op)
 		step += arg_size(c->arg_types[i], op);
 		i++;
 	}
-		printf("OP: %2x __step__: %d\n", op->code, step);		//
+		printf("OP: %02x __step__: %d\n", op->code, step);		//
 	return (step);
 }
 
