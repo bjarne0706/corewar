@@ -53,6 +53,7 @@ void		op_ld(t_vm *v, t_carr *c, t_op *op);
 void		op_st(t_vm *v, t_carr *c, t_op *op);
 void		op_add(t_vm *v, t_carr *c, t_op *op);
 void		op_sub(t_vm *v, t_carr *c, t_op *op);
+void		op_and(t_vm *v, t_carr *c, t_op *op);
 
 void		op_zjmp(t_vm *v, t_carr *c, t_op *op);
 void		op_ldi(t_vm *v, t_carr *c, t_op *op);
