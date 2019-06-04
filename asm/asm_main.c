@@ -52,11 +52,13 @@ void			write_all(void)
 		free(line);
 	}
 	write(g_files->s_fd, g_str->name, PROG_NAME_LENGTH);
-	str2 = ft_memcpy(str2, &str4, 4);
-	write(g_files->s_fd, str2, 4);
+	// str2 = ft_memcpy(str2, &str4, 4);
+	// write(g_files->s_fd, str2, 4);
+	hex_con(0, 4);
 	read_asm_put_code_size();
 	write(g_files->s_fd, g_str->comment, COMMENT_LENGTH);
-	write(g_files->s_fd, str2, 4);
+	// write(g_files->s_fd, str2, 4);
+	hex_con(0, 4);
 	write_token();
 	// free(str2);
 }
@@ -70,7 +72,7 @@ char			*get_name(char *name)
 	e_len = (int)ft_strlen(ft_strrchr(name, '.'));
 	name_len = (int)ft_strlen(name) - e_len;
 	str = ft_strsub(name, 0, name_len);
-	str = ft_strjoin(str, "2.cor");
+	str = ft_strjoin(str, ".cor");
 	return (str);
 }
 

@@ -14,24 +14,6 @@
 
 void		write_token()
 {
-	// long str;
-	// char *str3;
-// 	char *str2;
-
-	// str2 = ft_memalloc(4);
-	// str3 = ft_memalloc(1);
-
-	// str = 104 & 0xff;
-// //	str3 = 0x0b;
-// 	long str4;
-// 	str4 = 0x0;
-// 	str2 = ft_memcpy(str2, &str4, 4);
-// 	write(g_files->s_fd, str2, 4);
-// //	str = str & 0xff;
-// //	printf("%s\n", ft_itoa_base(str, 16));
-// //	str = ft_itoa_base(str, 16);
-	// str3 = ft_memcpy(str3, &str, 1);
-	// write(g_files->s_fd, str3, 1);
 	t_oken		*tmp_tkn;
 	t_tmp		*tmp_tmp;
 
@@ -96,12 +78,13 @@ int			make_from_binary(char *str)
 	sum = 0;
 	mult = 1;
 	i = ft_strlen(str) - 1;
+	printf("string: %s\n", str);
 	while (i >= 0)
 	{
+		// printf("sum: %d char: %c mult: %d\n", sum, str[i], mult);
 		if (str[i] == '1')
 			sum += mult;
 		mult *= 2;
-		// printf("str[i]: %c mult: %d sum: %d\n",str[i], mult, sum);
 		i--;
 	}
 	printf("sumsumsum: %d\n", sum);
@@ -141,7 +124,7 @@ void		print_args(t_oken *tkn)
 {
 	int		size;
 	int		y;
-	char	*str;
+	// char	*str;
 	t_tmp	*tmp;
 
 	tmp = g_tmp_op;
@@ -158,21 +141,21 @@ void		print_args(t_oken *tkn)
 			size = tkn->token->t_dir_size;
 		else if (tkn->args_type[y] == 3)
 			size = 2;
-		printf("SIZE: %d\n", size);
-		str = ft_memalloc(size);
-		if (tkn->token->argums[y] < 0)
-		{
-			tkn->token->argums[y] = make_neg_num(tkn->token->argums[y]);
-			// printf("THIIIIIS: %x\n", tkn->token->argums[y]);
-		}
-		else
-			tkn->token->argums[y] = tkn->token->argums[y];
+		// printf("SIZE: %d\n", size);
+		// str = ft_memalloc(size);
+		// if (tkn->token->argums[y] < 0)
+		// {
+		// 	tkn->token->argums[y] = make_neg_num(tkn->token->argums[y]);
+		// 	// printf("THIIIIIS: %x\n", tkn->token->argums[y]);
+		// }
+		// else
+		// 	tkn->token->argums[y] = tkn->token->argums[y];
 		hex_con((int32_t)tkn->token->argums[y], size);
 		// if (size == 2 && tkn->args_type[y] == 2)
 		// 	tkn->token->argums[y] = reverse_byte(tkn->token->argums[y]);
 		// str = ft_memcpy(str, &tkn->token->argums[y], size);
 		// write(g_files->s_fd, str, size);
-		ft_strdel(&str);
+		// ft_strdel(&str);
 		// sleep(7);
 		y++;
 	}

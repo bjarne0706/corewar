@@ -21,55 +21,43 @@ void		read_asm_put_code_size(void)
 	code = ft_memalloc(4);
 	while (get_next_line(g_files->f_fd, &line) > 0)
 	{
+		// printf("start line:%s\n", line);
 		if (line[0] !='\n' && line[0] != '#' && check_line(line))
+		{
 			disassemble_line(line);
+			// printf("Approved line:%s\n", line);
+		}
 	}
-	// t_tmp *tmp;
-
-	// tmp = g_tmp_op;
-	// while (tmp != NULL)
-	// {
-	// 	if (tmp->label)
-	// 		printf("|%s\n", tmp->label);
-	// 	printf("%s|\n", tmp->op);
-	// 	tmp = tmp->next;
-	// }
 	create_token();
-	num = reverse_byte(g_exec_size & 0xff);
-	code = ft_memcpy(code, &num, 4);
-	write(g_files->s_fd, code, 4);
-	// printf("\n%ld\n", g_exec_size);
-	// t_oken *tmp2;
-
-	// tmp2 = g_tkns;
-	// while (tmp2 != NULL)
-	// {
-	// 	if (tmp2->label)
-	// 		printf("Label: %s\n", tmp2->label);
-	// 	printf("code_size: %d\n", tmp2->code_size);
-	// 	printf("mem_pos: %d\n", tmp2->mem_pos);
-	// 	printf("name: %s\n", tmp2->token->name);
-	// 	printf("code: %lx\n", tmp2->token->code);
-	// 	printf("arg_count: %ld\n", tmp2->token->arg_count);
-	// 	printf("cycles: %ld\n", tmp2->token->cycles);
-	// 	printf("arg_code_type: %d\n", tmp2->token->arg_code_type);
-	// 	printf("dir_size: %d\n\n", tmp2->token->t_dir_size);
-	// 	tmp2 = tmp2->next;
-	// }
+	hex_con(g_exec_size, 4);
 }
 
 int			check_line(char *str)
 {
 	int		i;
+	int		y;
 
 	i = trim_space(0, str);
 	if (str[i] == '\0')
 		return (0);
 	while (str[i])
 	{
+		if (str[i + 1] == LABEL_CHAR && str[i] == DIRECT_CHAR)
+		{
+			// printf("1:%c\n", str[i]);
+			i += 2;
+			while (str[i] != SEPARATOR_CHAR)
+			{
+				if (!ft_strchr(LABEL_CHARS, str[i]))
+					return (0);
+				i++;
+			}
+				
+		}
 		if (str[i] != ' ' && str[i] != '\t' && str[i] != SEPARATOR_CHAR &&
-		  str[i] != LABEL_CHAR && str[i] != DIRECT_CHAR && !ft_isalnum(str[i]))
+		  str[i] != LABEL_CHAR && str[i] != DIRECT_CHAR && !ft_isalnum(str[i]) && str[i] != '-')
 			return (0);
+		// printf("2:%c\n", str[i]);
 		i++;
 	}
 	return (1);
@@ -170,9 +158,15 @@ void		fill_args(int num, t_tmp *tmp1, t_oken *new)
 	char	**arr;
 
 	i = trim_space(0, tmp1->op);
-	if (!(tmp = ft_strchr(&tmp1->op[i], ' ')))
-		tmp = ft_strchr(&tmp1->op[i], '\t');
+	while (ft_isalpha(tmp1->op[i]))
+		i++;
+	tmp = &tmp1->op[i];
 	arr = ft_strsplit(tmp, SEPARATOR_CHAR);
+	// printf("arr[0]:%s\n", arr[0]);
+	// if (arr[1])
+	// 	printf("arr[1]:%s\n", arr[1]);
+	// if (arr[2])
+	// 	printf("arr[1]:%s\n", arr[2]);
 	if (count_separ(tmp1->op) != new->token->arg_count - 1)
 		error("Incorrect line");
 	handle_args(arr, new, num, tmp1);
@@ -202,10 +196,11 @@ void		handle_args(char **arr, t_oken *new, int num, t_tmp *tmp)
 
 	y = 0;
 	tmp->args = (char **)ft_memalloc(sizeof(char *) * 3);
-	// printf("arr[y]: %p\n", arr[y]);
+	printf("arr[y]: %s\n", arr[y]);
 	while (arr[y])
 	{
 		x = trim_space(0, arr[y]);
+		printf("%s", &arr[y][x]);
 		if (arr[y][x] == 'r')
 		{
 			new->code_size++;
@@ -225,7 +220,7 @@ void		handle_args(char **arr, t_oken *new, int num, t_tmp *tmp)
 			new->args_type[y] = 3;//T_IND
 		}
 		tmp->args[y] = ft_strdup(arr[y]);
-		printf("arg:%s\n", tmp->args[y]);
+		printf("\narg:%s\n", tmp->args[y]);
 		y++;
 	}
 	num = 1;
