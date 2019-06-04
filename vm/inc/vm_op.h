@@ -67,7 +67,7 @@ static void (*g_func_arr[16])(t_vm *v, t_carr *c, t_op *op) =
 	op_st,
 	op_add,
 	op_sub,
-	op_aff,
+	op_and,
 	op_aff,
 	op_aff,
 	op_zjmp,
