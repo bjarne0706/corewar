@@ -31,7 +31,7 @@ void			add_carriage(t_carr **carr, t_champ *chmp, unsigned int pos)
 	new->reg[0] = -(chmp->num);
 	ft_bzero(&new->reg[1], REG_NUMBER - 1);
 	new->nxt = *carr;
-	*carr = new; 
+	*carr = new;
 }
 
 void			setup_carriages(t_vm *v)
@@ -46,7 +46,7 @@ void			setup_carriages(t_vm *v)
 		add_carriage(&(v->carrs), v->champs[n - 1], pos);
 		v->carrs_num++;
 		pos += MEM_SIZE / v->champs_num;
-		n++; 
+		n++;
 	}
 }
 
@@ -87,14 +87,14 @@ t_vm			*init_vm(void)
 	t_vm		*v;
 	int			i;
 
-	if(!(v = (t_vm *)ft_memalloc(sizeof(t_vm))))
+	if (!(v = (t_vm *)ft_memalloc(sizeof(t_vm))))
 		vm_error("VM initialization failed");
 	ft_bzero(v->options, 3);
 	v->dump_cycles[0] = -1;
 	v->dump_cycles[1] = -1;
 	i = 0;
 	while (i < MEM_SIZE)
-		v->arena[i++] = 0; 
+		v->arena[i++] = 0;
 	v->champs_num = 0;
 		i = 0;
 		while (i < MAX_PLAYERS)
