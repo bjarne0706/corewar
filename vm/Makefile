@@ -31,19 +31,22 @@ SRC			=	vm_main.c \
 				parse_args.c \
 				printer.c \
 				utils.c \
+				utils2.c \
 				byebye.c \
 				op_live.c \
 				op_ld.c \
 				op_st.c \
 				op_add.c \
 				op_sub.c \
-				op_zjmp.c \
-				op_ldi.c \
-				op_aff.c \
 				op_and.c \
-				utils2.c \
 				op_or.c \
 				op_xor.c \
+				op_zjmp.c \
+				op_ldi.c \
+				op_sti.c \
+				op_fork.c \
+				op_lld.c \
+				op_aff.c \
 				debug.c 						####TMP!!!!!!!!!!!!!
 
 OBJ 		= $(addprefix $(OBJ_DIR), $(SRC:.c=.o))

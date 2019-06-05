@@ -113,7 +113,8 @@ int32_t				calc_address(int32_t pc, t_bool jumps, int32_t step);
 int32_t				get_int(t_vm *v, int pc, int size);
 void				int_to_arena(t_vm *v, int32_t pos, int32_t size, int32_t num);
 int32_t				get_arg(t_vm *v, t_carr *c, uint8_t idx, int32_t *pc);
-int32_t		get_arg_and(t_vm *v, t_carr *c, size_t num, size_t pc);
+int32_t				get_arg_and(t_vm *v, t_carr *c, size_t num, size_t pc);
+void				copy_carriage(t_vm *v, t_carr *c, int32_t pos);
 
 void				vm_error(char *msg);
 

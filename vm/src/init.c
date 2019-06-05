@@ -29,7 +29,7 @@ void			add_carriage(t_carr **carr, t_champ *chmp, unsigned int pos)
 	new->last_live = 0;
 	new->carry = false;
 	new->reg[0] = -(chmp->num);
-	ft_bzero(&new->reg[1], sizeof(new->reg) - sizeof(int));
+	ft_bzero(&new->reg[1], REG_NUMBER - 1);
 	new->nxt = *carr;
 	*carr = new; 
 }
