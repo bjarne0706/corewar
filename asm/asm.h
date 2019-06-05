@@ -118,6 +118,9 @@ void				fill_args(int num, t_tmp *tmp1, t_oken *new);
 int					trim_space(int i, char *line);
 void				handle_args(char **arr, t_oken *new, int num, t_tmp *tmp);
 int					count_separ(char *str);
+int					find_op(char *line);
+int					ft_space(char c);
+int					label_char_pos(char *str);
 //handle_exec_code
 void				analize_token(t_tmp *line, t_oken *tkn);
 int					get_value_of_arg(char *arg, t_oken *tkn, char **type_code);

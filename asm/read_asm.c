@@ -38,29 +38,38 @@ int			check_line(char *str)
 	int		y;
 
 	i = trim_space(0, str);
+	printf("line: %s\n", str);
 	if (str[i] == '\0')
 		return (0);
 	while (str[i])
 	{
-		if (str[i + 1] == LABEL_CHAR && str[i] == DIRECT_CHAR)
-		{
-			// printf("1:%c\n", str[i]);
-			i += 2;
-			while (str[i] != SEPARATOR_CHAR)
-			{
-				if (!ft_strchr(LABEL_CHARS, str[i]))
-					return (0);
-				i++;
-			}
+		// if ((str[i + 1] == LABEL_CHAR && str[i] == DIRECT_CHAR))
+		// {
+		// 	printf("1:%c\n", str[i]);
+		// 	i += 2;
+		// 	while (str[i] != SEPARATOR_CHAR)
+		// 	{
+		// 		if (!ft_strchr(LABEL_CHARS, str[i]))
+		// 			return (0);
+		// 		i++;
+		// 	}
 				
-		}
-		if (str[i] != ' ' && str[i] != '\t' && str[i] != SEPARATOR_CHAR &&
-		  str[i] != LABEL_CHAR && str[i] != DIRECT_CHAR && !ft_isalnum(str[i]) && str[i] != '-')
+		// }
+		if (!ft_space(str[i]) && str[i] != SEPARATOR_CHAR &&
+		  str[i] != LABEL_CHAR && str[i] != DIRECT_CHAR && !ft_isalnum(str[i]) && str[i] != '-' && !ft_strchr(LABEL_CHARS, str[i]))
 			return (0);
-		// printf("2:%c\n", str[i]);
+		printf("2:%c\n", str[i]);
 		i++;
 	}
+	printf("\n");
 	return (1);
+}
+
+int			ft_space(char c)
+{
+	if (c == '\t' || c == '\v' || c == '\f' || c == '\r' || c == ' ')
+		return (1);
+	return (0);
 }
 
 void		disassemble_line(char *line)
@@ -78,20 +87,88 @@ void		disassemble_line(char *line)
 			tmp = tmp->next;
 		tmp->next = new;
 	}
-	if (ft_strchr(line, LABEL_CHAR) != 0 && ft_strchr(line, DIRECT_CHAR) == 0)
+	if (find_op(line) == 1)
 	{
-		new->label = ft_strsub(line, 0, ft_strlen(line) - 1);
+		new->label = ft_strsub(line, 0, label_char_pos(line));
 		free(line);
 		get_next_line(g_files->f_fd, &line);
-		
 		new->op = ft_strdup(line);
 		free(line);
 	}
-	else
+	else if (find_op(line) == 2)
 	{
 		new->label = NULL;
 		new->op = ft_strdup(line);
+		free(line);
 	}
+	else if (find_op(line) == 3)
+	{
+		new->label = ft_strsub(line, 0, label_char_pos(line));
+		new->op = ft_strsub(line, label_char_pos(line) + 1, ft_strlen(line) - 1);
+	}
+	// if (ft_strchr(line, LABEL_CHAR) != 0 && ft_strchr(line, DIRECT_CHAR) == 0)
+	// {
+	// 	new->label = ft_strsub(line, 0, ft_strchr(line, LABEL_CHAR));
+	// 	if (find_op(line))
+	// 		;
+	// 	free(line);
+	// 	get_next_line(g_files->f_fd, &line);
+	// 	new->op = ft_strdup(line);
+	// 	free(line);
+	// }
+	// else
+	// {
+	// 	new->label = NULL;
+	// 	new->op = ft_strdup(line);
+	// }
+
+}
+
+int			label_char_pos(char *str)
+{
+	int		i;
+
+	i = 0;
+	while (str[i] && str[i] != LABEL_CHAR)
+		i++;
+	printf("THIS I: %d\n", i);
+	return (i);
+}
+int			find_op(char *line)
+{
+	int		sum;
+	int		i;
+	int		y;
+
+	i = 0;
+	y = 0;
+	sum = 0;
+	while (line[y] && !ft_space(line[y]))
+	{
+		if (line[y] == LABEL_CHAR && (ft_space(line[y + 1]) || line[y + 1] == '\0'))
+		{
+			sum++;
+			break ;
+		}
+		if (ft_isalnum(line[y]) && ft_space(line[y + 1]))
+		{
+			y = 0;
+			break ;
+		}
+		y++;
+	}
+	printf("FUCKING LINE: %s\n", &line[y]);
+	while (i < 16)
+	{
+		if (ft_strstr(&line[y], g_op_tab[i].name))
+		{
+			sum += 2;
+			break ;
+		}
+		i++;
+	}
+	printf("number: %d\n", sum);
+	return (sum);
 }
 
 void		create_token()
