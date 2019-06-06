@@ -27,11 +27,13 @@ SRC			=	vm_main.c \
 				parse_flags.c \
 				parse_players.c \
 				parse_players2.c \
+				game.c \
 				cycle.c \
 				parse_args.c \
 				printer.c \
 				utils.c \
 				utils2.c \
+				carriages.c \
 				byebye.c \
 				op_live.c \
 				op_ld.c \

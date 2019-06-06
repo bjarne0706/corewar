@@ -72,6 +72,8 @@ void				assign_champ_nums(t_vm *v)
 		}
 	}
 	rearrange_champs(v);
+	v->last_standing = v->champs[v->champs_num - 1];
+		ft_printf("{lightgray}INIT LAST STANDING: %d. %s{0}\n", v->last_standing->num, v->last_standing->name);		//
 }
 
 void				parse_size_and_comment(int fd, t_champ *ch)

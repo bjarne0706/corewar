@@ -12,33 +12,6 @@
 
 #include "../inc/vm.h"
 
-void			copy_carriage(t_vm *v, t_carr *c, int32_t pos)
-{
-	t_carr		*cp;
-	int			i;
-
-	if (!(cp = (t_carr *)malloc(sizeof(t_carr))))
-		vm_error("Carriage initialization failed");
-	cp->id = v->carrs->id + 1;
-	cp->champ = c->champ;
-	cp->pc = pos;
-	cp->op = 0;
-	cp->wait_cycles = 0;
-	ft_bzero(cp->arg_types, 3);
-	cp->step = 0;
-	cp->last_live = c->last_live;
-	cp->carry = c->carry;
-	cp->reg[0] = c->reg[0];
-	i = 0;
-	while (i < REG_NUMBER)
-	{
-		cp->reg[i] = c->reg[i];
-		i++;
-	}
-	cp->nxt = v->carrs;
-	v->carrs = cp;
-}
-
 void			op_fork(t_vm *v, t_carr *c, t_op *op)
 {
 	int32_t		pc;

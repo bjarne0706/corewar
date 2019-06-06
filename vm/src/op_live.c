@@ -21,7 +21,7 @@ void			op_live(t_vm *v, t_carr *c, t_op *op)
 		ft_printf("{yellow}ARG::: %d{0}\n", arg);		//
 	c->last_live = v->cycles;
 		ft_printf("{red}c->last_live: %d{0}\n", c->last_live);		//
-	v->lives_in_cycle++;
+	v->lives_since_check++;
 	ch = NULL;
 	if (arg < 0 && arg > -(v->champs_num))
 	{
