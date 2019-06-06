@@ -74,11 +74,11 @@ int32_t			get_int(t_vm *v, int pc, int size)
 	return (num);
 }
 
-int32_t			calc_address(int32_t pc, t_bool jumps, int32_t step)
+int32_t			calc_address(int32_t pc, t_bool idx_mode, int32_t step)
 {
 	int32_t		addr;
 
-	if (jumps)
+	if (idx_mode)
 		addr = pc + (step % IDX_MOD);
 	else
 		addr = pc;

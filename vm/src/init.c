@@ -96,19 +96,16 @@ t_vm			*init_vm(void)
 	while (i < MEM_SIZE)
 		v->arena[i++] = 0;
 	v->champs_num = 0;
-		i = 0;
-		while (i < MAX_PLAYERS)
-		{
+		i = -1;
+		while (++i < MAX_PLAYERS)
 			v->champs[i] = NULL;
-			i++;
-		}
 	v->last_standing = NULL;
 	v->carrs = NULL;
 	v->carrs_num = 0;
 	v->cycles = 0;
 	v->cyc_since_check = 0;
 	v->cyc_to_die = CYCLE_TO_DIE;
-	v->lives_in_cycle = 0;
+	v->lives_since_check = 0;
 	v->checks_done = 0;
 	return (v);
 }

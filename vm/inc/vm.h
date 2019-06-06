@@ -68,16 +68,24 @@ typedef struct		s_vm
 	size_t			carrs_num;
 	size_t			cycles;
 	size_t			cyc_since_check;
+	size_t			lives_since_check;
 	size_t			cyc_to_die;
-	size_t			lives_in_cycle;
 	size_t			checks_done;
 }					t_vm;
 
 # include "vm_op.h"
 
+/*
+** Parse flags
+*/
+
 void				parse_args(int ac, char *av[], t_vm *v);
 void				flag_d(char *av[], int ac, int *i, t_vm *v);
 void				flag_s(char *av[], int ac, int *i, t_vm *v);
+
+/*
+** Parse players
+*/
 
 void				flag_n(char *av[], int ac, int *i, t_vm *v);
 t_bool				find_champ(t_vm *v, int n);
@@ -90,22 +98,50 @@ void				validate_champ_nums(t_vm *v);
 void				assign_champ_nums(t_vm *v);
 void				rearrange_champs(t_vm *v);
 
+/*
+** Init
+*/
+
 t_vm				*init_vm(void);
 t_champ				*add_champ(int n);
 void				setup_arena(t_vm *v);
 void				setup_carriages(t_vm *v);
+void				add_carriage(t_carr **carr, t_champ *chmp, unsigned int pos);
+
+/*
+** Game
+*/
+
+void				run_the_game(t_vm *v);
+void				die_check(t_vm *v);
+
+/*
+** Cycle
+*/
 
 void				run_cycle(t_vm *v);
 void				process_carriage(t_vm *v, t_carr *c);
+
+/*
+** Parse args
+*/
 
 t_bool				validate_args_types(t_vm *v, t_carr *c, t_op *op);
 void				byte_to_arr3(uint8_t *arg_types, unsigned char byte);
 t_bool				validate_reg_args(t_vm *v, t_carr *c, t_op *op);
 uint32_t			arg_size(uint8_t arg_type, t_op *op);
 
+/*
+** Printer
+*/
+
 void				print_usage(void);
 void				introduce_champs(t_vm *v);
 void				print_arena(t_vm *v, char flag);
+
+/*
+** Utils
+*/
 
 unsigned int		reverse_byte(unsigned int num);
 uint32_t			step_calc(t_carr *c, t_op *op);
@@ -114,7 +150,18 @@ int32_t				get_int(t_vm *v, int pc, int size);
 void				int_to_arena(t_vm *v, int32_t pos, int32_t size, int32_t num);
 int32_t				get_arg(t_vm *v, t_carr *c, uint8_t idx, int32_t *pc);
 int32_t				get_arg_and(t_vm *v, t_carr *c, size_t num, size_t pc);
+
+/*
+** Carriages
+*/
+
 void				copy_carriage(t_vm *v, t_carr *c, int32_t pos);
+void				kill_those_loosers(t_vm *v);
+void				slaughter_carriage(t_vm *v, t_carr *slow, t_carr *fast);
+
+/*
+** Byebye
+*/
 
 void				vm_error(char *msg);
 
