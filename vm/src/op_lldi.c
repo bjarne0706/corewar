@@ -29,9 +29,9 @@ void			op_lldi(t_vm *v, t_carr *c, t_op *op)
 	c->carry = (c->reg[reg - 1] == 0) ? true : false;
 	c->step = step_calc(c, op);
 
-		ft_printf("{I}	%02x %s{0}\n", op->code, op->name);		//
-		ft_printf("{I}pc: %d; arg1: %d{0}\n", pc, arg1);		//
-		ft_printf("{I}pc: %d; arg2: %d{0}\n", pc, arg2);		//
-		ft_printf("{I}pc: %d; arg3(r): %d{0}\n", pc, reg);		//
-		ft_printf("{I}c->reg[r - 1]: %08x{0}\n", c->reg[reg - 1]);		//
+		// ft_printf("{I}	%02x %s{0}\n", op->code, op->name);		//
+		// ft_printf("{I}pc: %d; arg1: %d{0}\n", pc, arg1);		//
+		// ft_printf("{I}pc: %d; arg2: %d{0}\n", pc, arg2);		//
+		// ft_printf("{I}pc: %d; arg3(r): %d{0}\n", pc, reg);		//
+		// ft_printf("{I}c->reg[r - 1]: %08x{0}\n", c->reg[reg - 1]);		//
 }

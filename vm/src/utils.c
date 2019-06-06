@@ -104,7 +104,7 @@ uint32_t			step_calc(t_carr *c, t_op *op)
 		step += arg_size(c->arg_types[i], op);
 		i++;
 	}
-		ft_printf("{i}{darkgray}%02x %s: step:%d{0}\n", op->code, op->name, step);		//
+		// ft_printf("{i}{darkgray}%02x %s: step:%d{0}\n", op->code, op->name, step);		//
 	return (step);
 }
 

@@ -12,6 +12,12 @@
 
 #include "../inc/vm.h"
 
+void			hail_the_hero(t_vm *v)
+{
+	ft_printf("{magenta}Player {b}%d{0} ", v->last_standing->num);
+	ft_printf("{magenta}({b}%s{0}{magenta}) won!{0}\n", v->last_standing->name);
+}
+
 void			print_arena(t_vm *v, char flag)
 {
 	int		x;

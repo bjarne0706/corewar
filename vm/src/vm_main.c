@@ -55,11 +55,13 @@ int				main(int ac, char *av[])
 //			print_arena(v, v->options[0]);		//
 //			introduce_champs(v);		//
 		setup_carriages(v);
-					print_carriages(v);		//
-		while (v->cycles < 2000)			////
-			run_cycle(v);
-				//print_carriages(v);		//
-			print_arena(v, v->options[0]);		//
+//					print_carriages(v);		//
+		// while (v->cycles < 2000)			////
+			// run_cycle(v);
+		run_the_game(v);
+		hail_the_hero(v);
+//				print_carriages(v);		//
+//			print_arena(v, v->options[0]);		//
 	}
 	else
 		print_usage();

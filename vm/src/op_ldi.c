@@ -21,12 +21,12 @@ void			op_ldi(t_vm *v, t_carr *c, t_op *op)
 
 	pc = c->pc + 2;
 	arg1 = get_arg(v, c, 0, &pc);
-		ft_printf("{I}pc: %d; arg1: %d{0}\n", pc, arg1);		//
+		// ft_printf("{I}pc: %d; arg1: %d{0}\n", pc, arg1);		//
 	arg2 = get_arg(v, c, 1, &pc);
-		ft_printf("{I}pc: %d; arg2: %d{0}\n", pc, arg2);		//
+		// ft_printf("{I}pc: %d; arg2: %d{0}\n", pc, arg2);		//
 	r = v->arena[calc_address(pc, false, 0)];
-		ft_printf("{I}pc: %d; arg3(r): %d{0}\n", pc, r);		//
+		// ft_printf("{I}pc: %d; arg3(r): %d{0}\n", pc, r);		//
 	c->reg[r - 1] = get_int(v, calc_address(c->pc, true, arg1 + arg2), REG_SIZE);
-		ft_printf("{I}c->reg[r - 1]: %08x{0}\n", c->reg[r - 1]);		//
+		// ft_printf("{I}c->reg[r - 1]: %08x{0}\n", c->reg[r - 1]);		//
 	c->step = step_calc(c, op);
 }

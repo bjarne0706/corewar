@@ -24,7 +24,7 @@ void			op_add(t_vm *v, t_carr *c, t_op *op)
 	r2 = v->arena[calc_address(pc++, false, 0)];
 	r3 = v->arena[calc_address(pc, false, 0)];
 	c->reg[r3 - 1] = c->reg[r1 - 1] + c->reg[r2 - 1];
-		ft_printf("{blue}[%d]%d + [%d]%d = [%d]%d{0}\n", r1, c->reg[r1 - 1], r2, c->reg[r2 - 1], r3, c->reg[r3 - 1]);	///
+		// ft_printf("{blue}[%d]%d + [%d]%d = [%d]%d{0}\n", r1, c->reg[r1 - 1], r2, c->reg[r2 - 1], r3, c->reg[r3 - 1]);	///
 	if (c->reg[r3 - 1] == 0)
 		c->carry = true;
 	else

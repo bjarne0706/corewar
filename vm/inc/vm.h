@@ -138,6 +138,7 @@ uint32_t			arg_size(uint8_t arg_type, t_op *op);
 void				print_usage(void);
 void				introduce_champs(t_vm *v);
 void				print_arena(t_vm *v, char flag);
+void				hail_the_hero(t_vm *v);
 
 /*
 ** Utils
