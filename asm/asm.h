@@ -62,28 +62,8 @@ typedef struct		s_tmp
 	int				code_size;
 	struct s_tmp	*next;
 }					t_tmp;
-
-// static t_op    g_op_tab[17] =
-// 		{
-// 			{"live", 0x01, 1, {T_DIR}, 10, 0, 4},                         //1
-// 			{"ld", 0x02, 2, {T_DIR | T_IND, T_REG}, 5, 1, 4},//2
-// 			{"st", 0x03, 2, {T_REG, T_IND | T_REG}, 5, 1, 4},//3
-// 			{"add", 0x04, 3, {T_REG, T_REG, T_REG}, 10, 1, 4},//4
-// 			{"sub", 0x05, 3, {T_REG, T_REG, T_REG}, 10, 1, 4},//5
-// 			{"and", 0x06, 3, {T_REG | T_DIR | T_IND, T_REG | T_IND | T_DIR, T_REG}, 6, 1, 4},//6
-// 			{"or", 0x07, 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 6, 1, 4},//7
-// 			{"xor", 0x08, 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 6, 1, 4},//8
-// 			{"zjmp", 0x09, 1, {T_DIR}, 20, 0, 2},//9
-// 			{"ldi", 0x0a, 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 25, 1, 2},//10
-// 			{"sti", 0x0b, 3, {T_REG, T_REG | T_DIR | T_IND, T_DIR | T_REG}, 25, 1, 2},//11
-// 			{"fork", 0x0c, 1, {T_DIR}, 800, 0, 2},//12
-// 			{"lld", 0x0d, 2, {T_DIR | T_IND, T_REG}, 10, 1, 4},//13
-// 			{"lldi", 0x0e, 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 50, 1, 2},//14
-// 			{"lfork", 0x0f, 1, {T_DIR}, 1000, 0, 2},//15
-// 			{"aff", 0x10, 1, {T_REG}, 2, 1, 4},//16
-// 			{0, 0, 0, {0}, 0, 0, 0}
-// 		};
-		
+unsigned char		*g_full_line;
+int					g_posit;
 t_tmp				*g_tmp_op;
 t_file				*g_file;
 t_files				*g_files;			// files
@@ -94,12 +74,13 @@ long 				g_exec_size;
 //asm_main
 void				write_all(void);
 char				*get_name(char *name);
-char				*ft_itoa_base(int value, int base);
+void				write_token();
 //writes
 void				write_header();
 int					write_name(char *line);
 int					write_comment(char *line);
-void				write_token();
+void				put_hex(int32_t nbr, int size);
+void				print_args(t_oken *tkn);
 //addit_for_writes
 int					search_bracks(char *line);
 int 				search_r_bracks(char *line, int num);
@@ -110,30 +91,26 @@ void				error(char *str);
 void				read_asm_put_code_size();
 void				disassemble_line(char *line);
 void				create_token();
-int					get_op_name();
-int					choose_name(char *line);
 void				work_on_op(int num, t_tmp *tmp);
+void				handle_args(char **arr, t_oken *new, int num, t_tmp *tmp);
+//addict_func_for_read_asm
+int					label_char_pos(char *str);
+int					ft_space(char c);
+int					count_separ(char *str);
+int					trim_space(int i, char *line);
+int					choose_name(char *line);
+//find_op_and_fill_args
 void				fill_token(int num, t_oken *tkn);
 void				fill_args(int num, t_tmp *tmp1, t_oken *new);
-int					trim_space(int i, char *line);
-void				handle_args(char **arr, t_oken *new, int num, t_tmp *tmp);
-int					count_separ(char *str);
 int					find_op(char *line);
-int					ft_space(char c);
-int					label_char_pos(char *str);
+int					get_op_name();
+int					check_line(char *str);
 //handle_exec_code
 void				analize_token(t_tmp *line, t_oken *tkn);
 int					get_value_of_arg(char *arg, t_oken *tkn, char **type_code);
 int					work_on_label(t_oken *tkn, char *arg);
-void				fill_type_code(char **code);
 void				put_exec_code(void);
-void				print_op_code(long code);
-void				print_code_type(char *str);
 int					make_from_binary(char *str);
-void				print_args(t_oken *tkn);
-int					make_neg_num(int num);
-void				swap_0_to_1(char **num);
-void				hex_con(int32_t nbr, int size);
-int					check_line(char *str);
-//void				create_token(void);
+//addict_for_handle_exec_code
+void				fill_type_code(char **code);
 #endif

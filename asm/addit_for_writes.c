@@ -75,7 +75,6 @@ unsigned int	reverse_byte(unsigned int num)
 
 void			error(char *str)
 {
-	ft_putstr(str);
-	write(1, "\n", 1);
+	printf("%s\n", str);
 	exit(1);
 }

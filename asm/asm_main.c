@@ -21,6 +21,7 @@ int				main(int ac, char **av)
 	g_str = (t_strings *)ft_memalloc(sizeof(t_strings));
 	g_tkns = NULL;
 	g_exec_size = 0;
+	g_posit = 0;
 	if (ac != 2)
 		error("Error: incorrect number of files");
 	arr = ft_strsplit(av[1], '.');
@@ -28,9 +29,11 @@ int				main(int ac, char **av)
 		error("Error: incorrect file extension");
 	g_files->f_fd = open(av[1], O_RDONLY);
 	filename = get_name(av[1]);
-	g_files->s_fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, 0666);
 	write_header();
 	write_all();
+	ft_printf("Writing output program to %s\n", filename);
+	g_files->s_fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, 0666);
+	write(g_files->s_fd, g_full_line, g_posit);
 }
 
 void			write_all(void)
@@ -51,16 +54,30 @@ void			write_all(void)
 			num += write_comment(line);
 		free(line);
 	}
-	write(g_files->s_fd, g_str->name, PROG_NAME_LENGTH);
-	// str2 = ft_memcpy(str2, &str4, 4);
-	// write(g_files->s_fd, str2, 4);
-	hex_con(0, 4);
+	ft_memcpy(g_full_line + g_posit, g_str->name, PROG_NAME_LENGTH);
+	g_posit += PROG_NAME_LENGTH;
+	put_hex(0, 4);
 	read_asm_put_code_size();
-	write(g_files->s_fd, g_str->comment, COMMENT_LENGTH);
-	// write(g_files->s_fd, str2, 4);
-	hex_con(0, 4);
+	ft_memcpy(g_full_line + g_posit, g_str->comment, COMMENT_LENGTH);
+	g_posit += COMMENT_LENGTH;
+	put_hex(0, 4);
 	write_token();
-	// free(str2);
+}
+
+void		write_token()
+{
+	t_oken		*tmp_tkn;
+	t_tmp		*tmp_tmp;
+
+	tmp_tmp = g_tmp_op;
+	tmp_tkn = g_tkns;
+	while (tmp_tmp != NULL && tmp_tkn != NULL)
+	{
+		analize_token(tmp_tmp, tmp_tkn);
+		tmp_tmp = tmp_tmp->next;
+		tmp_tkn = tmp_tkn->next;	
+	}
+	put_exec_code();
 }
 
 char			*get_name(char *name)
@@ -72,45 +89,6 @@ char			*get_name(char *name)
 	e_len = (int)ft_strlen(ft_strrchr(name, '.'));
 	name_len = (int)ft_strlen(name) - e_len;
 	str = ft_strsub(name, 0, name_len);
-	str = ft_strjoin(str, ".cor");
-	return (str);
-}
-
-int		ft_abs(int nb)
-{
-	if (nb < 0)
-		nb = -nb;
-	return (nb);
-}
-
-char	*ft_itoa_base(int value, int base)
-{
-	char	*str;
-	int		size;
-	char	*tab;
-	int		flag;
-	int		tmp;
-
-	flag = 0;
-	size = 0;
-	tab = "0123456789ABCDEF";
-	if (base < 2 || base > 16)
-		return (0);
-	if (value < 0 && base == 10)
-		flag = 1;
-	tmp = value;
-	while (tmp /= base)
-		size++;
-	size = size + flag + 1;
-	str = (char *)malloc(sizeof(char) * size  + 1);
-	str[size] = '\0';
-	if (flag == 1)
-		str[0] = '-';
-	while (size > flag)
-	{
-		str[size - 1] = tab[ft_abs(value % base)];
-		size--;
-		value /=base;
-	}
+	str = ft_strjoin(str, "1.cor");
 	return (str);
 }
