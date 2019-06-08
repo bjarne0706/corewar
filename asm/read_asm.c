@@ -46,6 +46,8 @@ void		disassemble_line(char *line)
 		new->label = ft_strsub(line, 0, label_char_pos(line));
 		free(line);
 		get_next_line(g_files->f_fd, &line);
+		if (find_op(line) == 1)
+			disassemble_line(line);
 		new->op = ft_strdup(line);
 		free(line);
 	}

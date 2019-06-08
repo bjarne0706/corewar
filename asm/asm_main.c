@@ -32,7 +32,8 @@ int				main(int ac, char **av)
 	write_header();
 	write_all();
 	ft_printf("Writing output program to %s\n", filename);
-	g_files->s_fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, 0666);
+	if (!(g_files->s_fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, 0666)))
+		error("Unable to create file");
 	write(g_files->s_fd, g_full_line, g_posit);
 }
 

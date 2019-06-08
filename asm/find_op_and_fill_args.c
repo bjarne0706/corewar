@@ -40,10 +40,27 @@ void		fill_args(int num, t_tmp *tmp1, t_oken *new)
 	while (ft_isalpha(tmp1->op[i]))
 		i++;
 	tmp = &tmp1->op[i];
-	arr = ft_strsplit(tmp, SEPARATOR_CHAR);
-	if (count_separ(tmp1->op) != new->token->arg_count - 1)
+	arr = ft_strsplit(tmp, SEPARATOR_CHAR);f
+	printf("%s\n", tmp1->op);
+	if (count_separ(tmp1->op) != new->token->arg_count - 1 && if_has_smthng(tmp1->op))
 		error("Incorrect line");
+		f2
 	handle_args(arr, new, num, tmp1);
+}
+
+int			if_has_smthng(char *line)
+{
+	int		i;
+	int		sum;
+
+	sum = 0;
+	i = -1;
+	while (line[++i])
+		if (!ft_space(line[i]))
+			sum++;
+	if (sum == 0)
+		return (0);
+	return (1);
 }
 
 int			find_op(char *line)
