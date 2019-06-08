@@ -59,7 +59,7 @@ typedef struct		s_carr
 typedef struct		s_vm
 {
 	char			options[4];
-	int				dump_cycles[2];
+	int			dump_cycles[2];
 	unsigned char	arena[MEM_SIZE];
 	int				champs_num;
 	t_champ			*champs[MAX_PLAYERS];
@@ -69,8 +69,8 @@ typedef struct		s_vm
 	size_t			cycles;
 	size_t			cyc_since_check;
 	size_t			lives_since_check;
-	size_t			cyc_to_die;
 	size_t			checks_done;
+	int32_t			cyc_to_die;
 }					t_vm;
 
 # include "vm_op.h"
@@ -169,5 +169,6 @@ void				vm_error(char *msg);
 ///DEBUG
 void			print_champs(t_vm *v);
 void			print_carriages(t_vm *v);
+void			print_vm_params(t_vm *v);
 
 #endif
