@@ -39,9 +39,9 @@ void			kill_those_loosers(t_vm *v)
 
 	cur = v->carrs;
 	prev = NULL;
-	while (cur && v->carrs_num > 0)
+	while (cur)
 	{
-		if (v->cycles - cur->last_live >= v->cyc_to_die || v->cyc_to_die <= 0)
+		if (v->cycles - cur->last_live >= (size_t)v->cyc_to_die || v->cyc_to_die <= 0)
 		{
 			del = cur;
 			cur = cur->nxt;
@@ -78,4 +78,5 @@ void			copy_carriage(t_vm *v, t_carr *c, int32_t pos)
 		cp->reg[i] = c->reg[i];
 	cp->nxt = v->carrs;
 	v->carrs = cp;
+	v->carrs_num++;
 }

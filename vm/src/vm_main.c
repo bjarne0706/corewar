@@ -42,11 +42,7 @@ int				main(int ac, char *av[])
 	{
 		v = init_vm();
 		parse_args(ac, av, v);
-			printf("> Options: ");		//
-			for (size_t i = 0; i < sizeof(v->options); i++)	//
-					printf("[%c]", v->options[i]);		///
-			printf("\n> dump_cycles: %d||%d\n", v->dump_cycles[0], v->dump_cycles[1]);	//
-			printf("How many champs? %d\n", v->champs_num);	//
+			print_vm_params(v);		//
 		if (v->champs_num < 1)
 			vm_error("Where are these little naughty players?");
 		assign_champ_nums(v);
@@ -59,8 +55,9 @@ int				main(int ac, char *av[])
 		// while (v->cycles < 2000)			////
 			// run_cycle(v);
 		run_the_game(v);
+			print_vm_params(v);		//
 		hail_the_hero(v);
-//				print_carriages(v);		//
+			// print_carriages(v);		//
 //			print_arena(v, v->options[0]);		//
 	}
 	else

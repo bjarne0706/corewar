@@ -38,8 +38,13 @@ void			run_the_game(t_vm *v)
 {
 	while (v->carrs_num > 0)
 	{
+		if (v->options[0] && v->cycles == (size_t)v->dump_cycles[0])
+		{
+			print_arena(v, v->options[0]);
+			exit(0);
+		}
 		run_cycle(v);
-		if (v->cyc_since_check == v->cyc_to_die || v->cyc_to_die <= 0)
+		if (v->cyc_since_check == (size_t)v->cyc_to_die || v->cyc_to_die <= 0)
 			die_check(v);
 	}
 }

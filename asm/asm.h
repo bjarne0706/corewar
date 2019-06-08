@@ -66,9 +66,9 @@ unsigned char		*g_full_line;
 int					g_posit;
 t_tmp				*g_tmp_op;
 t_file				*g_file;
-t_files				*g_files;			// files
-t_strings			*g_str;				// parts of .cor file
-t_oken				*g_tkns;			// tokens
+t_files				*g_files;
+t_strings			*g_str;
+t_oken				*g_tkns;
 char 				*g_cor_line;
 long 				g_exec_size;
 //asm_main
@@ -102,6 +102,7 @@ int					choose_name(char *line);
 //find_op_and_fill_args
 void				fill_token(int num, t_oken *tkn);
 void				fill_args(int num, t_tmp *tmp1, t_oken *new);
+int					if_has_smthng(char *line);
 int					find_op(char *line);
 int					get_op_name();
 int					check_line(char *str);

@@ -12,6 +12,25 @@
 
 #include "../inc/vm.h"
 
+void			print_vm_params(t_vm *v)
+{
+	ft_printf("\n{_darkgray}{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{VM}}}}}}}}}}}}}}}}}}}}}}}}}}}}}\n");
+		printf("> Options: ");		//
+			for (size_t i = 0; i < sizeof(v->options); i++)	//
+					printf("[%c]", v->options[i]);		///
+		printf("\n> dump_cycles: %d||%d\n", v->dump_cycles[0], v->dump_cycles[1]);	//
+		printf("> champs num: %d\n", v->champs_num);	//
+		if (v->last_standing)
+			printf("> Last standing: (%d) %s\n", v->last_standing->num, v->last_standing->name);
+		printf("> carrs num: %zd\n", v->carrs_num);	//
+		printf("> CYCLES PASSED: %zd\n", v->cycles);
+		printf("> cycles since check: %zd\n", v->cyc_since_check);
+		printf("> lives since check: %zd\n", v->lives_since_check);
+		printf("> checks done: %zd\n", v->checks_done);
+		printf("> Cycles To Die: %d\n", v->cyc_to_die);
+	ft_printf("======================================={_}\n");
+}
+
 void			print_carriages(t_vm *v)
 {
 	t_carr		*cur;
@@ -48,7 +67,7 @@ void			print_champs(t_vm *v)
 
 	printf("\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
 	j = 0;
-	while (v->champs[j])
+	while (j < v->champs_num)
 	{
 		printf("> num: %d\n", v->champs[j]->num);
 		printf("> name: %s\n", v->champs[j]->name);
