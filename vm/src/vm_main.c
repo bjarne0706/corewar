@@ -42,7 +42,6 @@ int				main(int ac, char *av[])
 	{
 		v = init_vm();
 		parse_args(ac, av, v);
-			print_vm_params(v);		//
 		if (v->champs_num < 1)
 			vm_error("Where are these little naughty players?");
 		assign_champ_nums(v);
@@ -54,8 +53,8 @@ int				main(int ac, char *av[])
 //					print_carriages(v);		//
 		// while (v->cycles < 2000)			////
 			// run_cycle(v);
-		run_the_game(v);
 			print_vm_params(v);		//
+		run_the_game(v);
 		hail_the_hero(v);
 			// print_carriages(v);		//
 //			print_arena(v, v->options[0]);		//

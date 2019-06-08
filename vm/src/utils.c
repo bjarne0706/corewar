@@ -49,7 +49,7 @@ void		int_to_arena(t_vm *v, int32_t pos, int32_t size, int32_t num)
 	shift = 0;
 	while (size)
 	{
-		v->arena[pos + size - 1] = (uint8_t)(num >> shift);
+		v->arena[calc_address(pos + size - 1, false, 0)] = (uint8_t)(num >> shift);
 		shift += 8;
 		size--;
 	}

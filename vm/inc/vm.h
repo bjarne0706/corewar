@@ -59,7 +59,7 @@ typedef struct		s_carr
 typedef struct		s_vm
 {
 	char			options[4];
-	int			dump_cycles[2];
+	int				dump_cycles[2];
 	unsigned char	arena[MEM_SIZE];
 	int				champs_num;
 	t_champ			*champs[MAX_PLAYERS];
