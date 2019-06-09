@@ -92,6 +92,7 @@ t_vm			*init_vm(void)
 	ft_bzero(v->options, 3);
 	v->dump_cycles[0] = -1;
 	v->dump_cycles[1] = -1;
+	v->log = 0;
 	i = 0;
 	while (i < MEM_SIZE)
 		v->arena[i++] = 0;

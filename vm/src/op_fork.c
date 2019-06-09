@@ -23,5 +23,5 @@ void			op_fork(t_vm *v, t_carr *c, t_op *op)
 		// ft_printf("{green}pc: %d; arg1[type %d]: %d{0}\n", pc, c->arg_types[0], arg1);		//
 	copy_carriage(v, c, calc_address(c->pc, true, arg1));
 //		print_carriages(v);		//
-	c->step = step_calc(c, op);		//add
+	c->step = step_calc(c, op);
 }

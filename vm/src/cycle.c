@@ -12,6 +12,22 @@
 
 #include "../inc/vm.h"
 
+void			do_op(t_vm *v, t_carr *c, t_op *op)
+{
+	if (c->op >= 0x01 && c->op <= 0x10)
+	{
+		op = &g_ops[c->op - 1];
+		if (validate_args_types(v, c, op) && validate_reg_args(v, c, op))
+			g_func_arr[op->code - 1](v, c, op);
+		else
+			c->step = step_calc(c, op);
+	}
+	else
+		c->step = 1;
+	c->pc = calc_address((c->pc + c->step), false, 0);
+	c->step = 0;
+}
+
 void			process_carriage(t_vm *v, t_carr *c)
 {
 	t_op		*op;
@@ -21,34 +37,12 @@ void			process_carriage(t_vm *v, t_carr *c)
 	{
 		c->op = v->arena[c->pc];
 		if (c->op >= 0x01 && c->op <= 0x10)
-			c->wait_cycles = g_ops[c->op -1].cycles;
+			c->wait_cycles = g_ops[c->op - 1].cycles;
 	}
 	if (c->wait_cycles > 0)
 		c->wait_cycles--;
 	if (c->wait_cycles == 0)
-	{
-		if (c->op >= 0x01 && c->op <= 0x10)
-		{
-			op = &g_ops[c->op - 1];
-			if (validate_args_types(v, c, op) && validate_reg_args(v, c, op))
-			{
-//					printf("))) Valid OP!\n");	//
-				g_func_arr[op->code - 1](v, c, op);
-//				g_func_arr[0](v, c, op);
-			}
-			else
-			{
-//					printf("((( Invalid OP!\n");		//
-				c->step = step_calc(c, op);
-			}
-		}
-		else
-		{
-			c->wait_cycles = 0;
-			c->step = 1;
-		}
-		c->pc = (c->pc + c->step) % MEM_SIZE;
-	}
+		do_op(v, c, op);
 }
 
 void			run_cycle(t_vm *v)

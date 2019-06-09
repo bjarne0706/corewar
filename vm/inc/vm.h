@@ -21,13 +21,19 @@
 # include <fcntl.h>
 # include <limits.h>	//?
 
+# define LOG_LIVES	1
+# define LOG_CYCLES	2
+# define LOG_OPS	4
+# define LOG_DEATHS	8
+# define LOG_MOVES	16
+
 typedef struct		s_champ
 {
 	int				num;
 	char			name[PROG_NAME_LENGTH];
 	char			comment[COMMENT_LENGTH];
-	unsigned int	size;
-	unsigned char	code[CHAMP_MAX_SIZE];
+	uint32_t		size;
+	uint8_t			code[CHAMP_MAX_SIZE];
 	size_t			last_live_cyc;
 	size_t			current_lives;
 	size_t			prev_lives;
@@ -37,14 +43,14 @@ typedef struct		s_carr
 {
 	int			 	id;
 	t_champ			*champ;
-	int				pc;
-	unsigned char	op;
+	int32_t			pc;
+	uint8_t			op;
 	int				wait_cycles;
 	uint8_t			arg_types[3];
-	unsigned int	step;
+	uint32_t		step;
 	size_t			last_live;
 	t_bool			carry;
-	int				reg[REG_NUMBER];
+	int32_t			reg[REG_NUMBER];
 	struct s_carr	*nxt;
 }					t_carr;
 
@@ -60,7 +66,8 @@ typedef struct		s_vm
 {
 	char			options[4];
 	int				dump_cycles[2];
-	unsigned char	arena[MEM_SIZE];
+	int8_t			log;
+	uint8_t			arena[MEM_SIZE];
 	int				champs_num;
 	t_champ			*champs[MAX_PLAYERS];
 	t_champ			*last_standing;
@@ -82,6 +89,7 @@ typedef struct		s_vm
 void				parse_args(int ac, char *av[], t_vm *v);
 void				flag_d(char *av[], int ac, int *i, t_vm *v);
 void				flag_s(char *av[], int ac, int *i, t_vm *v);
+void				flag_l(char *av[], int ac, int *i, t_vm *v);
 
 /*
 ** Parse players
@@ -146,7 +154,7 @@ void				hail_the_hero(t_vm *v);
 
 unsigned int		reverse_byte(unsigned int num);
 uint32_t			step_calc(t_carr *c, t_op *op);
-int32_t				calc_address(int32_t pc, t_bool jumps, int32_t step);
+int32_t				calc_address(int32_t pc, t_bool idx_mode, int32_t step);
 int32_t				get_int(t_vm *v, int pc, int size);
 void				int_to_arena(t_vm *v, int32_t pos, int32_t size, int32_t num);
 int32_t				get_arg(t_vm *v, t_carr *c, uint8_t idx, int32_t *pc);

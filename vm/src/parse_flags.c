@@ -12,6 +12,20 @@
 
 #include "../inc/vm.h"
 
+void			flag_l(char *av[], int ac, int *i, t_vm *v)
+{
+	if ((*i + 1 < ac) && ft_isint(av[*i + 1]))
+	{
+		v->log = ft_atoi(av[*i + 1]);
+			ft_printf("==> LOG: %d [%08b]\n", v->log, v->log);	//
+		if (v->log < 0 || v->log > 31)
+			print_usage();
+		*i += 1;
+	}
+	else
+		print_usage();
+}
+
 void			flag_d(char *av[], int ac, int *i, t_vm *v)
 {
 	if (!v->options[0] && (*i + 1 < ac) && ft_isint(av[*i + 1]))
@@ -66,6 +80,8 @@ void			parse_args(int ac, char *av[], t_vm *v)
 			flag_d(av, ac, &i, v);
 		else if (!ft_strcmp(av[i], "-S") || !ft_strcmp(av[i], "-s"))
 			flag_s(av, ac, &i, v);
+		else if (!ft_strcmp(av[i], "-l"))
+			flag_l(av, ac, &i, v);
 		else if (!ft_strcmp(av[i], "-v"))
 			v->options[2] = 'v';
 		else if (!ft_strcmp(av[i], "-a"))
