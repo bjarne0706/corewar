@@ -45,6 +45,8 @@ void			kill_those_loosers(t_vm *v)
 		{
 			del = cur;
 			cur = cur->nxt;
+			if (v->log & LOG_DEATHS)
+				log_deaths(v, del);
 			slaughter_carriage(v, prev, del);
 			v->carrs_num--;
 		}

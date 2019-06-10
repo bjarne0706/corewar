@@ -12,21 +12,6 @@
 
 #include "../inc/vm.h"
 
-uint32_t		arg_size(uint8_t arg_type, t_op *op)
-{
-	uint32_t	size;
-
-	size = 0;
-	if (arg_type == T_REG)
-		size = 1;
-	else if (arg_type == T_DIR)
-		size = op->t_dir_size;
-	else if (arg_type == T_IND)
-		size = IND_SIZE;
-		// printf("size of <%d> arg is: %d\n", arg_type, size);	//
-	return (size);
-}
-
 int			validate_reg_args(t_vm *v, t_carr *c, t_op *op)
 {
 	int				i;

@@ -24,6 +24,8 @@ void			do_op(t_vm *v, t_carr *c, t_op *op)
 	}
 	else
 		c->step = 1;
+	if (v->log & LOG_MOVES)
+		log_moves(v, c);
 	c->pc = calc_address((c->pc + c->step), false, 0);
 	c->step = 0;
 }
@@ -51,6 +53,8 @@ void			run_cycle(t_vm *v)
 
 	v->cycles++;
 	v->cyc_since_check++;
+	if (v->log & LOG_CYCLES)
+		log_cycles(v->cycles);
 	c = v->carrs;
 	while (c)
 	{
