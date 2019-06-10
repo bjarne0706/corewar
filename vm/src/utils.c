@@ -12,68 +12,6 @@
 
 #include "../inc/vm.h"
 
-int32_t			get_arg(t_vm *v, t_carr *c, uint8_t idx, int32_t *pc)
-{
-	int32_t		arg;
-	int8_t		r;
-	int16_t		ind;
-	t_op		*op;
-
-	op = &g_ops[c->op - 1];
-	if (c->arg_types[idx] == T_REG)
-	{
-		r = v->arena[calc_address(*pc, false, 0)];
-		arg = c->reg[r - 1];
-		(*pc)++;
-	}
-	else if (c->arg_types[idx] == T_DIR)
-	{
-		arg = get_int(v, calc_address(*pc, false, 0), op->t_dir_size);
-		(op->t_dir_size == 2) ? arg = (int16_t)arg : 0;
-		(*pc) += op->t_dir_size;
-	}
-	else
-	{
-		ind = get_int(v, calc_address(*pc, false, 0), IND_SIZE);
-		arg = get_int(v, calc_address(c->pc, true, ind), DIR_SIZE);
-		(*pc) += IND_SIZE;
-	}
-	return (arg);
-}
-
-
-void		int_to_arena(t_vm *v, int32_t pos, int32_t size, int32_t num)
-{
-	int		shift;
-
-	shift = 0;
-	while (size)
-	{
-		v->arena[calc_address(pos + size - 1, false, 0)] = (uint8_t)(num >> shift);
-		shift += 8;
-		size--;
-	}
-}
-
-int32_t			get_int(t_vm *v, int pc, int size)
-{
-	int32_t				num;
- 	int 				i;
-	unsigned char		str[size];
-// num = ((v->arena[(pc) % MEM_SIZE] << 24) + (v->arena[(pc + 1) % MEM_SIZE] << 16) + (v->arena[(pc + 2) % MEM_SIZE] << 8) +(v->arena[(pc + 3) % MEM_SIZE]));
-
- 	num = 0;
- 	i = 0;
- 	while (i < size)
-	{
-		str[i] = v->arena[(pc + i) % MEM_SIZE];
-		num += str[i];
-		if (++i < size)
-			num <<= 8;
-	}
-	return (num);
-}
-
 int32_t			calc_address(int32_t pc, int idx_mode, int32_t step)
 {
 	int32_t		addr;
@@ -86,6 +24,21 @@ int32_t			calc_address(int32_t pc, int idx_mode, int32_t step)
 	if (addr < 0)
 		addr += MEM_SIZE;
 	return (addr);
+}
+
+uint32_t		arg_size(uint8_t arg_type, t_op *op)
+{
+	uint32_t	size;
+
+	size = 0;
+	if (arg_type == T_REG)
+		size = 1;
+	else if (arg_type == T_DIR)
+		size = op->t_dir_size;
+	else if (arg_type == T_IND)
+		size = IND_SIZE;
+		// printf("size of <%d> arg is: %d\n", arg_type, size);	//
+	return (size);
 }
 
 uint32_t			step_calc(t_carr *c, t_op *op)

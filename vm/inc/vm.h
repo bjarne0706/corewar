@@ -19,6 +19,7 @@
 # include <stdio.h>
 # include <errno.h>
 # include <fcntl.h>
+# include <ncurses.h>
 # include <limits.h>	//?
 
 # define LOG_LIVES	1
@@ -137,7 +138,6 @@ void				process_carriage(t_vm *v, t_carr *c);
 int					validate_args_types(t_vm *v, t_carr *c, t_op *op);
 void				byte_to_arr3(uint8_t *arg_types, unsigned char byte);
 int					validate_reg_args(t_vm *v, t_carr *c, t_op *op);
-uint32_t			arg_size(uint8_t arg_type, t_op *op);
 
 /*
 ** Printer
@@ -154,7 +154,9 @@ void				hail_the_hero(t_vm *v);
 
 unsigned int		reverse_byte(unsigned int num);
 uint32_t			step_calc(t_carr *c, t_op *op);
+uint32_t			arg_size(uint8_t arg_type, t_op *op);
 int32_t				calc_address(int32_t pc, int idx_mode, int32_t step);
+
 int32_t				get_int(t_vm *v, int pc, int size);
 void				int_to_arena(t_vm *v, int32_t pos, int32_t size, int32_t num);
 int32_t				get_arg(t_vm *v, t_carr *c, uint8_t idx, int32_t *pc);
@@ -167,6 +169,14 @@ int32_t				get_arg_and(t_vm *v, t_carr *c, size_t num, size_t pc);
 void				copy_carriage(t_vm *v, t_carr *c, int32_t pos);
 void				kill_those_loosers(t_vm *v);
 void				slaughter_carriage(t_vm *v, t_carr *slow, t_carr *fast);
+
+/*
+** Logs
+*/
+
+void            	log_cycles(size_t cycles);
+void            	log_deaths(t_vm *v, t_carr *del);
+void        	    log_moves(t_vm *v, t_carr *c);
 
 /*
 ** Byebye

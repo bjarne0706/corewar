@@ -14,7 +14,6 @@
 # define VM_OP_H
 
 # include "vm.h"
-# include "ncurses.h"
 
 typedef struct			s_op
 {
@@ -87,3 +86,37 @@ static void (*g_func_arr[16])(t_vm *v, t_carr *c, t_op *op) =
 };
 
 #endif
+
+////
+/*
+**	FORMATTING:
+**	{0} - Normal Text - Reset all attributes
+**	{b} - Bold/Bright
+**	{d} - Dim
+**	{u} - Underlined
+** 	{i} - italic
+** 	{I} - inverted
+**
+
+\e[22m		Reset bold/bright/dim
+\e[23m		Reset italics
+\e[24m		Reset underlined	
+\e[27m		Reset inverted	
+
+**	TEXT COLORS:
+**	{-}	- default
+**	{red}
+**	{blue}
+**	{green}
+**	{yellow}
+**	{magenta}
+**	{cyan}
+**	{black}
+**	{white}
+**	{lightgray}
+**	{darkgray}
+**
+**	BACKGROUND COLORS:
+**	{_}	- default
+**	{_*}		- where * is the same as text colors.
+*/
