@@ -23,12 +23,6 @@
 # include "get_next_line.h"
 # include "ft_printf.h"
 
-typedef	enum
-{
-	false = 0,
-	true = !false
-}	t_bool;
-
 /*
 ** Part 1 - Libc functions
 */

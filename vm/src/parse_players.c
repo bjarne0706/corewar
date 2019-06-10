@@ -12,7 +12,7 @@
 
 #include "../inc/vm.h"
 
-t_bool				validate_magic(int fd)
+int				validate_magic(int fd)
 {
 	unsigned int	exec_magic;
 
@@ -41,7 +41,7 @@ void				parse_champ(t_vm *v, char *filecor, int n)
 	parse_size_and_comment(fd, v->champs[v->champs_num - 1]);
 }
 
-t_bool				cor_filename(const char *s)
+int				cor_filename(const char *s)
 {
 	char	*p;
 
@@ -53,7 +53,7 @@ t_bool				cor_filename(const char *s)
 		return (false);
 }
 
-t_bool				find_champ(t_vm *v, int n)
+int				find_champ(t_vm *v, int n)
 {
 	int		i;
 	

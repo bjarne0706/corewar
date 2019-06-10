@@ -27,7 +27,7 @@ uint32_t		arg_size(uint8_t arg_type, t_op *op)
 	return (size);
 }
 
-t_bool			validate_reg_args(t_vm *v, t_carr *c, t_op *op)
+int			validate_reg_args(t_vm *v, t_carr *c, t_op *op)
 {
 	int				i;
 	int				pos;
@@ -69,7 +69,7 @@ void			byte_to_arr3(uint8_t *arg_types, unsigned char byte)
 	}
 }			
 
-t_bool			validate_args_types(t_vm *v, t_carr *c, t_op *op)
+int			validate_args_types(t_vm *v, t_carr *c, t_op *op)
 {
 	uint8_t			arg_types[3];
 	int				i;

@@ -109,7 +109,7 @@ void				parse_size_and_comment(int fd, t_champ *ch)
 	}
 *///	printf("\n");			///
 }
-t_bool				parse_name(int fd, t_champ *ch)
+int				parse_name(int fd, t_champ *ch)
 {
 	unsigned int	null_check;
 

@@ -49,7 +49,7 @@ typedef struct		s_carr
 	uint8_t			arg_types[3];
 	uint32_t		step;
 	size_t			last_live;
-	t_bool			carry;
+	int				carry;
 	int32_t			reg[REG_NUMBER];
 	struct s_carr	*nxt;
 }					t_carr;
@@ -96,11 +96,11 @@ void				flag_l(char *av[], int ac, int *i, t_vm *v);
 */
 
 void				flag_n(char *av[], int ac, int *i, t_vm *v);
-t_bool				find_champ(t_vm *v, int n);
-t_bool				cor_filename(const char *s);
+int					find_champ(t_vm *v, int n);
+int					cor_filename(const char *s);
 void				parse_champ(t_vm *v, char *filecor, int n);
-t_bool				validate_magic(int fd);
-t_bool				parse_name(int fd, t_champ *champ);
+int					validate_magic(int fd);
+int					parse_name(int fd, t_champ *champ);
 void				parse_size_and_comment(int fd, t_champ *ch);
 void				validate_champ_nums(t_vm *v);
 void				assign_champ_nums(t_vm *v);
@@ -134,9 +134,9 @@ void				process_carriage(t_vm *v, t_carr *c);
 ** Parse args
 */
 
-t_bool				validate_args_types(t_vm *v, t_carr *c, t_op *op);
+int					validate_args_types(t_vm *v, t_carr *c, t_op *op);
 void				byte_to_arr3(uint8_t *arg_types, unsigned char byte);
-t_bool				validate_reg_args(t_vm *v, t_carr *c, t_op *op);
+int					validate_reg_args(t_vm *v, t_carr *c, t_op *op);
 uint32_t			arg_size(uint8_t arg_type, t_op *op);
 
 /*
@@ -154,7 +154,7 @@ void				hail_the_hero(t_vm *v);
 
 unsigned int		reverse_byte(unsigned int num);
 uint32_t			step_calc(t_carr *c, t_op *op);
-int32_t				calc_address(int32_t pc, t_bool idx_mode, int32_t step);
+int32_t				calc_address(int32_t pc, int idx_mode, int32_t step);
 int32_t				get_int(t_vm *v, int pc, int size);
 void				int_to_arena(t_vm *v, int32_t pos, int32_t size, int32_t num);
 int32_t				get_arg(t_vm *v, t_carr *c, uint8_t idx, int32_t *pc);

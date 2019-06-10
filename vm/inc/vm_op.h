@@ -14,16 +14,17 @@
 # define VM_OP_H
 
 # include "vm.h"
+# include "ncurses.h"
 
 typedef struct			s_op
 {
 	char			*name;
 	uint8_t			code;
 	uint8_t			ar_num;
-	t_bool			types_byte;
+	int				types_byte;
 	uint8_t			types[3];
 	uint32_t		cycles;
-	t_bool			carry;
+	int				carry;
 	uint8_t			t_dir_size;
 }					t_op;
 
