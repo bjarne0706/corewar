@@ -16,52 +16,82 @@ void		read_asm_put_code_size(void)
 {
 	char	*line;
 	long	num;
+	int		status;
+	int		if_read;
 
-	while (get_next_line(g_files->f_fd, &line) > 0)
+	status = 1;
+	if_read = 1;
+	while (1)
 	{
+		if (if_read)
+			status = get_next_line(g_files->f_fd, &line);
+		if (!(status > 0))
+				break ;
 		if (line[0] !='\n' && line[0] != '#' && check_line(line))
-			disassemble_line(line);
+		{
+			if_read = disassemble_line(line);
+			// printf("LINE: %s STATUS: %d, IF_READ: %d\n", line, status, if_read);
+		}
+		
 	}
 	create_token();
 	put_hex(g_exec_size, 4);
 }
 
-void		disassemble_line(char *line)
+int			disassemble_line(char *line)
 {
 	t_tmp	*tmp;
 	t_tmp	*new;
+	static int		flag = 0;
 
 	new = (t_tmp *)ft_memalloc(sizeof(t_tmp));
-	if (g_tmp_op == NULL)
-		g_tmp_op = new;
-	else
-	{
-		tmp = g_tmp_op;
-		while (tmp->next != NULL)
-			tmp = tmp->next;
-		tmp->next = new;
-	}
 	if (find_op(line) == 1)
 	{
 		new->label = ft_strsub(line, 0, label_char_pos(line));
 		free(line);
 		get_next_line(g_files->f_fd, &line);
 		if (find_op(line) == 1)
-			disassemble_line(line);
-		new->op = ft_strdup(line);
-		free(line);
+		{
+			new->op = NULL;
+			// printf("THIS LINE: %s\n", line);
+			flag = 1;
+			return (0);
+		}
+		else
+		{
+			flag = 0;
+			new->op = ft_strdup(line);
+			// printf("THIS LINE: %s\n", line);
+			free(line);
+		}
 	}
 	else if (find_op(line) == 2)
 	{
 		new->label = NULL;
 		new->op = ft_strdup(line);
+		// printf("THIS LINE: %s\n", line);
 		free(line);
 	}
 	else if (find_op(line) == 3)
 	{
+		// printf("THIS LINE: %s\n", line);
 		new->label = ft_strsub(line, 0, label_char_pos(line));
 		new->op = ft_strsub(line, label_char_pos(line) + 1, ft_strlen(line) - 1);
+		free(line);
 	}
+	if (!flag)
+	{
+		if (g_tmp_op == NULL)
+			g_tmp_op = new;
+		else
+		{
+			tmp = g_tmp_op;
+			while (tmp->next != NULL)
+				tmp = tmp->next;
+			tmp->next = new;
+		}
+	}
+	return (1);
 }
 
 void		create_token()
@@ -73,6 +103,8 @@ void		create_token()
 	while (tmp != NULL)
 	{
 		type_of_op = get_op_name(tmp->op);
+		// printf("op: %s\n", tmp->op);
+		// printf("op->next: %s\n", tmp->next->op);
 		work_on_op(type_of_op, tmp);
 		tmp = tmp->next;
 	}

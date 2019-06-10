@@ -45,7 +45,8 @@ int				write_name(char *line)
 			get_next_line(g_files->f_fd, &line);
 	}
 	tmp_name = read_betw_brack(tmp_name);
-	g_str->name = ft_memcpy(g_str->name, tmp_name, num);
+	ft_memcpy(g_str->name, tmp_name, num);
+	free(tmp_name);
 	return (1);
 }
 
@@ -72,7 +73,8 @@ int				write_comment(char *line)
 			get_next_line(g_files->f_fd, &line);
 	}
 	tmp_name = read_betw_brack(tmp_name);
-	g_str->comment = ft_memcpy(g_str->comment, tmp_name, COMMENT_CHAR);
+	ft_memcpy(g_str->comment, tmp_name, num);
+	free(tmp_name);
 	return (1);
 }
 

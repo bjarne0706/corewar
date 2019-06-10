@@ -65,15 +65,18 @@ void		analize_token(t_tmp *line, t_oken *tkn)
 		tkn->code_types = ft_strdup(type_code);
 	else
 		tkn->code_types = NULL;
+	ft_strdel(&type_code);
 }
 
 int			get_value_of_arg(char *arg, t_oken *tkn, char **type_code)
 {
 	int		value;
+	char	*tmp;
 	int		i;
 
 	i = trim_space(0, arg);
 	value = 0;
+	tmp = (*type_code);
 	if (arg[i] == 'r')
 	{
 		value = ft_atoi(&arg[i + 1]);
@@ -96,6 +99,7 @@ int			get_value_of_arg(char *arg, t_oken *tkn, char **type_code)
 		value = ft_atoi(&arg[i]);
 		(*type_code) = ft_strjoin((*type_code), "11");
 	}
+	free(tmp);
 	return (value);
 }
 

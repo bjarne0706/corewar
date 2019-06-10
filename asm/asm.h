@@ -89,7 +89,7 @@ unsigned int		reverse_byte(unsigned int num);
 void				error(char *str);
 //read_asm
 void				read_asm_put_code_size();
-void				disassemble_line(char *line);
+int					disassemble_line(char *line);
 void				create_token();
 void				work_on_op(int num, t_tmp *tmp);
 void				handle_args(char **arr, t_oken *new, int num, t_tmp *tmp);
@@ -114,4 +114,5 @@ void				put_exec_code(void);
 int					make_from_binary(char *str);
 //addict_for_handle_exec_code
 void				fill_type_code(char **code);
+void				free_and_ret(char **arr);
 #endif

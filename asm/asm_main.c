@@ -33,8 +33,9 @@ int				main(int ac, char **av)
 	write_all();
 	ft_printf("Writing output program to %s\n", filename);
 	if (!(g_files->s_fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, 0666)))
-		error("Unable to create file");
+		error("Unable to create/open file");
 	write(g_files->s_fd, g_full_line, g_posit);
+	system("leaks asm");
 }
 
 void			write_all(void)
@@ -59,6 +60,15 @@ void			write_all(void)
 	g_posit += PROG_NAME_LENGTH;
 	put_hex(0, 4);
 	read_asm_put_code_size();
+	// t_tmp *tmp;
+
+	// tmp = g_tmp_op;
+	// while (tmp != NULL)
+	// {
+	// 	printf("%s\n", tmp->label);
+	// 	printf("%s\n", tmp->op);
+	// 	tmp = tmp->next;
+	// }
 	ft_memcpy(g_full_line + g_posit, g_str->comment, COMMENT_LENGTH);
 	g_posit += COMMENT_LENGTH;
 	put_hex(0, 4);

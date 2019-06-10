@@ -76,5 +76,6 @@ unsigned int	reverse_byte(unsigned int num)
 void			error(char *str)
 {
 	printf("%s\n", str);
+	system("leaks asm");
 	exit(1);
 }

@@ -20,3 +20,13 @@ void		fill_type_code(char **code)
 	while (++i != 8)
 		(*code)[i] = '0';
 }
+
+void		free_and_ret(char **arr)
+{
+	int	i;
+
+	i = -1;
+	while (arr[++i])
+		ft_strdel(&arr[i]);
+	free(arr);
+}
