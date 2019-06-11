@@ -12,12 +12,19 @@
 
 #include "../inc/vm.h"
 
+static void		log_op_and(t_carr *c)
+{
+	ft_printf("{blue}[p%d {i}ch%d\e[23m]> ", c->id, c->champ->num);
+	ft_printf("{I}and\e[27m");
+
+}
+
 void		op_and(t_vm *v, t_carr *c, t_op *op)
 {
 	int32_t		arg1;
 	int32_t		arg2;
 	int32_t		arg;
-	size_t		pc;
+	int32_t		pc;
 	int8_t		reg;
 
 	pc = c->pc + 2;
@@ -36,4 +43,6 @@ void		op_and(t_vm *v, t_carr *c, t_op *op)
 	c->reg[reg - 1] = arg;
 	c->carry = (arg == 0) ? true : false;
 	c->step = step_calc(c, op);
+	if (v->log & LOG_OPS)
+		log_op_and(c);
 }

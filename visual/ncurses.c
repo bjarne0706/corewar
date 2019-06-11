@@ -6,7 +6,7 @@
 /*   By: anerus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/18 14:07:09 by anerus            #+#    #+#             */
-/*   Updated: 2019/05/18 17:05:07 by anerus           ###   ########.fr       */
+/*   Updated: 2019/06/09 19:44:48 by anerus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,13 @@ void	start_game(WINDOW *game, int yMax, int xMax)
 	wrefresh(game);
 	mvwin(game, 0, 0);
 	wresize(game, yMax - yMax / 4, xMax - xMax / 4);
-	WINDOW *info = newwin(yMax  - yMax * 0.25, xMax - xMax * 0.75, 0, xMax - xMax * 0.25);
+	WINDOW *info = newwin(yMax  - yMax / 4, xMax - xMax * 0.75, 0, xMax - xMax * 0.25);
     wattron(info, COLOR_PAIR(1));
     wattron(game, COLOR_PAIR(1));
 
 	box(game, 0, 0);
+	wprintw(game, "%.2x", );
 	box(info, 0, 0);
-
 	wattroff(info, COLOR_PAIR(1));
 	wattroff(game, COLOR_PAIR(1));
 

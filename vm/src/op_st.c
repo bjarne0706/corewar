@@ -14,7 +14,7 @@
 
 static void		log_op_st(t_carr *c, int8_t r[], int16_t ind)
 {
-	ft_printf("{blue}[p%d {i}ch%d\e[23m]> ", c->id, c->champ->num);
+	ft_printf("{cyan}[p%d {i}ch%d\e[23m]> ", c->id, c->champ->num);
 	ft_printf("{I}st\e[27m r%d (%d) ", r[0], c->reg[r[0] - 1]);
 	if (c->arg_types[1] == T_REG)
 		ft_printf("--> r%d{0}\n", r[1]);
