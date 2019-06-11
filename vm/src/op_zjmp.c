@@ -12,6 +12,16 @@
 
 #include "../inc/vm.h"
 
+static void		log_op_zjmp(t_carr *c, int32_t arg_dir)
+{
+	ft_printf("{magenta}[p%d {i}ch%d\e[23m]> ", c->id, c->champ->num);
+	ft_printf("{I}zjmp\e[27m %d ", arg_dir);
+	if (c->carry)
+		ft_printf("OK\n", arg_dir);
+	else
+		ft_printf("FAILED\n", arg_dir);
+}
+
 void			op_zjmp(t_vm *v, t_carr *c, t_op *op)
 {
 	int32_t			arg_dir;
@@ -24,4 +34,6 @@ void			op_zjmp(t_vm *v, t_carr *c, t_op *op)
 	}
 	else
 		c->step = step_calc(c, op);
+	if (v->log & LOG_OPS)
+		log_op_zjmp(c, arg_dir);
 }
