@@ -35,7 +35,8 @@ int				main(int ac, char **av)
 	if (!(g_files->s_fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, 0666)))
 		error("Unable to create/open file");
 	write(g_files->s_fd, g_full_line, g_posit);
-	system("leaks asm");
+	// system("leaks asm");
+	free_structs();
 }
 
 void			write_all(void)
@@ -94,12 +95,15 @@ void		write_token()
 char			*get_name(char *name)
 {
 	char	*str;
+	char	*tmp;
 	int		e_len;
 	int		name_len;
 
 	e_len = (int)ft_strlen(ft_strrchr(name, '.'));
 	name_len = (int)ft_strlen(name) - e_len;
 	str = ft_strsub(name, 0, name_len);
+	tmp = str;
 	str = ft_strjoin(str, "1.cor");
+	free(tmp);
 	return (str);
 }

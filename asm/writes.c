@@ -26,6 +26,7 @@ int				write_name(char *line)
 {
 	int 		brack_flag;
 	char 		*tmp_name;
+	char 		*tmp;
 	long int	num;
 	int 		i;
 
@@ -34,6 +35,7 @@ int				write_name(char *line)
 	g_str->name = (char *)ft_memalloc(num);
 	tmp_name = (char *)ft_memalloc(num);
 	brack_flag = 0;
+	tmp = tmp_name;
 	while (brack_flag != 2)
 	{
 		if ((i = search_bracks(line)))
@@ -41,6 +43,7 @@ int				write_name(char *line)
 		if (search_r_bracks(line, i))
 			brack_flag++;
 		tmp_name = ft_strjoin(tmp_name, line);
+		free(tmp);
 		if (brack_flag != 2)
 			get_next_line(g_files->f_fd, &line);
 	}
@@ -54,6 +57,7 @@ int				write_comment(char *line)
 {
 	int 		brack_flag;
 	char 		*tmp_name;
+	char 		*tmp;
 	long int	num;
 	int 		i;
 
@@ -61,6 +65,7 @@ int				write_comment(char *line)
 	num = COMMENT_LENGTH;
 	g_str->comment = (char *)ft_memalloc(num);
 	tmp_name = (char *)ft_memalloc(num);
+	tmp = tmp_name;
 	brack_flag = 0;
 	while (brack_flag != 2)
 	{
@@ -69,6 +74,7 @@ int				write_comment(char *line)
 		if (search_r_bracks(line, i))
 			brack_flag++;
 		tmp_name = ft_strjoin(tmp_name, line);
+		free(tmp);
 		if (brack_flag != 2)
 			get_next_line(g_files->f_fd, &line);
 	}

@@ -12,13 +12,13 @@
 
 #include "asm.h"
 
-void		fill_type_code(char **code)
+void		fill_type_code(char *code)
 {
 	int		i;
 
-	i = ft_strlen((*code)) - 1;
+	i = ft_strlen(code) - 1;
 	while (++i != 8)
-		(*code)[i] = '0';
+		code[i] = '0';
 }
 
 void		free_and_ret(char **arr)
@@ -29,4 +29,10 @@ void		free_and_ret(char **arr)
 	while (arr[++i])
 		ft_strdel(&arr[i]);
 	free(arr);
+}
+
+void		free_structs()
+{
+	ft_bzero(g_str, sizeof(t_strings));
+	ft_bzero(g_files, sizeof(t_files));
 }

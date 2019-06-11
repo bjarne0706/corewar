@@ -41,6 +41,7 @@ typedef struct		s_oken
 {
 	t_op			*token;
 	int				args_type[3];
+	int				args_value[3];
 	char 			*label;
 	int				code_size;
 	int				mem_pos;
@@ -62,6 +63,14 @@ typedef struct		s_tmp
 	int				code_size;
 	struct s_tmp	*next;
 }					t_tmp;
+
+typedef struct		s_label
+{
+	char			*label;
+	int				mem_pos;
+	struct s_label	*next;
+}					t_label;
+
 unsigned char		*g_full_line;
 int					g_posit;
 t_tmp				*g_tmp_op;
@@ -69,6 +78,7 @@ t_file				*g_file;
 t_files				*g_files;
 t_strings			*g_str;
 t_oken				*g_tkns;
+t_label				*g_lbl;
 char 				*g_cor_line;
 long 				g_exec_size;
 //asm_main
@@ -91,8 +101,10 @@ void				error(char *str);
 void				read_asm_put_code_size();
 int					disassemble_line(char *line);
 void				create_token();
-void				work_on_op(int num, t_tmp *tmp);
-void				handle_args(char **arr, t_oken *new, int num, t_tmp *tmp);
+void				work_on_op(int num, char *line);
+void				handle_args(char **arr, t_oken *new, int num);
+void				make_lbl(char *str);
+void				make_op(char *str);
 //addict_func_for_read_asm
 int					label_char_pos(char *str);
 int					ft_space(char c);
@@ -101,18 +113,19 @@ int					trim_space(int i, char *line);
 int					choose_name(char *line);
 //find_op_and_fill_args
 void				fill_token(int num, t_oken *tkn);
-void				fill_args(int num, t_tmp *tmp1, t_oken *new);
+void				fill_args(int num, char *line, t_oken *new);
 int					if_has_smthng(char *line);
 int					find_op(char *line);
 int					get_op_name();
 int					check_line(char *str);
 //handle_exec_code
 void				analize_token(t_tmp *line, t_oken *tkn);
-int					get_value_of_arg(char *arg, t_oken *tkn, char **type_code);
+int					get_value_of_arg(char *arg, t_oken *tkn, char *type_code);
 int					work_on_label(t_oken *tkn, char *arg);
 void				put_exec_code(void);
 int					make_from_binary(char *str);
 //addict_for_handle_exec_code
-void				fill_type_code(char **code);
+void				fill_type_code(char *code);
 void				free_and_ret(char **arr);
+void				free_structs();
 #endif

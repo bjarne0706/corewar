@@ -30,22 +30,21 @@ void		fill_token(int num, t_oken *tkn)
 	tkn->token->t_dir_size = g_op_tab[num].t_dir_size;
 }
 
-void		fill_args(int num, t_tmp *tmp1, t_oken *new)
+void		fill_args(int num, char *line, t_oken *new)
 {
 	char	*tmp;
 	int		i;
 	char	**arr;
 
-	i = trim_space(0, tmp1->op);
-	while (ft_isalpha(tmp1->op[i]))
+	i = trim_space(0, line);
+	while (ft_isalpha(line[i]))
 		i++;
-	tmp = &tmp1->op[i];
+	tmp = &line[i];
+	printf("LINE IN FILL_ARGS: %s\n", tmp);
 	arr = ft_strsplit(tmp, SEPARATOR_CHAR);
-	printf("%s\n", tmp1->label);
-	printf("%s\n", tmp1->op);
-	if (count_separ(tmp1->op) != new->token->arg_count - 1 && if_has_smthng(tmp1->op))
+	if (count_separ(line) != new->token->arg_count - 1)
 		error("Incorrect line");
-	handle_args(arr, new, num, tmp1);
+	handle_args(arr, new, num);
 	free_and_ret(arr);
 }
 
