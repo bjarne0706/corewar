@@ -12,6 +12,12 @@
 
 #include "../inc/vm.h"
 
+static void		log_op_lld(t_carr *c, int32_t arg1, int8_t reg)
+{
+	ft_printf("{cyan}[p%d {i}ch%d\e[23m]> ", c->id, c->champ->num);
+	ft_printf("{I}lld\e[27m %d r%d (%d) {0}\n", arg1, reg, c->reg[reg - 1]);
+}
+
 void			op_lld(t_vm *v, t_carr *c, t_op *op)
 {
 	int32_t		pc;
@@ -35,4 +41,6 @@ void			op_lld(t_vm *v, t_carr *c, t_op *op)
 		// ft_printf("{b}pc: %d; r(%d): %08x{0}\n", pc, r, c->reg[r - 1]);	//
 	c->carry = (arg1 == 0) ? true : false;
 	c->step = step_calc(c, op);
+	if (v->log & LOG_OPS)
+		log_op_lld(c, arg1, r);
 }

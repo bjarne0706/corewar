@@ -12,6 +12,12 @@
 
 #include "../inc/vm.h"
 
+static void		log_op_fork(t_carr *c, int32_t arg1)
+{
+	ft_printf("{cyan}[p%d {i}ch%d\e[23m]> ", c->id, c->champ->num);
+	ft_printf("{I}fork\e[27m %d (%d) {0}\n", arg1, c->pc + arg1);
+}
+
 void			op_fork(t_vm *v, t_carr *c, t_op *op)
 {
 	int32_t		pc;
@@ -24,4 +30,6 @@ void			op_fork(t_vm *v, t_carr *c, t_op *op)
 	copy_carriage(v, c, calc_address(c->pc, true, arg1));
 //		print_carriages(v);		//
 	c->step = step_calc(c, op);
+	if (v->log & LOG_OPS)
+		log_op_fork(c, arg1);
 }

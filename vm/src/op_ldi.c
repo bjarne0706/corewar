@@ -16,6 +16,8 @@ static void		log_op_ldi(t_carr *c, int32_t arg[], int r)
 {
 	ft_printf("{yellow}[p%d {i}ch%d\e[23m]> ", c->id, c->champ->num);
 	ft_printf("{I}ldi\e[27m %d %d r%d (%d){0}\n", arg[0], arg[1], r, c->reg[r - 1]);
+	ft_printf("-> load from %d + %d = %d (with pc %d)\n", arg[0], arg[1], arg[0] + arg[1],
+		c->pc + arg[0] + arg[1]); // without mod!!! Need add %mod
 }
 
 void			op_ldi(t_vm *v, t_carr *c, t_op *op)

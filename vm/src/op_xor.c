@@ -12,7 +12,14 @@
 
 #include "../inc/vm.h"
 
-void		op_xor(t_vm *v, t_carr *c, t_op *op)
+static void		log_op_xor(t_carr *c, int32_t arg1, int32_t arg2, int8_t reg)
+{
+	ft_printf("{cyan}[p%d {i}ch%d\e[23m]> ", c->id, c->champ->num);
+	ft_printf("{I}xor\e[27m %d %d r%d (%d) {0}\n", arg1, arg2, reg,
+		c->reg[reg - 1]);
+}
+
+void			op_xor(t_vm *v, t_carr *c, t_op *op)
 {
 	int32_t		arg1;
 	int32_t		arg2;
@@ -36,5 +43,6 @@ void		op_xor(t_vm *v, t_carr *c, t_op *op)
 	c->reg[reg - 1] = arg;
 	c->carry = (arg == 0) ? true : false;
 	c->step = step_calc(c, op);
+	if (v->log & LOG_OPS)
+		log_op_xor(c, arg1, arg2, reg);
 }
-

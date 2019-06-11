@@ -16,6 +16,8 @@ static void		log_op_sti(t_carr *c, int32_t arg[], int r)
 {
 	ft_printf("{cyan}[p%d {i}ch%d\e[23m]> ", c->id, c->champ->num);
 	ft_printf("{I}sti\e[27m r%d (%d) %d %d {0}\n", r, c->reg[r - 1], arg[0], arg[1]);
+	ft_printf("-> store to %d + %d = %d (with pc %d)\n", arg[0], arg[1], arg[0] + arg[1],
+		c->pc + arg[0] + arg[1]); // without mod!!! Need add %mod
 }
 
 void			op_sti(t_vm *v, t_carr *c, t_op *op)
