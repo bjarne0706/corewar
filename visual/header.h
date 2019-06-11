@@ -13,11 +13,7 @@
 #ifndef HEADER_H
 # define HEADER_H
 
-#include <ncurses.h>
-#include <pthread.h>
-#include <unistd.h>
-#include <stdlib.h>
-
+#include "../vm/inc/vm.h"
 
 
 
