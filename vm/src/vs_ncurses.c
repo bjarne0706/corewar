@@ -10,10 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "../inc/visual.h"
 
-
-int main(int argc, char *argv[])
+void start_menu(t_vm *v)
 {
     initscr();
     noecho();
@@ -33,25 +32,24 @@ int main(int argc, char *argv[])
 	wattroff(menu, COLOR_PAIR(1));
     wrefresh(menu);
     /////////menu interface
-	inter_loop(menu, yMax, xMax);
+	inter_loop(menu, yMax, xMax, v);
     endwin();
-    return 0;
 }
 
-void	*inter_loop(WINDOW *menu, int yMax, int xMax)
+void	*inter_loop(WINDOW *menu, int yMax, int xMax, t_vm *v)
 {
     int	prot;
     prot = 1;
 	while (1 && prot != 0)
     {
-    	prot = interface(menu, yMax, xMax);
+    	prot = interface(menu, yMax, xMax, v);
     	refresh();
 		wrefresh(menu);
     }
     return (NULL);
 }
 
-int	interface(WINDOW *menu, int yMax, int xMax)
+int	interface(WINDOW *menu, int yMax, int xMax, t_vm *v)
 {
 	const char *choices[] = {"Start", "Authors", "Exit"};
 	static int	highlight;
@@ -85,28 +83,49 @@ int	interface(WINDOW *menu, int yMax, int xMax)
 		return (0);
 	else if (key == 10 && highlight == 0)
 	{
-		start_game(menu, yMax, xMax);
+		start_game(yMax, xMax, v);
+		wclear(menu);
+		wrefresh(menu);
 		return (0);
 	}
 	return (1);
 }
 
-void	start_game(WINDOW *game, int yMax, int xMax)
+void	start_game(int yMax, int xMax, t_vm *v)
 {
-	wclear(game);
-	wrefresh(game);
-	mvwin(game, 0, 0);
-	wresize(game, yMax - yMax / 4, xMax - xMax / 4);
-	WINDOW *info = newwin(yMax  - yMax / 4, xMax - xMax * 0.75, 0, xMax - xMax * 0.25);
+	int	x;
+	int	y;
+	int	i;
+	// mvwin(game, 0, 0);
+	// wresize(game, yMax - yMax / 4, xMax - xMax / 4);
+	WINDOW *info = newwin(66, 100, 0, 197);
+	WINDOW *game = newwin(66, 197, 0, 0);
+
     wattron(info, COLOR_PAIR(1));
     wattron(game, COLOR_PAIR(1));
 
 	box(game, 0, 0);
-	// wprintw(game, "%.2x", );
 	box(info, 0, 0);
 	wattroff(info, COLOR_PAIR(1));
 	wattroff(game, COLOR_PAIR(1));
+	y = -1;
+	i = 0;
+	while (++y < 64)
+	{
+		x = 0;
+		while (x < 194)
+		{
+			mvwprintw(info, 1, 1, "Index = %d", i);
+			mvwprintw(game, y + 1, x + 2,  "%02x ", v->arena[i]);
+			i++;
+			x += 3;
+		}
+	}
+	wrefresh(info);
+	wrefresh(game);
 
+
+refresh();
 wrefresh(game);
 wrefresh(info);
 

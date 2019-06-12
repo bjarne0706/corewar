@@ -12,7 +12,7 @@
 
 #include "../inc/vm.h"
 
-int32_t			calc_address(int32_t pc, int idx_mode, int32_t step)
+inline int32_t		calc_address(int32_t pc, int idx_mode, int32_t step)
 {
 	int32_t		addr;
 
@@ -26,7 +26,7 @@ int32_t			calc_address(int32_t pc, int idx_mode, int32_t step)
 	return (addr);
 }
 
-uint32_t		arg_size(uint8_t arg_type, t_op *op)
+uint32_t			arg_size(uint8_t arg_type, t_op *op)
 {
 	uint32_t	size;
 
@@ -37,7 +37,7 @@ uint32_t		arg_size(uint8_t arg_type, t_op *op)
 		size = op->t_dir_size;
 	else if (arg_type == T_IND)
 		size = IND_SIZE;
-		// printf("size of <%d> arg is: %d\n", arg_type, size);	//
+		//  printf("size of <%d> arg is: %d\n", arg_type, size);	//
 	return (size);
 }
 
@@ -48,16 +48,16 @@ uint32_t			step_calc(t_carr *c, t_op *op)
 
 	step = 1;
 	step += (op->types_byte) ? 1 : 0; 
-	// printf("TB: %d\n", op->types_byte);	
-	// printf("OP: %2x __step__: %d\n", op->code, step);		//
-	// printf("ar num: %d\n", op->ar_num);	
+	//  printf("TB: %d\n", op->types_byte);	
+	//  printf("OP: %2x __step__: %d\n", op->code, step);		//
+	//  printf("ar num: %d\n", op->ar_num);	
 	i = 0;
 	while (i < op->ar_num)
 	{
 		step += arg_size(c->arg_types[i], op);
 		i++;
 	}
-		// ft_printf("{i}{darkgray}%02x %s: step:%d{0}\n", op->code, op->name, step);		//
+		//  ft_printf("{i}{darkgray}%02x %s: step:%d{0}\n", op->code, op->name, step);		//
 	return (step);
 }
 

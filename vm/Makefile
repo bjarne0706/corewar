@@ -12,7 +12,7 @@
 
 NAME		= corewar
 CC			= gcc
-FLAGS		= -g -Wall -Wextra -Werror
+FLAGS		= -Wall -Wextra -Werror -g -lncurses
 
 SRC_DIR		= ./src/
 OBJ_DIR		= ./obj/
@@ -52,6 +52,7 @@ SRC			=	vm_main.c \
 				op_lldi.c \
 				op_lfork.c \
 				logs.c \
+				vs_ncurses.c \
 				debug.c 						####TMP!!!!!!!!!!!!!
 
 OBJ 		= $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
@@ -68,7 +69,7 @@ $(OBJ_DIR):
 	@mkdir $(OBJ_DIR)
 
 $(OBJ_DIR)%.o: %.c $(INC_DIR)vm.h $(INC_DIR)vm_op.h ../op.h
-	@$(CC) $(FLAGS) -c $< -o $@ -I $(INC_DIR) -I $(LIB_INC)
+	@$(CC) -c $< -o $@ -I $(INC_DIR) -I $(LIB_INC)
 	@echo "	\033[96m$@\033[0m"
 
 $(LIBFT):

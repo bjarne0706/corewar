@@ -14,7 +14,7 @@
 
 static void		log_op_lld(t_carr *c, int32_t arg1, int8_t reg)
 {
-	ft_printf("{cyan}[p%d {i}ch%d\e[23m]> ", c->id, c->champ->num);
+	ft_printf("{yellow}[p%d {i}ch%d\e[23m]> ", c->id, c->champ->num);
 	ft_printf("{I}lld\e[27m %d r%d (%d) {0}\n", arg1, reg, c->reg[reg - 1]);
 }
 

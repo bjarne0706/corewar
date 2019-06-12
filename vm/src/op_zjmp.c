@@ -17,18 +17,18 @@ static void		log_op_zjmp(t_carr *c, int32_t arg_dir)
 	ft_printf("{magenta}[p%d {i}ch%d\e[23m]> ", c->id, c->champ->num);
 	ft_printf("{I}zjmp\e[27m %d ", arg_dir);
 	if (c->carry)
-		ft_printf("OK\n", arg_dir);
+		ft_printf("OK{0}\n");
 	else
-		ft_printf("FAILED\n", arg_dir);
+		ft_printf("FAILED{0}\n");
 }
 
 void			op_zjmp(t_vm *v, t_carr *c, t_op *op)
 {
-	int32_t			arg_dir;
+	int16_t			arg_dir;
 
+	arg_dir = get_int(v, c->pc + 1, op->t_dir_size);
 	if (c->carry)
 	{
-		arg_dir = get_int(v, calc_address(c->pc + 1, false, 0), op->t_dir_size);
 		c->pc = calc_address(c->pc, true, arg_dir);
 		c->step = 0;
 	}
