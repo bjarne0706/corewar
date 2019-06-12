@@ -39,10 +39,10 @@ void			op_live(t_vm *v, t_carr *c, t_op *op)
 		ch->last_live_cyc = v->cycles;
 		ch->current_lives++;
 		v->last_standing = ch;
-		if (v->log & LOG_LIVES)
-			log_live(ch->num, ch->name);
 		if (v->log & LOG_OPS)
 			log_op_live(c->id, c->champ->num, arg);
+		if (v->log & LOG_LIVES)
+			log_live(ch->num, ch->name);
 	}
 	c->step = step_calc(c, op);
 }

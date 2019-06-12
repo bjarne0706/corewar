@@ -21,13 +21,14 @@ void			do_op(t_vm *v, t_carr *c, t_op *op)
 			g_func_arr[op->code - 1](v, c, op);
 		else
 			c->step = step_calc(c, op);
+		if (v->log & LOG_MOVES && c->step)
+			log_moves(v, c);
 	}
 	else
 		c->step = 1;
-	if (v->log & LOG_MOVES)
-		log_moves(v, c);
 	c->pc = calc_address((c->pc + c->step), false, 0);
 	c->step = 0;
+	ft_bzero(c->arg_types, 3);
 }
 
 void			process_carriage(t_vm *v, t_carr *c)
