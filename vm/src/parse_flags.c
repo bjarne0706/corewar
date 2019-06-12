@@ -57,7 +57,7 @@ void			flag_s(char *av[], int ac, int *i, t_vm *v)
 		else
 		{
 			if (!ft_strcmp(av[*i], "-S"))
-				v->options[1] = 's';
+				v->options[1] = 'S';
 			else
 				v->options[1] = 's';
 		}

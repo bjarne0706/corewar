@@ -60,20 +60,26 @@ void			introduce_champs(t_vm *v)
 void			print_usage(void)
 {
 	ft_printf("{b}{yellow}{u}USAGE:{0}\n");
-	ft_printf("	{yellow}./corewar [-d N -s N] [-v] <[-n N]");
-	ft_printf(" champ1.cor> <[-n N] champ2.cor> <...>{-}\n");
+	ft_printf("	{yellow}./corewar [-d N] [-s N] [-v] [-l N] <[-n N]");
+	ft_printf(" champ1.cor> <...>{-}\n");
 	ft_printf("\n{u}{b}FLAGS:\n{0}");
+	ft_printf("	{b}-n N{0}	: Specify player's number ");
+	ft_printf("(N >= 1 && N <= number_of_players (%d max)){0}\n", MAX_PLAYERS);
+	ft_printf("	{b}-v{0}	: Visual mode\n\n");
 	ft_printf("	{b}-d N (-dump N){0}	: ");
 	ft_printf("Dump memory (32 octets/line) after N cycles then exit\n");
 	ft_printf("	{b}-D N{0}		: ");
-	ft_printf("Dump memory (64 octets/line) after N cycles then exit\n");
+	ft_printf("same as -d but 64 octets/line\n");
 	ft_printf("	{b}-s N{0}	: Run N cycles, ");
 	ft_printf("dump memory (32 octets/line), pause, then repeat\n");
-	ft_printf("	{b}-S N{0}	: Run N cycles, ");
-	ft_printf("dump memory (64 octets/line), pause, then repeat\n");
-	ft_printf("	{b}-v{0}	: Visual mode\n");
-	ft_printf("	{b}-n N{0}	: Specify player's number ");
-	ft_printf("(0 < N <= number_of_players (%d max))\n", MAX_PLAYERS);
+	ft_printf("	{b}-S N{0}	: ");
+	ft_printf("same as -s but 64 octets/line\n");
+	ft_printf("	{b}-a{0}	: Print output of 'aff' operation\n");
+	ft_printf("	{b}-l N{0}	: ");
+	ft_printf("Print logs. Add numbers together to enable several logs:\n");
+	ft_printf("\t\t\t{b}1{0} - show lives\n\t\t\t{b}2{0} - show cycles\n");
+	ft_printf("\t\t\t{b}4{0} - show operations\n\t\t\t{b}8{0} - show deaths\n");
+	ft_printf("\t\t\t{b}16{0} - show PC movements (except for jumps)\n");
 //		printf("\n++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");		//
 //		system("leaks -q corewar");		//
 	exit(1);
