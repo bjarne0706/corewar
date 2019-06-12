@@ -12,13 +12,14 @@
 
 #include "asm.h"
 
-void		fill_type_code(char *code)
+void		fill_type_code(int count, char **code)
 {
 	int		i;
 
-	i = ft_strlen(code) - 1;
-	while (++i != 8)
-		code[i] = '0';
+	i = count * 2;
+	while (i < 8)
+		(*code)[i++] = '0';
+	(*code)[i] = '\0';
 }
 
 void		free_and_ret(char **arr)
@@ -33,6 +34,16 @@ void		free_and_ret(char **arr)
 
 void		free_structs()
 {
+	// t_oken	*tmp;
+
+	// tmp = g_tkns;
+	// while (tmp != NULL)
+	// {
+	// 	free(tmp->code_types);
+	// 	tmp = tmp->next;
+	// }
+	free(g_str->name);
+	free(g_str->comment);
 	ft_bzero(g_str, sizeof(t_strings));
 	ft_bzero(g_files, sizeof(t_files));
 }

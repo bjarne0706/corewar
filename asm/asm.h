@@ -41,7 +41,7 @@ typedef struct		s_oken
 {
 	t_op			*token;
 	int				args_type[3];
-	int				args_value[3];
+	char			*args_value[3];
 	char 			*label;
 	int				code_size;
 	int				mem_pos;
@@ -94,7 +94,7 @@ void				print_args(t_oken *tkn);
 //addit_for_writes
 int					search_bracks(char *line);
 int 				search_r_bracks(char *line, int num);
-char 				*read_betw_brack(char *str);
+char 				*read_betw_brack(char *str, int flag);
 unsigned int		reverse_byte(unsigned int num);
 void				error(char *str);
 //read_asm
@@ -119,13 +119,13 @@ int					find_op(char *line);
 int					get_op_name();
 int					check_line(char *str);
 //handle_exec_code
-void				analize_token(t_tmp *line, t_oken *tkn);
-int					get_value_of_arg(char *arg, t_oken *tkn, char *type_code);
+void				analize_token(t_oken *tkn);
+int					get_value_of_arg(char *arg, t_oken *tkn, char **type_code);
 int					work_on_label(t_oken *tkn, char *arg);
 void				put_exec_code(void);
 int					make_from_binary(char *str);
 //addict_for_handle_exec_code
-void				fill_type_code(char *code);
+void				fill_type_code(int count, char **code);
 void				free_and_ret(char **arr);
 void				free_structs();
 #endif

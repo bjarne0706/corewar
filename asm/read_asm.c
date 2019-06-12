@@ -26,17 +26,21 @@ void		read_asm_put_code_size(void)
 		if (find_op(line) == 1)
 			make_lbl(line);
 		else if (if_has_smthng(line))
-			create_token(line);
-		printf("LINE IN READ_ASM_AND_PUT_EXEC_COXE: %s\n", line);
+		{
+
+				if (find_op(line) == 3)
+				{
+					make_lbl(ft_strsub(line, 0, label_char_pos(line)));
+					create_token(ft_strsub(line, label_char_pos(line) + 1, ft_strlen(line)));
+				}
+				else
+					create_token(line);					
+		}
 		free(line);
-		// if (line[0] !='\n' && line[0] != '#' && check_line(line))
-		// {
-		// 	if_read = disassemble_line(line);
-		// 	// printf("LINE: %s STATUS: %d, IF_READ: %d\n", line, status, if_read);
-		// }
 	}
-	// create_token();
 	put_hex(g_exec_size, 4);
+	g_full_line = (unsigned char *)realloc(g_full_line,
+	 PROG_NAME_LENGTH + COMMENT_LENGTH + 16 + g_exec_size + 1);
 }
 
 void		make_lbl(char *str)
@@ -127,7 +131,6 @@ void		create_token(char *line)
 {
 	int 	type_of_op;
 
-	printf("LINE IN CRATE_TOKEN: %s\n", line);
 	type_of_op = get_op_name(line);
 	work_on_op(type_of_op, line);
 }
@@ -158,7 +161,6 @@ void		handle_args(char **arr, t_oken *new, int num)
 	int		x;
 
 	y = 0;
-	new->code_types = ft_memalloc(8);
 	while (arr[y])
 	{
 		x = trim_space(0, arr[y]);
@@ -180,12 +182,8 @@ void		handle_args(char **arr, t_oken *new, int num)
 			g_exec_size += 2;
 			new->args_type[y] = 3;
 		}
-		// tmp->args[y] = ft_strdup(arr[y]);
-		new->token->argums[y] = get_value_of_arg(arr[y], new, new->code_types);
-		fill_type_code(new->code_types);
+		new->args_value[y] = ft_strdup(arr[y]);
 		y++;
 	}
 	num = 1;
 }
-// Надо сделать обработку меток, доделать их реализацию
-//  и убрать обработку в процессе считывания

@@ -35,20 +35,16 @@ int				main(int ac, char **av)
 	if (!(g_files->s_fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, 0666)))
 		error("Unable to create/open file");
 	write(g_files->s_fd, g_full_line, g_posit);
-	// system("leaks asm");
 	free_structs();
+	// system("leaks asm");
 }
 
 void			write_all(void)
 {
 	char	*line;
-	long	str4;
-	char	*str2;
 	int 	num;
 
 	num = 0;
-	str4 = 0x0;
-	str2 = ft_memalloc(4);
 	while (get_next_line(g_files->f_fd, &line) > 0 && num != 2)
 	{
 		if (ft_strstr(line, NAME_CMD_STRING))
@@ -57,19 +53,11 @@ void			write_all(void)
 			num += write_comment(line);
 		free(line);
 	}
+	free(line);
 	ft_memcpy(g_full_line + g_posit, g_str->name, PROG_NAME_LENGTH);
 	g_posit += PROG_NAME_LENGTH;
 	put_hex(0, 4);
 	read_asm_put_code_size();
-	// t_tmp *tmp;
-
-	// tmp = g_tmp_op;
-	// while (tmp != NULL)
-	// {
-	// 	printf("%s\n", tmp->label);
-	// 	printf("%s\n", tmp->op);
-	// 	tmp = tmp->next;
-	// }
 	ft_memcpy(g_full_line + g_posit, g_str->comment, COMMENT_LENGTH);
 	g_posit += COMMENT_LENGTH;
 	put_hex(0, 4);
@@ -79,14 +67,11 @@ void			write_all(void)
 void		write_token()
 {
 	t_oken		*tmp_tkn;
-	t_tmp		*tmp_tmp;
 
-	tmp_tmp = g_tmp_op;
 	tmp_tkn = g_tkns;
-	while (tmp_tmp != NULL && tmp_tkn != NULL)
+	while (tmp_tkn != NULL)
 	{
-		analize_token(tmp_tmp, tmp_tkn);
-		tmp_tmp = tmp_tmp->next;
+		analize_token(tmp_tkn);
 		tmp_tkn = tmp_tkn->next;	
 	}
 	put_exec_code();

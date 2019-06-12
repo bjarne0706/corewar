@@ -14,16 +14,19 @@
 
 void		put_exec_code(void)
 {
-	t_oken	*tmp_tkn;
+	t_oken	*tkn;
 
-	tmp_tkn = g_tkns;
-	while (tmp_tkn != NULL)
+	tkn = g_tkns;
+	while (tkn != NULL)
 	{
-		put_hex((int32_t)tmp_tkn->token->code, 1);
-		if (tmp_tkn->token->arg_code_type)
-			put_hex((int32_t)make_from_binary(tmp_tkn->code_types), 1);
-		print_args(tmp_tkn);
-		tmp_tkn = tmp_tkn->next;
+		put_hex((int32_t)tkn->token->code, 1);
+		printf("NAME: %s\n", tkn->token->name);
+		printf("ARG_CODE_TYPE: %d\n", tkn->token->arg_code_type);
+		printf("tkn->code_types: %s\n", tkn->code_types);
+		if (tkn->token->arg_code_type)
+			put_hex(make_from_binary(tkn->code_types), 1);
+		print_args(tkn);
+		tkn = tkn->next;
 	}
 }
 
@@ -45,73 +48,72 @@ int			make_from_binary(char *str)
 	}
 	return (sum);
 }
-//0b68 0100 0700 0101 0000 0000 0290 0000
-//0000 0209 ffed
 
-void		analize_token(t_tmp *line, t_oken *tkn)
+void		analize_token(t_oken *tkn)
 {
 	int		i;
 	char	*type_code;
 
-	type_code = ft_memalloc(8);
+	type_code = (char *)ft_memalloc(sizeof(char) * 9);
 	i = 0;
-	while (line->args[i] && i < tkn->token->arg_count)
+	while (tkn->args_value[i] && i < tkn->token->arg_count)
 	{
-		tkn->token->argums[i] = get_value_of_arg(line->args[i], tkn, type_code);
+		tkn->token->argums[i] = get_value_of_arg(tkn->args_value[i], tkn, &type_code);
 		i++;
 	}
-	fill_type_code(type_code);
+	fill_type_code(tkn->token->arg_count, &type_code);
 	if (tkn->token->arg_code_type)
 		tkn->code_types = ft_strdup(type_code);
 	else
 		tkn->code_types = NULL;
-	ft_strdel(&type_code);
+	free(type_code);
 }
 
-int			get_value_of_arg(char *arg, t_oken *tkn, char *type_code)
+int			get_value_of_arg(char *arg, t_oken *tkn, char **type_code)
 {
 	int		value;
-	char	*tmp;
 	int		i;
-f
-	printf("ARG: %s TYPE_CODE: %s IN GET_VALUE_OF_ARG\n", arg, type_code);f
+	char	*tmp;
+
+	tmp = (*type_code);
 	i = trim_space(0, arg);
 	value = 0;
-	tmp = type_code;
 	if (arg[i] == 'r')
 	{
 		value = ft_atoi(&arg[i + 1]);
 		if (value < 0 || value > 99)
 			error("Incorrect register");
-		type_code = ft_strjoin(type_code, "01");
+		(*type_code) = ft_strjoin((*type_code), "01");
 	}
 	else if (arg[i] == '%' && arg[i + 1] == ':')
-	{f
-		value = work_on_label(tkn, &arg[i + 2]);f2
-		type_code = ft_strjoin(type_code, "10");
+	{
+		value = work_on_label(tkn, &arg[i + 2]);
+		(*type_code) = ft_strjoin((*type_code), "10");
 	}
 	else if (arg[i] == '%')
 	{
 		value = ft_atoi(&arg[i + 1]);
-		type_code = ft_strjoin(type_code, "10");
+		(*type_code) = ft_strjoin((*type_code), "10");
 	}
 	else
 	{
 		value = ft_atoi(&arg[i]);
-		type_code = ft_strjoin(type_code, "11");
+		(*type_code) = ft_strjoin((*type_code), "11");
 	}
 	free(tmp);
+	// printf("ARG: %s TYPE_CODE: %s IN GET_VALUE_OF_ARG\n", arg, (*type_code));
+	// printf("VALUE: %d\n", value);
 	return (value);
 }
 
 int				work_on_label(t_oken *tkn, char *arg)
 {
-	t_oken		*tmp;
+	t_label		*tmp;
 	int			value;
 
 	value = 0;
-	tmp = g_tkns;
-	while (tmp->next != NULL)
+	tmp = g_lbl;
+	while (tmp != NULL)
 	{
 		if (tmp->label)
 			if (ft_strcmp(tmp->label, arg) == 0)

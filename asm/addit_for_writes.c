@@ -34,7 +34,7 @@ int 			search_r_bracks(char *line, int num)
 	return (0);
 }
 
-char 			*read_betw_brack(char *str)
+char 			*read_betw_brack(char *str, int flag)
 {
 	char	*new;
 	int		i;
@@ -42,7 +42,10 @@ char 			*read_betw_brack(char *str)
 
 	i = 0;
 	y = 0;
-	new = (char *)ft_memalloc(PROG_NAME_LENGTH);
+	if (flag)
+		new = (char *)ft_memalloc(PROG_NAME_LENGTH);
+	else
+		new = (char *)ft_memalloc(COMMENT_LENGTH);	
 	while (str[i] != '"')
 		i++;
 	i++;
