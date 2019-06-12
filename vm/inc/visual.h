@@ -17,11 +17,11 @@
 
 
 
-int		interface(WINDOW *menu, int yMax, int xMax);
-void	start_game(WINDOW *game, int yMax, int xMax);
+int		interface(WINDOW *menu, int yMax, int xMax, t_vm *v);
+void	start_game(int yMax, int xMax, t_vm *v);
 void	*animation(WINDOW *picture);
-void	*inter_loop(WINDOW *menu, int yMax, int xMax);
-void	start_menu(void);
+void	*inter_loop(WINDOW *menu, int yMax, int xMax, t_vm *v);
+void	start_menu(t_vm *v);
 
 
 #endif
