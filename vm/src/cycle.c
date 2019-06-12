@@ -53,6 +53,8 @@ void			run_cycle(t_vm *v)
 
 	v->cycles++;
 	v->cyc_since_check++;
+	if (v->options[2] == 'v')
+		start_menu();
 	if (v->log & LOG_CYCLES)
 		log_cycles(v->cycles);
 	c = v->carrs;

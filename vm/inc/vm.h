@@ -82,6 +82,7 @@ typedef struct		s_vm
 }					t_vm;
 
 # include "vm_op.h"
+# include "visual.h"
 
 /*
 ** Parse flags

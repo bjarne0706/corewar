@@ -10,10 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "../inc/visual.h"
 
-
-int main(int argc, char *argv[])
+void start_menu(void)
 {
     initscr();
     noecho();
@@ -35,7 +34,6 @@ int main(int argc, char *argv[])
     /////////menu interface
 	inter_loop(menu, yMax, xMax);
     endwin();
-    return 0;
 }
 
 void	*inter_loop(WINDOW *menu, int yMax, int xMax)
