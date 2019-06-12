@@ -98,8 +98,8 @@ void	start_game(int yMax, int xMax, t_vm *v)
 	int	i;
 	// mvwin(game, 0, 0);
 	// wresize(game, yMax - yMax / 4, xMax - xMax / 4);
-	WINDOW *info = newwin(64, 100, 0, 255);
-	WINDOW *game = newwin(67, 255, 0, 0);
+	WINDOW *info = newwin(66, 100, 0, 197);
+	WINDOW *game = newwin(66, 197, 0, 0);
 
     wattron(info, COLOR_PAIR(1));
     wattron(game, COLOR_PAIR(1));
@@ -112,12 +112,13 @@ void	start_game(int yMax, int xMax, t_vm *v)
 	i = 0;
 	while (++y < 64)
 	{
-		x = -1;
-		while (++x < 194)
+		x = 0;
+		while (x < 194)
 		{
 			mvwprintw(info, 1, 1, "Index = %d", i);
-			mvwprintw(game, y + 1, x + 1,  "%02x ", v->arena[i]);
+			mvwprintw(game, y + 1, x + 2,  "%02x ", v->arena[i]);
 			i++;
+			x += 3;
 		}
 	}
 	wrefresh(info);
