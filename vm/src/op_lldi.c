@@ -14,11 +14,11 @@
 
 static void		log_op_lldi(t_carr *c, int32_t arg1, int32_t arg2, int8_t reg)
 {
-	ft_printf("{cyan}[p%d {i}ch%d\e[23m]> ", c->id, c->champ->num);
-	ft_printf("{I}lldi\e[27m %d %d r%d (%d){0}\n", arg1, arg2, reg,
+	ft_printf("{yellow}[p%d {i}ch%d\e[23m]> ", c->id, c->champ->num);
+	ft_printf("{I}lldi\e[27m %d %d r%d (%d)\n", arg1, arg2, reg,
 		c->reg[reg - 1]);
-	ft_printf("-> load from %d + %d = %d (with pc %d)\n", arg1, arg2, arg1 + arg2,
-		c->pc + arg1 + arg2); //Without %mod! Need add %mod!!!
+	ft_printf("	-> load from %d + %d = %d (with pc and mode %+d){0}\n", arg1, arg2, arg1 + arg2,
+		c->pc + ((arg1 + arg2) % IDX_MOD));
 }
 
 void			op_lldi(t_vm *v, t_carr *c, t_op *op)

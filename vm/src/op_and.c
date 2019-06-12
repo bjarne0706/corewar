@@ -14,7 +14,7 @@
 
 static void		log_op_and(t_carr *c, int32_t arg1, int32_t arg2, int8_t reg)
 {
-	ft_printf("{cyan}[p%d {i}ch%d\e[23m]> ", c->id, c->champ->num);
+	ft_printf("{blue}[p%d {i}ch%d\e[23m]> ", c->id, c->champ->num);
 	ft_printf("{I}and\e[27m %d %d r%d (%d) {0}\n", arg1, arg2, reg,
 		c->reg[reg - 1]);
 }

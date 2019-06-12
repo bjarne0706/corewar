@@ -14,7 +14,7 @@
 
 static void		log_op_fork(t_carr *c, int32_t arg1)
 {
-	ft_printf("{cyan}[p%d {i}ch%d\e[23m]> ", c->id, c->champ->num);
+	ft_printf("{magenta}[p%d {i}ch%d\e[23m]> ", c->id, c->champ->num);
 	ft_printf("{I}fork\e[27m %d (%d) {0}\n", arg1, c->pc + arg1);
 }
 
