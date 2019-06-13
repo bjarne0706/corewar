@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../inc/vm.h"
+#include "../inc/visual.h"
 
 void			do_op(t_vm *v, t_carr *c, t_op *op)
 {
@@ -55,7 +56,7 @@ void			run_cycle(t_vm *v)
 	v->cycles++;
 	v->cyc_since_check++;
 	if (v->options[2] == 'v')
-		start_menu(v);
+		car_loop(v, v->game, v->info);
 	if (v->log & LOG_CYCLES)
 		log_cycles(v->cycles);
 	c = v->carrs;

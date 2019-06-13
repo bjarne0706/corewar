@@ -56,6 +56,7 @@ int	interface(WINDOW *menu, int yMax, int xMax, t_vm *v)
 	int	i;
 	int	key;
 
+			(void)v;	//Anatoliy, unused var! =)
 	i = -1;
 	// highlight = 0;
 	// choices ;
@@ -83,7 +84,7 @@ int	interface(WINDOW *menu, int yMax, int xMax, t_vm *v)
 		return (0);
 	else if (key == 10 && highlight == 0)
 	{
-		start_game(yMax, xMax, v);
+		// create_border(v);
 		wclear(menu);
 		wrefresh(menu);
 		return (0);
@@ -91,23 +92,34 @@ int	interface(WINDOW *menu, int yMax, int xMax, t_vm *v)
 	return (1);
 }
 
-void	start_game(int yMax, int xMax, t_vm *v)
+void	create_border(t_vm *v)
+{
+	// mvwin(game, 0, 0);
+	// wresize(game, yMax - yMax / 4, xMax - xMax / 4);
+	screen_and_color();
+	v->info = newwin(66, 100, 0, 197);
+	v->game = newwin(66, 197, 0, 0);
+
+    wattron(v->info, COLOR_PAIR(9));
+    wattron(v->game, COLOR_PAIR(9));
+	box(v->game, 0, 0);
+	box(v->info, 0, 0);
+	wattroff(v->info, COLOR_PAIR(9));
+	wattroff(v->game, COLOR_PAIR(9));
+
+
+	wrefresh(v->info);
+	wrefresh(v->game);
+
+}
+
+void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 {
 	int	x;
 	int	y;
 	int	i;
-	// mvwin(game, 0, 0);
-	// wresize(game, yMax - yMax / 4, xMax - xMax / 4);
-	WINDOW *info = newwin(66, 100, 0, 197);
-	WINDOW *game = newwin(66, 197, 0, 0);
+	t_carr *tmp;
 
-    wattron(info, COLOR_PAIR(1));
-    wattron(game, COLOR_PAIR(1));
-
-	box(game, 0, 0);
-	box(info, 0, 0);
-	wattroff(info, COLOR_PAIR(1));
-	wattroff(game, COLOR_PAIR(1));
 	y = -1;
 	i = 0;
 	while (++y < 64)
@@ -115,22 +127,52 @@ void	start_game(int yMax, int xMax, t_vm *v)
 		x = 0;
 		while (x < 194)
 		{
-			mvwprintw(info, 1, 1, "Index = %d", i);
+			// mvwprintw(info, 1, 1, "Index = %d", i);
+			tmp = v->carrs;
+			while (tmp)
+			{
+
+				if (tmp->pc == i)
+					wattron(game, COLOR_PAIR(tmp->champ->num));
+				tmp = tmp->nxt;
+			}
 			mvwprintw(game, y + 1, x + 2,  "%02x ", v->arena[i]);
+			wattroff(game, COLOR_PAIR(1));
+			wattroff(game, COLOR_PAIR(2));
+			wattroff(game, COLOR_PAIR(3));
+			wattroff(game, COLOR_PAIR(4));
+
 			i++;
 			x += 3;
 		}
 	}
-	wrefresh(info);
+	refresh();
 	wrefresh(game);
-
-
-refresh();
-wrefresh(game);
-wrefresh(info);
-
-
-	getch();// before it gets char it refresh the screen
-
+	wrefresh(info);
 }
 
+void	del_win(WINDOW *game, WINDOW *info)
+{
+	delwin(game);
+	delwin(info);
+	endwin();
+}
+
+void	screen_and_color(void)
+{
+	initscr();
+	noecho();
+	refresh();
+	curs_set(0);
+	start_color();
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+    init_pair(2, COLOR_GREEN, COLOR_BLACK);
+    init_pair(3, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(4, COLOR_BLUE, COLOR_BLACK);
+    init_pair(5, COLOR_WHITE, COLOR_WHITE);
+    init_pair(6, COLOR_WHITE, COLOR_WHITE);
+    init_pair(7, COLOR_WHITE, COLOR_WHITE);
+    init_pair(8, COLOR_WHITE, COLOR_WHITE);
+    init_pair(9, COLOR_WHITE, COLOR_WHITE);
+
+}

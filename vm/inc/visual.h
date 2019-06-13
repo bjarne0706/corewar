@@ -18,10 +18,15 @@
 
 
 int		interface(WINDOW *menu, int yMax, int xMax, t_vm *v);
-void	start_game(int yMax, int xMax, t_vm *v);
+void	create_border(t_vm *v);
+void    del_win(WINDOW *game, WINDOW *info);
+void    car_loop(t_vm *v, WINDOW *game, WINDOW *info);
+
 void	*animation(WINDOW *picture);
 void	*inter_loop(WINDOW *menu, int yMax, int xMax, t_vm *v);
 void	start_menu(t_vm *v);
+void	screen_and_color(void);
+
 
 
 #endif
