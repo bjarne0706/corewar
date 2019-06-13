@@ -79,6 +79,8 @@ typedef struct		s_vm
 	size_t			lives_since_check;
 	size_t			checks_done;
 	int32_t			cyc_to_die;
+	WINDOW			*info;
+	WINDOW 			*game;
 }					t_vm;
 
 # include "vm_op.h"
