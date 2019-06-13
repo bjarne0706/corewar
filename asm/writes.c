@@ -47,7 +47,7 @@ int				write_name(char *line)
 		if (brack_flag != 2)
 			get_next_line(g_files->f_fd, &line);
 	}
-	tmp_name = read_betw_brack(tmp_name);
+	tmp_name = read_betw_brack(tmp_name, 1);
 	ft_memcpy(g_str->name, tmp_name, num);
 	free(tmp_name);
 	return (1);
@@ -65,10 +65,10 @@ int				write_comment(char *line)
 	num = COMMENT_LENGTH;
 	g_str->comment = (char *)ft_memalloc(num);
 	tmp_name = (char *)ft_memalloc(num);
-	tmp = tmp_name;
 	brack_flag = 0;
 	while (brack_flag != 2)
 	{
+		tmp = tmp_name;
 		if ((i = search_bracks(line)))
 			brack_flag++;
 		if (search_r_bracks(line, i))
@@ -78,12 +78,17 @@ int				write_comment(char *line)
 		if (brack_flag != 2)
 			get_next_line(g_files->f_fd, &line);
 	}
-	tmp_name = read_betw_brack(tmp_name);
+	tmp_name = read_betw_brack(tmp_name, 0);
 	ft_memcpy(g_str->comment, tmp_name, num);
 	free(tmp_name);
 	return (1);
 }
-
+//
+//
+// починить карту 42.s
+//
+//
+//
 void		put_hex(int32_t nbr, int size)
 {
 	unsigned int	tmp;
@@ -117,9 +122,7 @@ void		print_args(t_oken *tkn)
 {
 	int		size;
 	int		y;
-	t_tmp	*tmp;
 
-	tmp = g_tmp_op;
 	y = 0;
 	while (y < tkn->token->arg_count)
 	{
@@ -129,7 +132,7 @@ void		print_args(t_oken *tkn)
 			size = tkn->token->t_dir_size;
 		else if (tkn->args_type[y] == 3)
 			size = 2;
-		put_hex((int32_t)tkn->token->argums[y], size);
+		put_hex(tkn->token->argums[y], size);
 		y++;
 	}
 }

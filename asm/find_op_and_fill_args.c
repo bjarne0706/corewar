@@ -40,7 +40,6 @@ void		fill_args(int num, char *line, t_oken *new)
 	while (ft_isalpha(line[i]))
 		i++;
 	tmp = &line[i];
-	printf("LINE IN FILL_ARGS: %s\n", tmp);
 	arr = ft_strsplit(tmp, SEPARATOR_CHAR);
 	if (count_separ(line) != new->token->arg_count - 1)
 		error("Incorrect line");

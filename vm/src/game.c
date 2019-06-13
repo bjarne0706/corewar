@@ -45,6 +45,12 @@ void			run_the_game(t_vm *v)
 			print_arena(v, v->options[0]);
 			exit(0);
 		}
+		if (v->options[1] && !(v->cycles % (size_t)v->dump_cycles[1]))
+		{
+			print_arena(v, v->options[1]);
+			while (getchar() != '\n')
+				;
+		}
 		run_cycle(v);
 		if (v->cyc_since_check == (size_t)v->cyc_to_die || v->cyc_to_die <= 0)
 			die_check(v);
