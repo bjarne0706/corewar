@@ -96,6 +96,8 @@ void	start_game(int yMax, int xMax, t_vm *v)
 	int	x;
 	int	y;
 	int	i;
+
+		(void)yMax; (void)xMax;		// Nerus, shame on you! unused parameters!!!
 	// mvwin(game, 0, 0);
 	// wresize(game, yMax - yMax / 4, xMax - xMax / 4);
 	WINDOW *info = newwin(66, 100, 0, 197);
