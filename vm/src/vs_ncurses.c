@@ -56,6 +56,7 @@ int	interface(WINDOW *menu, int yMax, int xMax, t_vm *v)
 	int	i;
 	int	key;
 
+			(void)v;	//Anatoliy, unused var! =)
 	i = -1;
 	// highlight = 0;
 	// choices ;
@@ -93,15 +94,6 @@ int	interface(WINDOW *menu, int yMax, int xMax, t_vm *v)
 
 void	create_border(t_vm *v)
 {
-<<<<<<< HEAD
-
-=======
-	int	x;
-	int	y;
-	int	i;
-
-		(void)yMax; (void)xMax;		// Nerus, shame on you! unused parameters!!!
->>>>>>> d915448c6e007f5896e87512bd14a4862319bd5c
 	// mvwin(game, 0, 0);
 	// wresize(game, yMax - yMax / 4, xMax - xMax / 4);
 	screen_and_color();
