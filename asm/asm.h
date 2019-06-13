@@ -99,12 +99,13 @@ unsigned int		reverse_byte(unsigned int num);
 void				error(char *str);
 //read_asm
 void				read_asm_put_code_size();
-int					disassemble_line(char *line);
 void				create_token();
 void				work_on_op(int num, char *line);
 void				handle_args(char **arr, t_oken *new, int num);
 void				make_lbl(char *str);
-void				make_op(char *str);
+void				del_comment(char **line);
+int					comment_line(char *line);
+void				del_space_end(char **line);
 //addict_func_for_read_asm
 int					label_char_pos(char *str);
 int					ft_space(char c);

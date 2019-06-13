@@ -15,32 +15,87 @@
 void		read_asm_put_code_size(void)
 {
 	char	*line;
-	long	num;
-	int		status;
-	int		if_read;
 
-	status = 1;
-	if_read = 1;
 	while (get_next_line(g_files->f_fd, &line) > 0)
 	{
-		if (find_op(line) == 1)
-			make_lbl(line);
-		else if (if_has_smthng(line))
+		if (!comment_line(line))
 		{
+			if (ft_strchr(line, '#') || ft_strchr(line, ';'))
+				del_comment(&line);
+			del_space_end(&line);
+			printf("find_op: %d in line: %s\n", find_op(line), line);
+			if (find_op(line) == 1)
+				make_lbl(line);
 
-				if (find_op(line) == 3)
-				{
-					make_lbl(ft_strsub(line, 0, label_char_pos(line)));
-					create_token(ft_strsub(line, label_char_pos(line) + 1, ft_strlen(line)));
-				}
-				else
-					create_token(line);					
+			else if (if_has_smthng(line))
+			{
+					if (find_op(line) == 3)
+					{
+						make_lbl(ft_strsub(line, 0, label_char_pos(line)));
+						create_token(ft_strchr(line, LABEL_CHAR) + 1);
+					}
+					else
+						create_token(line);					
+			}
 		}
+		
 		free(line);
+	}
+	t_label *tmp;
+
+	tmp = g_lbl;
+	while (tmp != NULL)
+	{
+		printf("FUCKING LABEL: %s\n", tmp->label);
+		tmp = tmp->next;
 	}
 	put_hex(g_exec_size, 4);
 	g_full_line = (unsigned char *)realloc(g_full_line,
 	 PROG_NAME_LENGTH + COMMENT_LENGTH + 16 + g_exec_size + 1);
+}
+
+int			comment_line(char *line)
+{
+	int		abc_flag;
+	int		i;
+
+	i = 0;
+	abc_flag = 0;
+	while (line[i])
+	{
+		if (ft_isalnum(line[i]))
+			abc_flag = 1;
+		if ((line[i] == '#' || line[i] == '#') && abc_flag == 0)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+void		del_space_end(char **line)
+{
+	int		i;
+
+	i = ft_strlen((*line)) - 1;
+	while (i > 0 && !ft_isalnum((*line)[i]) && (*line)[i] != LABEL_CHAR)
+		i--;
+	i++;
+	(*line)[i] = '\0';
+}
+
+void		del_comment(char **line)
+{
+	int		i;
+
+	i = -1;
+	while ((*line)[++i])
+		if ((*line)[i] == '#' || (*line)[i] == ';')
+			break ;
+	i--;
+	while (i > 0 && !ft_isalnum((*line)[i]) && (*line)[i] != LABEL_CHAR)
+		i--;
+	i++;
+	(*line)[i] = '\0';
 }
 
 void		make_lbl(char *str)
@@ -48,8 +103,10 @@ void		make_lbl(char *str)
 	t_label		*tmp;
 	t_label		*new;
 
+
 	new = (t_label *)ft_memalloc(sizeof(t_label));
 	new->mem_pos = g_exec_size;
+	printf("STR IN MAKE_LBL: %s.\n", str);
 	new->label = ft_strsub(str, 0, label_char_pos(str));
 	// printf("label: %s\n", new->label);
 	if (g_lbl == NULL)
@@ -61,70 +118,6 @@ void		make_lbl(char *str)
 			tmp = tmp->next;
 		tmp->next = new;
 	}
-}
-
-void		make_op(char *str)
-{
-	t_oken	*tmp;
-	t_oken	*new;
-	
-	new = (t_oken *)ft_memalloc(sizeof(t_oken));
-	if (g_tkns == NULL)
-		g_tkns = new;
-	else
-	{
-		tmp = g_tkns;
-		while (tmp->next != NULL)
-			tmp = tmp->next;
-		tmp->next = new;
-	}
-}
-
-int			disassemble_line(char *line)
-{
-	t_tmp		*tmp;
-	t_tmp		*new;
-	// static int	flag = 0;
-
-	new = (t_tmp *)ft_memalloc(sizeof(t_tmp));
-	if (find_op(line) == 1)
-	{
-		new->label = ft_strsub(line, 0, label_char_pos(line));
-		free(line);
-		get_next_line(g_files->f_fd, &line);
-		if (find_op(line) == 1)
-		{
-			new->op = NULL;
-			return (0);
-		}
-		else
-		{
-			new->op = ft_strdup(line);
-			free(line);
-		}
-	}
-	else if (find_op(line) == 2)
-	{
-		new->label = NULL;
-		new->op = ft_strdup(line);
-		free(line);
-	}
-	else if (find_op(line) == 3)
-	{
-		new->label = ft_strsub(line, 0, label_char_pos(line));
-		new->op = ft_strsub(line, label_char_pos(line) + 1, ft_strlen(line) - 1);
-		free(line);
-	}
-	if (g_tmp_op == NULL)
-		g_tmp_op = new;
-	else
-	{
-		tmp = g_tmp_op;
-		while (tmp->next != NULL)
-			tmp = tmp->next;
-		tmp->next = new;
-	}
-	return (1);
 }
 
 void		create_token(char *line)

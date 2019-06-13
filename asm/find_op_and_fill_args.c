@@ -37,12 +37,19 @@ void		fill_args(int num, char *line, t_oken *new)
 	char	**arr;
 
 	i = trim_space(0, line);
-	while (ft_isalpha(line[i]))
+	while (ft_isalnum(line[i]))
 		i++;
 	tmp = &line[i];
+	printf("LINE:%s\n", line);
 	arr = ft_strsplit(tmp, SEPARATOR_CHAR);
-	if (count_separ(line) != new->token->arg_count - 1)
-		error("Incorrect line");
+	i = 0;
+	while (i < new->token->arg_count)
+	{
+		printf("ARR IN FILL_ARGS: %s.\n", arr[i]);
+		i++;
+	}
+	// if (count_separ(line) != new->token->arg_count - 1)
+		// error("Incorrect line");
 	handle_args(arr, new, num);
 	free_and_ret(arr);
 }

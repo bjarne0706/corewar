@@ -20,9 +20,7 @@ void		put_exec_code(void)
 	while (tkn != NULL)
 	{
 		put_hex((int32_t)tkn->token->code, 1);
-		printf("NAME: %s\n", tkn->token->name);
-		printf("ARG_CODE_TYPE: %d\n", tkn->token->arg_code_type);
-		printf("tkn->code_types: %s\n", tkn->code_types);
+		// printf("NAME: %s\n", tkn->token->name);
 		if (tkn->token->arg_code_type)
 			put_hex(make_from_binary(tkn->code_types), 1);
 		print_args(tkn);
@@ -58,6 +56,7 @@ void		analize_token(t_oken *tkn)
 	i = 0;
 	while (tkn->args_value[i] && i < tkn->token->arg_count)
 	{
+		// printf("ARG_VALUE IN ANALIZE_TOKEN: %s\n", tkn->args_value[i]);
 		tkn->token->argums[i] = get_value_of_arg(tkn->args_value[i], tkn, &type_code);
 		i++;
 	}
@@ -113,15 +112,19 @@ int				work_on_label(t_oken *tkn, char *arg)
 
 	value = 0;
 	tmp = g_lbl;
+	printf("ARG: %s.\n", arg);
 	while (tmp != NULL)
 	{
 		if (tmp->label)
 			if (ft_strcmp(tmp->label, arg) == 0)
 			{
+				printf("tmp->label: %s arg: %s\n", tmp->label, arg);
 				value = tmp->mem_pos - tkn->mem_pos;
 				break ;
 			}
 		tmp = tmp->next;
 	}
+	printf("NAME: %s\n", tkn->token->name);
+	printf("LABEL VALUE: %d\n\n", value);
 	return (value);
 }

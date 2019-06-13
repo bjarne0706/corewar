@@ -31,9 +31,9 @@ int				main(int ac, char **av)
 	filename = get_name(av[1]);
 	write_header();
 	write_all();
-	ft_printf("Writing output program to %s\n", filename);
 	if (!(g_files->s_fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, 0666)))
 		error("Unable to create/open file");
+	ft_printf("Writing output program to %s\n", filename);
 	write(g_files->s_fd, g_full_line, g_posit);
 	free_structs();
 	// system("leaks asm");
