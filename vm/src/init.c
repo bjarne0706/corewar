@@ -53,6 +53,7 @@ void			setup_carriages(t_vm *v)
 void			setup_arena(t_vm *v)
 {
 	int		i;
+	int		j;
 	int		pos;
 
 	i = 0;
@@ -60,6 +61,12 @@ void			setup_arena(t_vm *v)
 	while (i < v->champs_num)
 	{
 		ft_memcpy(&v->arena[pos], v->champs[i]->code, v->champs[i]->size);
+		j = pos;
+		while (j - pos < (int)v->champs[i]->size)
+		{
+			v->colors[j] = v->champs[i]->num;
+			j++;
+		}
 		pos += MEM_SIZE / v->champs_num;
 		i++;
 	}
@@ -94,8 +101,8 @@ t_vm			*init_vm(void)
 	v->dump_cycles[1] = -1;
 	v->log = 0;
 	i = 0;
-	while (i < MEM_SIZE)
-		v->arena[i++] = 0;
+	ft_bzero(v->arena, MEM_SIZE);
+	ft_bzero(v->colors, MEM_SIZE);
 	v->champs_num = 0;
 		i = -1;
 		while (++i < MAX_PLAYERS)
