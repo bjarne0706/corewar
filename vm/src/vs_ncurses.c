@@ -115,9 +115,10 @@ void	create_border(t_vm *v)
 
 void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 {
-	int	x;
-	int	y;
-	int	i;
+	int		x;
+	int		y;
+	int		i;
+	short	prot;
 	t_carr *tmp;
 
 	y = -1;
@@ -127,23 +128,33 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 		x = 0;
 		while (x < 194)
 		{
+			prot = 0;
 			// mvwprintw(info, 1, 1, "Index = %d", i);
 			tmp = v->carrs;
 			while (tmp)
 			{
 
 				if (tmp->pc == i)
-					wattron(game, COLOR_PAIR(tmp->champ->num));
+				{
+					wattron(game, COLOR_PAIR(tmp->champ->num + 4));
+					prot = 1;
+				}
 				tmp = tmp->nxt;
 			}
-			mvwprintw(game, y + 1, x + 2,  "%02x ", v->arena[i]);
-			wattroff(game, COLOR_PAIR(1));
-			wattroff(game, COLOR_PAIR(2));
-			wattroff(game, COLOR_PAIR(3));
-			wattroff(game, COLOR_PAIR(4));
-
+			if (!prot && v->colors[i] != 0)
+				wattron(game, COLOR_PAIR(v->colors[i]));
+			mvwprintw(game, y + 1, x + 2,  "%02x", v->arena[i]);
+			x += 2;
+			if (!prot && v->colors[i] != 0)
+				wattroff(game, COLOR_PAIR(v->colors[i]));
+			wattroff(game, COLOR_PAIR(5));
+			wattroff(game, COLOR_PAIR(6));
+			wattroff(game, COLOR_PAIR(7));
+			wattroff(game, COLOR_PAIR(8));
+			mvwprintw(game, y + 1, x + 2,  " ", v->arena[i]);
+			
 			i++;
-			x += 3;
+			x += 1;
 		}
 	}
 	refresh();
@@ -169,10 +180,9 @@ void	screen_and_color(void)
     init_pair(2, COLOR_GREEN, COLOR_BLACK);
     init_pair(3, COLOR_YELLOW, COLOR_BLACK);
     init_pair(4, COLOR_BLUE, COLOR_BLACK);
-    init_pair(5, COLOR_WHITE, COLOR_WHITE);
-    init_pair(6, COLOR_WHITE, COLOR_WHITE);
-    init_pair(7, COLOR_WHITE, COLOR_WHITE);
-    init_pair(8, COLOR_WHITE, COLOR_WHITE);
-    init_pair(9, COLOR_WHITE, COLOR_WHITE);
+    init_pair(5, COLOR_BLACK, COLOR_RED);
+    init_pair(6, COLOR_BLACK, COLOR_GREEN);
+    init_pair(7, COLOR_BLACK, COLOR_YELLOW);
+    init_pair(8, COLOR_BLACK, COLOR_BLUE);
 
 }
