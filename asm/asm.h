@@ -34,7 +34,9 @@ typedef struct		s_files
 typedef struct		s_strings
 {
 	char 			*name;
+	int				name_flag;
 	char 			*comment;
+	int				comment_flag;
 }					t_strings;
 
 typedef struct		s_oken

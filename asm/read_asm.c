@@ -25,16 +25,17 @@ void		read_asm_put_code_size(void)
 			if (ft_strchr(line, '#') || ft_strchr(line, ';'))
 				del_comment(&line);
 			del_space_end(&line);
-			printf("find_op: %d in line: %s\n", find_op(line), line);
+			// printf("find_op: %d in line: %s\n", find_op(line), line);
 			if (find_op(line) == 1)
 				make_lbl(line);
 			else if (if_has_smthng(line))
 			{
-					if (find_op(line) == 3)
+					if (find_op(line) == 0)
+						error("Syntax error.");
+					else if (find_op(line) == 3)
 					{
 						tmp = ft_strsub(line, 0, label_char_pos(line));
 						tmp2 = ft_strsub(line, label_char_pos(line) + 1, ft_strlen(line) - (label_char_pos(line) + 1));
-						printf("THIS LINE: %s\n", tmp2);
 						make_lbl(tmp);
 						create_token(tmp2);
 						free(tmp);
@@ -83,7 +84,7 @@ void		del_space_end(char **line)
 	int		i;
 
 	i = ft_strlen((*line)) - 1;
-	while (i > 0 && ft_space((*line)[i]) && (*line)[i] != LABEL_CHAR)
+	while (i > 0 && ft_space((*line)[i]) && (*line)[i] != LABEL_CHAR && (*line)[i] != DIRECT_CHAR)
 		i--;
 	i++;
 	(*line)[i] = '\0';
@@ -98,7 +99,7 @@ void		del_comment(char **line)
 		if ((*line)[i] == '#' || (*line)[i] == ';')
 			break ;
 	i--;
-	while (i > 0 && !ft_isalnum((*line)[i]) && (*line)[i] != LABEL_CHAR)
+	while (i > 0 && !ft_isalnum((*line)[i]) && (*line)[i] != LABEL_CHAR && (*line)[i] != DIRECT_CHAR)
 		i--;
 	i++;
 	(*line)[i] = '\0';

@@ -53,14 +53,9 @@ void		analize_token(t_oken *tkn)
 	char	*type_code;
 
 	type_code = (char *)ft_memalloc(sizeof(char) * 9);
-	i = 0;
-	while (tkn->args_value[i] && i < tkn->token->arg_count)
-	{
-		// printf("ARG_VALUE IN ANALIZE_TOKEN: %s.\n", tkn->args_value[i]);
+	i = -1;
+	while (tkn->args_value[++i] && i < tkn->token->arg_count)
 		tkn->token->argums[i] = get_value_of_arg(tkn->args_value[i], tkn, &type_code);
-		// printf("ARG_VALUE IN ANALIZE_TOKEN: %ld\n\n", tkn->token->argums[i]);
-		i++;
-	}
 	fill_type_code(tkn->token->arg_count, &type_code);
 	if (tkn->token->arg_code_type)
 		tkn->code_types = ft_strdup(type_code);
@@ -81,10 +76,10 @@ int			get_value_of_arg(char *arg, t_oken *tkn, char **type_code)
 	if (arg[i] == 'r')
 	{
 		if (!ft_isdigit(arg[i + 1]))
-			error("Syntax error in register");
+			error("Syntax error in register.");
 		value = ft_atoi(&arg[i + 1]);
 		if (value < 0 || value > 99)
-			error("Incorrect register");
+			error("Incorrect register.");
 		(*type_code) = ft_strjoin((*type_code), "01");
 	}
 	else if (arg[i] == '%' && arg[i + 1] == ':')
@@ -99,6 +94,8 @@ int			get_value_of_arg(char *arg, t_oken *tkn, char **type_code)
 	}
 	else if (arg[i] == '%')
 	{
+		if (!ft_strchr(LABEL_CHARS, arg[i + 1]) || arg[i + 1] == '\0')
+			error("Syntax error.");
 		value = ft_atoi(&arg[i + 1]);
 		(*type_code) = ft_strjoin((*type_code), "10");
 	}
@@ -108,8 +105,6 @@ int			get_value_of_arg(char *arg, t_oken *tkn, char **type_code)
 		(*type_code) = ft_strjoin((*type_code), "11");
 	}
 	free(tmp);
-	// printf("ARG: %s TYPE_CODE: %s IN GET_VALUE_OF_ARG\n", arg, (*type_code));
-	// printf("VALUE: %d\n", value);
 	return (value);
 }
 
@@ -133,7 +128,7 @@ int				work_on_label(t_oken *tkn, char *arg)
 		tmp = tmp->next;
 	}
 	if (tmp == NULL)
-		error("Error: label does not exist");
+		error("Error: label does not exist.");
 	printf("NAME: %s\n", tkn->token->name);
 	printf("LABEL VALUE: %d\n", value);
 	return (value);

@@ -49,7 +49,7 @@ void		fill_args(int num, char *line, t_oken *new)
 	// 	i++;
 	// }
 	if (count_separ(line) != new->token->arg_count - 1)
-		error("Incorrect line");
+		error("Incorrect line.");
 	handle_args(arr, new, num);
 	free_and_ret(arr);
 }
@@ -62,7 +62,9 @@ int			if_has_smthng(char *line)
 	sum = 0;
 	i = -1;
 	while (line[++i])
-		if (ft_isalnum(line[i]))
+		if (ft_isalnum(line[i]) || ft_strchr(LABEL_CHARS, line[i])
+		 || line[i] == LABEL_CHAR || line[i] == DIRECT_CHAR
+		  || line[i] == SEPARATOR_CHAR)
 			sum++;
 	if (sum == 0)
 		return (0);
@@ -133,7 +135,7 @@ int			get_op_name(char *line)
 	free(tmp);
 	free(name);
 	if (!choose_name(name))
-		error("Error: operation does not exist");
+		error("Error: operation does not exist.");
 	return (choose_name(name) - 1);
 }
 

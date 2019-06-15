@@ -31,6 +31,8 @@ int				write_name(char *line)
 	int 		i;
 
 	i = 0;
+	if (g_str->name_flag)
+		error("Error: too many names.");
 	num = PROG_NAME_LENGTH;
 	g_str->name = (char *)ft_memalloc(num * 2);
 	tmp_name = (char *)ft_memalloc(num * 2);
@@ -52,8 +54,9 @@ int				write_name(char *line)
 			get_next_line(g_files->f_fd, &line);
 		}
 		if ((find_op(line) != 0 && brack_flag == 1) || ft_strstr(line, COMMENT_CMD_STRING))
-			error("Error: no closing bracket");
+			error("Error: no closing bracket.");
 	}
+	g_str->name_flag = 1;
 	ft_strdel(&line);
 	tmp_name = read_betw_brack(tmp_name, 1);
 	ft_memcpy(g_str->name, tmp_name, num);
@@ -70,6 +73,8 @@ int				write_comment(char *line)
 	int 		i;
 
 	i = 0;
+	if (g_str->comment_flag)
+		error("Error: too many comments.");
 	num = COMMENT_LENGTH;
 	g_str->comment = (char *)ft_memalloc(num * 2);
 	tmp_name = (char *)ft_memalloc(num * 2);
@@ -91,15 +96,16 @@ int				write_comment(char *line)
 			get_next_line(g_files->f_fd, &line);
 		}
 		if ((find_op(line) != 0 && brack_flag == 1) || ft_strstr(line, NAME_CMD_STRING))
-			error("Error: no closing bracket");
+			error("Error: no closing bracket.");
 	}
+	g_str->comment_flag = 1;
 	ft_strdel(&line);
 	// printf("comment: %s\n", tmp_name);
 	tmp_name = read_betw_brack(tmp_name, 0);
 	// printf("comment: %s\n", tmp_name);
 	ft_memcpy(g_str->comment, tmp_name, num);
 	if (ft_strlen(tmp_name) > COMMENT_LENGTH)
-		error("Error: too long comment");
+		error("Error: too long comment.");
 	free(tmp_name);
 	return (1);
 }
@@ -112,12 +118,12 @@ void		validate_name_comment_cmd(char *str, int n_or_c)
 
 	if (n_or_c)
 	{
-		error_msg = "Syntax error in name command";
+		error_msg = "Syntax error in name command.";
 		pattern = ft_strdup(NAME_CMD_STRING);
 	}
 	else
 	{
-		error_msg = "Syntax error in comment command";
+		error_msg = "Syntax error in comment command.";
 		pattern = ft_strdup(COMMENT_CMD_STRING);
 	}
 	printf("pattern: %s\n", pattern);

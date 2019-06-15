@@ -23,16 +23,16 @@ int				main(int ac, char **av)
 	g_exec_size = 0;
 	g_posit = 0;
 	if (ac != 2)
-		error("Error: incorrect number of files");
+		error("Error: incorrect number of files.");
 	arr = ft_strsplit(av[1], '.');
 	if (ft_strcmp(arr[1], "s") != 0)
-		error("Error: incorrect file extension");
+		error("Error: incorrect file extension.");
 	g_files->f_fd = open(av[1], O_RDONLY);
 	filename = get_name(av[1]);
 	write_header();
 	write_all();
 	if (!(g_files->s_fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, 0666)))
-		error("Unable to create/open file");
+		error("Unable to create/open file.");
 	ft_printf("Writing output program to %s\n", filename);
 	write(g_files->s_fd, g_full_line, g_posit);
 	free_structs();
@@ -52,7 +52,7 @@ void			write_all(void)
 		else if (ft_strstr(line, COMMENT_CMD_STRING))
 			num += write_comment(line);
 		else if (find_op(line) != 0)
-			error("Syntax error in name/comment");
+			error("Syntax error in name/comment.");
 		else
 			free(line);
 	}
