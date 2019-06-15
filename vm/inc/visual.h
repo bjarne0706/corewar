@@ -26,6 +26,8 @@ void	*animation(WINDOW *picture);
 void	*inter_loop(WINDOW *menu, int yMax, int xMax, t_vm *v);
 void	start_menu(t_vm *v);
 void	screen_and_color(void);
+void	core_img(WINDOW *core, int yMax, int xMax);
+
 
 
 

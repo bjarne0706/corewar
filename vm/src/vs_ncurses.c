@@ -12,6 +12,26 @@
 
 #include "../inc/visual.h"
 
+void	core_img(WINDOW *core, int yMax, int xMax)
+{
+	int i;
+	const char *str[] = {"  /$$$$$$\n",
+" /$$__  $$\n",
+"| $$  \\__/  /$$$$$$   /$$$$$$   /$$$$$$  /$$  /$$  /$$  /$$$$$$   /$$$$$$\n",
+"| $$       /$$__  $$ /$$__  $$ /$$__  $$| $$ | $$ | $$ |____  $$ /$$__  $$\n",
+"| $$      | $$  \\ $$| $$  \\__/| $$$$$$$$| $$ | $$ | $$  /$$$$$$$| $$  \\__/\n",
+"| $$    $$| $$  | $$| $$      | $$_____/| $$ | $$ | $$ /$$__  $$| $$\n",
+"|  $$$$$$/|  $$$$$$/| $$      |  $$$$$$$|  $$$$$/$$$$/|  $$$$$$$| $$\n",
+" \\______/  \\______/ |__/       \\_______/ \\_____/\\___/  \\_______/|__/\n", NULL};
+	// wprintw(core, str);
+	yMax = 0;/////////////////////need to del
+	xMax = 0;
+	i = -1;
+	while (str[++i] != NULL)
+		mvwprintw(core, i + 2, 7, str[i]);
+
+}
+
 void start_menu(t_vm *v)
 {
     initscr();
@@ -24,13 +44,28 @@ void start_menu(t_vm *v)
     getmaxyx(stdscr, yMax, xMax);
     start_color();
     init_pair(1, COLOR_WHITE, COLOR_WHITE);
-    WINDOW *menu = newwin(yMax / 4, xMax / 2, yMax / 4, xMax / 4);
+    init_pair(2, COLOR_BLACK, COLOR_BLACK);
+
+    WINDOW *black = newwin(yMax, xMax, 0, 0);
+    // WINDOW *menu = newwin(yMax / 4, xMax / 2, yMax / 4, xMax / 4);
+    WINDOW *menu = newwin(17, 90, yMax / 4, xMax / 3.8);
+    // WINDOW *menu = newwin(17, 90, 0, 0);
+
     //for using arrow keys
     keypad(menu, true);
+    wattron(black, COLOR_PAIR(2));
+    wattroff(black, COLOR_PAIR(2));
+    wrefresh(black);
+
+	core_img(menu, yMax, xMax);
+
     wattron(menu, COLOR_PAIR(1));
 	box(menu, 0,0);
 	wattroff(menu, COLOR_PAIR(1));
+
+
     wrefresh(menu);
+
     /////////menu interface
 	inter_loop(menu, yMax, xMax, v);
 	// delwin(menu);
@@ -52,7 +87,9 @@ void	*inter_loop(WINDOW *menu, int yMax, int xMax, t_vm *v)
 
 int	interface(WINDOW *menu, int yMax, int xMax, t_vm *v)
 {
-	const char *choices[] = {"Start", "Authors", "Exit"};
+	yMax = 0;
+	xMax = 0;//////////ned to del
+	const char *choices[] = {"START", "AUTHORS", "EXIT"};
 	static int	highlight;
 	int	i;
 	int	key;
@@ -65,7 +102,7 @@ int	interface(WINDOW *menu, int yMax, int xMax, t_vm *v)
 	{
 		if (i == highlight)
 			wattron(menu, A_REVERSE);
-		mvwprintw(menu, i + yMax / 9, xMax / 4 - 3, &*choices[i]);
+		mvwprintw(menu, i + 11, 43, &*choices[i]);
 		wattroff(menu, A_REVERSE);
 	}
 	key = wgetch(menu);
