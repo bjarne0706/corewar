@@ -15,6 +15,8 @@
 void		read_asm_put_code_size(void)
 {
 	char	*line;
+	char	*tmp;
+	char	*tmp2;
 
 	while (get_next_line(g_files->f_fd, &line) > 0)
 	{
@@ -26,13 +28,17 @@ void		read_asm_put_code_size(void)
 			printf("find_op: %d in line: %s\n", find_op(line), line);
 			if (find_op(line) == 1)
 				make_lbl(line);
-
 			else if (if_has_smthng(line))
 			{
 					if (find_op(line) == 3)
 					{
-						make_lbl(ft_strsub(line, 0, label_char_pos(line)));
-						create_token(ft_strchr(line, LABEL_CHAR) + 1);
+						tmp = ft_strsub(line, 0, label_char_pos(line));
+						tmp2 = ft_strsub(line, label_char_pos(line) + 1, ft_strlen(line) - (label_char_pos(line) + 1));
+						printf("THIS LINE: %s\n", tmp2);
+						make_lbl(tmp);
+						create_token(tmp2);
+						free(tmp);
+						free(tmp2);
 					}
 					else
 						create_token(line);					
@@ -41,14 +47,14 @@ void		read_asm_put_code_size(void)
 		
 		free(line);
 	}
-	t_label *tmp;
+	// t_label *tmp;
 
-	tmp = g_lbl;
-	while (tmp != NULL)
-	{
-		printf("FUCKING LABEL: %s\n", tmp->label);
-		tmp = tmp->next;
-	}
+	// tmp = g_lbl;
+	// while (tmp != NULL)
+	// {
+	// 	printf("FUCKING LABEL: %s\n", tmp->label);
+	// 	tmp = tmp->next;
+	// }
 	put_hex(g_exec_size, 4);
 	g_full_line = (unsigned char *)realloc(g_full_line,
 	 PROG_NAME_LENGTH + COMMENT_LENGTH + 16 + g_exec_size + 1);
@@ -77,7 +83,7 @@ void		del_space_end(char **line)
 	int		i;
 
 	i = ft_strlen((*line)) - 1;
-	while (i > 0 && !ft_isalnum((*line)[i]) && (*line)[i] != LABEL_CHAR)
+	while (i > 0 && ft_space((*line)[i]) && (*line)[i] != LABEL_CHAR)
 		i--;
 	i++;
 	(*line)[i] = '\0';
@@ -106,7 +112,7 @@ void		make_lbl(char *str)
 
 	new = (t_label *)ft_memalloc(sizeof(t_label));
 	new->mem_pos = g_exec_size;
-	printf("STR IN MAKE_LBL: %s.\n", str);
+	// printf("STR IN MAKE_LBL: %s.\n", str);
 	new->label = ft_strsub(str, 0, label_char_pos(str));
 	// printf("label: %s\n", new->label);
 	if (g_lbl == NULL)
@@ -156,7 +162,9 @@ void		handle_args(char **arr, t_oken *new, int num)
 	y = 0;
 	while (arr[y])
 	{
+		del_space_end(&arr[y]);
 		x = trim_space(0, arr[y]);
+		printf("ARGUMENT: %s.\n", arr[y]);
 		if (arr[y][x] == 'r')
 		{
 			new->code_size++;

@@ -88,6 +88,7 @@ void				write_token();
 //writes
 void				write_header();
 int					write_name(char *line);
+void				validate_name_comment_cmd(char *str, int n_or_c);
 int					write_comment(char *line);
 void				put_hex(int32_t nbr, int size);
 void				print_args(t_oken *tkn);
@@ -129,4 +130,5 @@ int					make_from_binary(char *str);
 void				fill_type_code(int count, char **code);
 void				free_and_ret(char **arr);
 void				free_structs();
+char				*ft_strjoin_three(char *s1, char *s2, char *s3);
 #endif

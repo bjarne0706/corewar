@@ -40,16 +40,16 @@ void		fill_args(int num, char *line, t_oken *new)
 	while (ft_isalnum(line[i]))
 		i++;
 	tmp = &line[i];
-	printf("LINE:%s\n", line);
+	// printf("LINE:%s\n", line);
 	arr = ft_strsplit(tmp, SEPARATOR_CHAR);
 	i = 0;
-	while (i < new->token->arg_count)
-	{
-		printf("ARR IN FILL_ARGS: %s.\n", arr[i]);
-		i++;
-	}
-	// if (count_separ(line) != new->token->arg_count - 1)
-		// error("Incorrect line");
+	// while (i < new->token->arg_count)
+	// {
+	// 	// printf("ARR IN FILL_ARGS: %s.\n", arr[i]);
+	// 	i++;
+	// }
+	if (count_separ(line) != new->token->arg_count - 1)
+		error("Incorrect line");
 	handle_args(arr, new, num);
 	free_and_ret(arr);
 }
@@ -74,17 +74,20 @@ int			find_op(char *line)
 	int		sum;
 	int		i;
 	int		y;
+	int		tmp;
 
+	tmp = 0;
 	i = 0;
 	y = 0;
 	sum = 0;
 	while (line[y] && !ft_space(line[y]))
 	{
-		if (line[y] == LABEL_CHAR && (ft_space(line[y + 1]) || line[y + 1] == '\0'))
-		{
-			sum++;
-			break ;
-		}
+		if (y > 0)
+			if (line[y] == LABEL_CHAR && line[y - 1] != DIRECT_CHAR)
+			{
+				sum++;
+				break ;
+			}
 		if (ft_isalnum(line[y]) && ft_space(line[y + 1]))
 		{
 			y = 0;
@@ -107,24 +110,31 @@ int			find_op(char *line)
 int			get_op_name(char *line)
 {
 	int		i;
+	int		start;
 	int		y;
 	char	*name;
-	int 	op_type;
-
-	op_type = 0;
+	char	*tmp;
+	
 	name = (char *)ft_memalloc(6);
 	i = 0;
 	y = 0;
-	while (line[i] == ' ' || line[i] == '\t')
+	if (line[i] == LABEL_CHAR)
 		i++;
-	while (line[i] && line[0] != 'r' && line[i] != DIRECT_CHAR && line[i] != ' ' && line[i] != '\t')
+	while (ft_space(line[i]))
+		i++;
+	start = i;
+	while (line[i] && line[0] != 'r' && line[i] != DIRECT_CHAR && !ft_space(line[i]))
 	{
-		name[y++] = line[i++];
-		if (choose_name(name) > 0)
-			op_type = choose_name(name);
+		y++;
+		i++;
 	}
+	tmp = name;
+	name = ft_strsub(line, start, y);
+	free(tmp);
 	free(name);
-	return (op_type - 1);
+	if (!choose_name(name))
+		error("Error: operation does not exist");
+	return (choose_name(name) - 1);
 }
 
 int			check_line(char *str)

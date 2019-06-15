@@ -78,8 +78,8 @@ unsigned int	reverse_byte(unsigned int num)
 
 void			error(char *str)
 {
-	printf("%s\n", str);
-	// system("leaks asm");
+	ft_printf("%s\n", str);
 	free_structs();
+	system("leaks asm");
 	exit(1);
 }

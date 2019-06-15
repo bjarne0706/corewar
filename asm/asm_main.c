@@ -36,7 +36,7 @@ int				main(int ac, char **av)
 	ft_printf("Writing output program to %s\n", filename);
 	write(g_files->s_fd, g_full_line, g_posit);
 	free_structs();
-	// system("leaks asm");
+	system("leaks asm");
 }
 
 void			write_all(void)
@@ -51,7 +51,10 @@ void			write_all(void)
 			num += write_name(line);
 		else if (ft_strstr(line, COMMENT_CMD_STRING))
 			num += write_comment(line);
-		free(line);
+		else if (find_op(line) != 0)
+			error("Syntax error in name/comment");
+		else
+			free(line);
 	}
 	free(line);
 	ft_memcpy(g_full_line + g_posit, g_str->name, PROG_NAME_LENGTH);

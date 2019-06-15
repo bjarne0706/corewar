@@ -32,21 +32,29 @@ int				write_name(char *line)
 
 	i = 0;
 	num = PROG_NAME_LENGTH;
-	g_str->name = (char *)ft_memalloc(num);
-	tmp_name = (char *)ft_memalloc(num);
+	g_str->name = (char *)ft_memalloc(num * 2);
+	tmp_name = (char *)ft_memalloc(num * 2);
 	brack_flag = 0;
-	tmp = tmp_name;
+	validate_name_comment_cmd(line, 1);
 	while (brack_flag != 2)
 	{
-		if ((i = search_bracks(line)))
+		tmp = ft_strdup(tmp_name);
+		if (brack_flag != 1 && (i = search_bracks(line)))
 			brack_flag++;
-		if (search_r_bracks(line, i))
+		if (search_r_bracks(line, i) || line[0] == '"')
 			brack_flag++;
-		tmp_name = ft_strjoin(tmp_name, line);
+		free(tmp_name);
+		tmp_name = ft_strjoin_three(tmp, line, "\n");
 		free(tmp);
 		if (brack_flag != 2)
+		{
+			ft_strdel(&line);
 			get_next_line(g_files->f_fd, &line);
+		}
+		if ((find_op(line) != 0 && brack_flag == 1) || ft_strstr(line, COMMENT_CMD_STRING))
+			error("Error: no closing bracket");
 	}
+	ft_strdel(&line);
 	tmp_name = read_betw_brack(tmp_name, 1);
 	ft_memcpy(g_str->name, tmp_name, num);
 	free(tmp_name);
@@ -63,32 +71,67 @@ int				write_comment(char *line)
 
 	i = 0;
 	num = COMMENT_LENGTH;
-	g_str->comment = (char *)ft_memalloc(num);
-	tmp_name = (char *)ft_memalloc(num);
+	g_str->comment = (char *)ft_memalloc(num * 2);
+	tmp_name = (char *)ft_memalloc(num * 2);
 	brack_flag = 0;
+	validate_name_comment_cmd(line, 0);
 	while (brack_flag != 2)
 	{
-		tmp = tmp_name;
-		if ((i = search_bracks(line)))
+		tmp = ft_strdup(tmp_name);
+		if (brack_flag != 1 && (i = search_bracks(line)))
 			brack_flag++;
-		if (search_r_bracks(line, i))
+		if (search_r_bracks(line, i) || line[0] == '"')
 			brack_flag++;
-		tmp_name = ft_strjoin(tmp_name, line);
+		free(tmp_name);
+		tmp_name = ft_strjoin_three(tmp, line, "\n");
 		free(tmp);
 		if (brack_flag != 2)
+		{
+			ft_strdel(&line);
 			get_next_line(g_files->f_fd, &line);
+		}
+		if ((find_op(line) != 0 && brack_flag == 1) || ft_strstr(line, NAME_CMD_STRING))
+			error("Error: no closing bracket");
 	}
+	ft_strdel(&line);
+	// printf("comment: %s\n", tmp_name);
 	tmp_name = read_betw_brack(tmp_name, 0);
+	// printf("comment: %s\n", tmp_name);
 	ft_memcpy(g_str->comment, tmp_name, num);
+	if (ft_strlen(tmp_name) > COMMENT_LENGTH)
+		error("Error: too long comment");
 	free(tmp_name);
 	return (1);
 }
-//
-//
-// починить карту 42.s
-//
-//
-//
+
+void		validate_name_comment_cmd(char *str, int n_or_c)
+{
+	int		i;
+	char	*pattern;
+	char	*error_msg;
+
+	if (n_or_c)
+	{
+		error_msg = "Syntax error in name command";
+		pattern = ft_strdup(NAME_CMD_STRING);
+	}
+	else
+	{
+		error_msg = "Syntax error in comment command";
+		pattern = ft_strdup(COMMENT_CMD_STRING);
+	}
+	printf("pattern: %s\n", pattern);
+	i = -1;
+	while (str[++i] != '"' && !ft_space(str[i]) && str[i])
+		if (str[i] != pattern[i])
+			error(error_msg);
+	while (str[i] != '"' && ft_space(str[i]) && str[i])
+		i++;
+	if (str[i] == '\0' || str[i] != '"')
+		error(error_msg);
+	free(pattern);
+}
+
 void		put_hex(int32_t nbr, int size)
 {
 	unsigned int	tmp;

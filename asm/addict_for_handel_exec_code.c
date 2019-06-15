@@ -34,16 +34,36 @@ void		free_and_ret(char **arr)
 
 void		free_structs()
 {
-	// t_oken	*tmp;
-
-	// tmp = g_tkns;
-	// while (tmp != NULL)
-	// {
-	// 	free(tmp->code_types);
-	// 	tmp = tmp->next;
-	// }
 	free(g_str->name);
-	free(g_str->comment);
+	if (g_str->comment)
+		ft_strdel(&g_str->comment);
 	ft_bzero(g_str, sizeof(t_strings));
 	ft_bzero(g_files, sizeof(t_files));
+}
+
+char		*ft_strjoin_three(char *s1, char *s2, char *s3)
+{
+	char	*s_new;
+	int		i;
+	int		i2;
+	int		i3;
+
+	i3 = -1;
+	i2 = -1;
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
+	i = ft_strlen(s1) + ft_strlen(s2) + ft_strlen(s3);
+	s_new = ft_memalloc(i + 1);
+	s_new[0] = '\0';
+	i = -1;
+	while (s1[++i])
+		s_new[i] = s1[i];
+	i--;
+	while (s2[++i2])
+		s_new[++i] = s2[i2];
+	while (s3[++i3])
+		s_new[++i] = s3[i3];
+	s_new[i + 1] = '\0';
+	// free(s1);
+	return (s_new);
 }
