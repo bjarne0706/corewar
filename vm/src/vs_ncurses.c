@@ -33,6 +33,7 @@ void start_menu(t_vm *v)
     wrefresh(menu);
     /////////menu interface
 	inter_loop(menu, yMax, xMax, v);
+	// delwin(menu);
     endwin();
 }
 
@@ -56,8 +57,8 @@ int	interface(WINDOW *menu, int yMax, int xMax, t_vm *v)
 	int	i;
 	int	key;
 
-			(void)v;	//Anatoliy, unused var! =)
 	i = -1;
+	v = NULL;
 	// highlight = 0;
 	// choices ;
 	while (++i < 3)
@@ -81,11 +82,12 @@ int	interface(WINDOW *menu, int yMax, int xMax, t_vm *v)
 		highlight = 2;
 	}
 	else if (key == 10 && highlight == 2)
-		return (0);
+	{
+    	endwin();
+    	exit (1);
+	}
 	else if (key == 10 && highlight == 0)
 	{
-		// create_border(v);
-		wclear(menu);
 		wrefresh(menu);
 		return (0);
 	}
@@ -152,7 +154,7 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 			wattroff(game, COLOR_PAIR(7));
 			wattroff(game, COLOR_PAIR(8));
 			mvwprintw(game, y + 1, x + 2,  " ", v->arena[i]);
-			
+
 			i++;
 			x += 1;
 		}

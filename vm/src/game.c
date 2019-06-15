@@ -37,7 +37,10 @@ void			die_check(t_vm *v)
 void			run_the_game(t_vm *v)
 {
 	if (v->options[2] == 'v')
+	{
+		start_menu(v);
 		create_border(v);
+	}
 	while (v->carrs_num > 0)
 	{
 		if (v->options[0] && v->cycles == (size_t)v->dump_cycles[0])
