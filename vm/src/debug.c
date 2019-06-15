@@ -12,6 +12,27 @@
 
 #include "../inc/vm.h"
 
+void			print_color_map(t_vm *v)
+{
+	int		x;
+	int		y;
+
+	y = 0;
+	ft_printf("\n\n");
+	while (y * 64 < MEM_SIZE)
+	{
+		x = 0;
+		ft_printf("%06p : ", y * 64);
+		while (x < 64)
+		{
+			ft_printf("%.2x ", v->colors[y * 64 + x]);
+			x++;
+		}
+		ft_printf("\n");
+		y++;
+	}
+}
+
 void			print_vm_params(t_vm *v)
 {
 	ft_printf("\n{_darkgray}{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{VM}}}}}}}}}}}}}}}}}}}}}}}}}}}}}\n");

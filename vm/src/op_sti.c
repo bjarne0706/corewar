@@ -35,7 +35,7 @@ void			op_sti(t_vm *v, t_carr *c, t_op *op)
 		// ft_printf("{cyan}pc: %d; arg[0]: %d{0}\n", pc, arg[0]);		//
 	arg[1] = get_arg(v, c, 2, &pc);
 		// ft_printf("{cyan}pc: %d; arg[1]: %d{0}\n", pc, arg[1]);		//
-	int_to_arena(v, calc_address(c->pc, true, arg[0] + arg[1]), REG_SIZE, c->reg[r - 1]);
+	int_to_arena(v, calc_address(c->pc, true, arg[0] + arg[1]), c, c->reg[r - 1]);
 		// ft_printf("{cyan}c->reg[r - 1]: %08x{0}\n", c->reg[r - 1]);		//
 	c->step = step_calc(c, op);
 	if (v->log & LOG_OPS)

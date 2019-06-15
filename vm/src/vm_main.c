@@ -47,7 +47,8 @@ int				main(int ac, char *av[])
 		assign_champ_nums(v);
 			print_champs(v);		//
 		setup_arena(v);
-//			print_arena(v, v->options[0]);		//
+			print_arena(v, v->options[0]);		//
+			print_color_map(v);		///
 //			introduce_champs(v);		//
 		setup_carriages(v);
 //					print_carriages(v);		//
@@ -55,6 +56,8 @@ int				main(int ac, char *av[])
 			// run_cycle(v);
 			print_vm_params(v);		//
 		run_the_game(v);
+			print_arena(v, v->options[0]);		//
+			print_color_map(v);		///
 		hail_the_hero(v);
 			// print_carriages(v);		//
 //			print_arena(v, v->options[0]);		//

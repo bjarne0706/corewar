@@ -64,14 +64,17 @@ int32_t		get_arg_and(t_vm *v, t_carr *c, size_t num, size_t pc)
 	return (arg);
 }
 
-void		int_to_arena(t_vm *v, int32_t pos, int32_t size, int32_t num)
+void		int_to_arena(t_vm *v, int32_t pos, t_carr *c, int32_t num)
 {
 	int		shift;
+	int		size;
 
 	shift = 0;
+	size = REG_SIZE;
 	while (size)
 	{
 		v->arena[calc_address(pos + size - 1, false, 0)] = (uint8_t)(num >> shift);
+		v->colors[calc_address(pos + size - 1, false, 0)] = c->champ->num;
 		shift += 8;
 		size--;
 	}

@@ -40,7 +40,7 @@ void		op_st(t_vm *v, t_carr *c, t_op *op)
 	{
 		ind = get_int(v, pc, IND_SIZE);
 		pc = calc_address(c->pc, true, ind);
-		int_to_arena(v, pc, op->t_dir_size, c->reg[r[0] - 1]);
+		int_to_arena(v, pc, c, c->reg[r[0] - 1]);
 	}
 	c->step = step_calc(c, op);
 	if (v->log & LOG_OPS)

@@ -69,6 +69,7 @@ typedef struct		s_vm
 	int				dump_cycles[2];
 	int8_t			log;
 	uint8_t			arena[MEM_SIZE];
+	uint8_t			colors[MEM_SIZE];
 	int				champs_num;
 	t_champ			*champs[MAX_PLAYERS];
 	t_champ			*last_standing;
@@ -161,7 +162,7 @@ uint32_t			arg_size(uint8_t arg_type, t_op *op);
 int32_t				calc_address(int32_t pc, int idx_mode, int32_t step);
 
 int32_t				get_int(t_vm *v, int pc, int size);
-void				int_to_arena(t_vm *v, int32_t pos, int32_t size, int32_t num);
+void				int_to_arena(t_vm *v, int32_t pos, t_carr *c, int32_t num);
 int32_t				get_arg(t_vm *v, t_carr *c, uint8_t idx, int32_t *pc);
 int32_t				get_arg_and(t_vm *v, t_carr *c, size_t num, size_t pc);
 
@@ -191,5 +192,6 @@ void				vm_error(char *msg);
 void			print_champs(t_vm *v);
 void			print_carriages(t_vm *v);
 void			print_vm_params(t_vm *v);
+void			print_color_map(t_vm *v);
 
 #endif
