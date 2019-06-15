@@ -69,17 +69,30 @@ int	interface(WINDOW *menu, int yMax, int xMax, t_vm *v)
 		wattroff(menu, A_REVERSE);
 	}
 	key = wgetch(menu);
+	if (key == 10)
+	{
+		system("pkill afplay");
+		system("afplay sounds/button-sound-14.mp3 &> /dev/null &");
+	}
 	if (key == KEY_UP)
 	{
 		highlight--;
 		if (highlight == -1)
+		{
+			system("pkill afplay");
+			system("afplay sounds/magic_immune.mp3 &> /dev/null &");
 			highlight = 0;
+		}
 	}
 	else if (key == KEY_DOWN)
 	{
 		highlight++;
 			if (highlight == 3)
-		highlight = 2;
+			{
+				system("pkill afplay");
+				system("afplay sounds/magic_immune.mp3 &> /dev/null &");
+				highlight = 2;
+			}
 	}
 	else if (key == 10 && highlight == 2)
 	{
