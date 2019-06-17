@@ -48,6 +48,8 @@ void		read_asm_put_code_size(void)
 		
 		free(line);
 	}
+	if (g_tkns == NULL)
+		error("Error: no operations");
 	// t_label *tmp;
 
 	// tmp = g_lbl;

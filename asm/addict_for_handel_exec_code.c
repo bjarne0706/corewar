@@ -36,12 +36,12 @@ void		free_structs()
 {
 	free(g_str->name);
 	if (g_str->comment)
-		ft_strdel(&g_str->comment);
+		free(g_str->comment);
 	ft_bzero(g_str, sizeof(t_strings));
 	ft_bzero(g_files, sizeof(t_files));
 }
 
-char		*ft_strjoin_three(char *s1, char *s2, char *s3)
+char		*ft_strjoin_three(char *s1, char *s2, char *s3, int num)
 {
 	char	*s_new;
 	int		i;
@@ -58,6 +58,14 @@ char		*ft_strjoin_three(char *s1, char *s2, char *s3)
 	i = -1;
 	while (s1[++i])
 		s_new[i] = s1[i];
+	if (num)
+	{
+		if (i == COMMENT_LENGTH + 1)
+			error("Error: too long comment");
+	}
+	else
+		if (i == PROG_NAME_LENGTH + 1)
+			error("Error: too long comment");
 	i--;
 	while (s2[++i2])
 		s_new[++i] = s2[i2];

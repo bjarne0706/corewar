@@ -34,8 +34,8 @@ int				write_name(char *line)
 	if (g_str->name_flag)
 		error("Error: too many names.");
 	num = PROG_NAME_LENGTH;
-	g_str->name = (char *)ft_memalloc(num * 2);
-	tmp_name = (char *)ft_memalloc(num * 2);
+	g_str->name = (char *)ft_memalloc(num + 1);
+	tmp_name = (char *)ft_memalloc(num + 1);
 	brack_flag = 0;
 	validate_name_comment_cmd(line, 1);
 	while (brack_flag != 2)
@@ -46,7 +46,7 @@ int				write_name(char *line)
 		if (search_r_bracks(line, i) || line[0] == '"')
 			brack_flag++;
 		free(tmp_name);
-		tmp_name = ft_strjoin_three(tmp, line, "\n");
+		tmp_name = ft_strjoin_three(tmp, line, "\n", 1);
 		free(tmp);
 		if (brack_flag != 2)
 		{
@@ -88,7 +88,7 @@ int				write_comment(char *line)
 		if (search_r_bracks(line, i) || line[0] == '"')
 			brack_flag++;
 		free(tmp_name);
-		tmp_name = ft_strjoin_three(tmp, line, "\n");
+		tmp_name = ft_strjoin_three(tmp, line, "\n", 0);
 		free(tmp);
 		if (brack_flag != 2)
 		{
