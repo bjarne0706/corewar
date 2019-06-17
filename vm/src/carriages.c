@@ -14,6 +14,11 @@
 
 void				slaughter_carriage(t_vm *v, t_carr *prev, t_carr *del)
 {
+	if (v->options[2] == 'v')
+	{
+		system("pkill afplay");
+		system("afplay sounds/hitmarker_2.mp3 &> /dev/null &");
+	}
 	if (del == v->carrs)
 	{
 		v->carrs = v->carrs->nxt;

@@ -175,7 +175,7 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 
 	y = -1;
 	i = 0;
-	while (++y < 64)
+	while (++y < 63)
 	{
 		x = 0;
 		while (x < 194)
@@ -209,9 +209,21 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 			x += 1;
 		}
 	}
+	box(v->game, 0, 0);
+	box(v->info, 0, 0);
 	refresh();
 	wrefresh(game);
 	wrefresh(info);
+
+	int get_int;
+	nodelay(stdscr, TRUE);
+	get_int = getch();
+	if (get_int == 32)
+	{
+		get_int = 0;
+		while (get_int != 32)
+			get_int = getch();
+	}
 }
 
 void	del_win(WINDOW *game, WINDOW *info)
