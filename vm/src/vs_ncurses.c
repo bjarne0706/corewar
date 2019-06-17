@@ -171,10 +171,12 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 	int		y;
 	int		i;
 	short	prot;
+	int		alive;
 	t_carr *tmp;
 
 	y = -1;
 	i = 0;
+	alive = 0;
 	while (++y < 63)
 	{
 		x = 0;
@@ -190,6 +192,7 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 				{
 					wattron(game, COLOR_PAIR(tmp->champ->num + 4));
 					prot = 1;
+					alive++;
 				}
 				tmp = tmp->nxt;
 			}
@@ -209,6 +212,7 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 			x += 1;
 		}
 	}
+	mvwprintw(info, 1, 1, "Alive = %d", alive);
 	box(v->game, 0, 0);
 	box(v->info, 0, 0);
 	refresh();
