@@ -61,11 +61,11 @@ char		*ft_strjoin_three(char *s1, char *s2, char *s3, int num)
 	if (num)
 	{
 		if (i == COMMENT_LENGTH + 1)
-			error("Error: too long comment");
+			error("Error: too long comment.");
 	}
 	else
 		if (i == PROG_NAME_LENGTH + 1)
-			error("Error: too long comment");
+			error("Error: too long name.");
 	i--;
 	while (s2[++i2])
 		s_new[++i] = s2[i2];

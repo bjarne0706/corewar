@@ -1,0 +1,1 @@
+make re && ./asm bot.s && ./asmOR bot.s && hexdump -vC bot1.cor > bot1.txt && hexdump -vC bot.cor > bot.txt && diff bot1.txt bot.txt

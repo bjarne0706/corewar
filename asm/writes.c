@@ -126,7 +126,7 @@ void		validate_name_comment_cmd(char *str, int n_or_c)
 		error_msg = "Syntax error in comment command.";
 		pattern = ft_strdup(COMMENT_CMD_STRING);
 	}
-	printf("pattern: %s\n", pattern);
+	// printf("pattern: %s\n", pattern);
 	i = -1;
 	while (str[++i] != '"' && !ft_space(str[i]) && str[i])
 		if (str[i] != pattern[i])

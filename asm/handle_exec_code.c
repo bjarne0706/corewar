@@ -115,13 +115,13 @@ int				work_on_label(t_oken *tkn, char *arg)
 
 	value = 0;
 	tmp = g_lbl;
-	printf("ARG: %s.\n", arg);
+	// printf("ARG: %s.\n", arg);
 	while (tmp != NULL)
 	{
 		if (tmp->label)
 			if (ft_strcmp(tmp->label, arg) == 0)
 			{
-				printf("tmp->label: %s arg: %s\n", tmp->label, arg);
+				// printf("tmp->label: %s arg: %s\n", tmp->label, arg);
 				value = tmp->mem_pos - tkn->mem_pos;
 				break ;
 			}
@@ -129,7 +129,7 @@ int				work_on_label(t_oken *tkn, char *arg)
 	}
 	if (tmp == NULL)
 		error("Error: label does not exist.");
-	printf("NAME: %s\n", tkn->token->name);
-	printf("LABEL VALUE: %d\n", value);
+	// printf("NAME: %s\n", tkn->token->name);
+	// printf("LABEL VALUE: %d\n", value);
 	return (value);
 }

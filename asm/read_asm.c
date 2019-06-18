@@ -167,7 +167,7 @@ void		handle_args(char **arr, t_oken *new, int num)
 	{
 		del_space_end(&arr[y]);
 		x = trim_space(0, arr[y]);
-		printf("ARGUMENT: %s.\n", arr[y]);
+		// printf("ARGUMENT: %s.\n", arr[y]);
 		if (arr[y][x] == 'r')
 		{
 			new->code_size++;
