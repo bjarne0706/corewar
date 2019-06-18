@@ -132,5 +132,5 @@ int					make_from_binary(char *str);
 void				fill_type_code(int count, char **code);
 void				free_and_ret(char **arr);
 void				free_structs();
-char				*ft_strjoin_three(char *s1, char *s2, char *s3);
+char				*ft_strjoin_three(char *s1, char *s2, char *s3, int i);
 #endif
