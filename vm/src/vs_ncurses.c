@@ -48,7 +48,7 @@ void start_menu(t_vm *v)
 
     WINDOW *black = newwin(yMax, xMax, 0, 0);
     // WINDOW *menu = newwin(yMax / 4, xMax / 2, yMax / 4, xMax / 4);
-    WINDOW *menu = newwin(17, 90, yMax / 4, xMax / 3.8);
+    WINDOW *menu = newwin(17, 90, yMax / 5, xMax / 2.8);
     // WINDOW *menu = newwin(17, 90, 0, 0);
 
     //for using arrow keys
@@ -171,12 +171,10 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 	int		y;
 	int		i;
 	short	prot;
-	int		alive;
 	t_carr *tmp;
 
 	y = -1;
 	i = 0;
-	alive = 0;
 	while (++y < 63)
 	{
 		x = 0;
@@ -192,7 +190,6 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 				{
 					wattron(game, COLOR_PAIR(tmp->champ->num + 4));
 					prot = 1;
-					alive++;
 				}
 				tmp = tmp->nxt;
 			}
@@ -212,7 +209,19 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 			x += 1;
 		}
 	}
-	mvwprintw(info, 1, 1, "Alive = %d", alive);
+	mvwprintw(info, 1, 1, "CYCLES TOTAL = %d", v->cycles);
+	mvwprintw(info, 2, 1, "CYCLES SINCE CHECK = %d", v->cyc_since_check);
+	mvwprintw(info, 3, 1, "ACTIVE PROCESSES = %d", v->carrs_num);
+	mvwprintw(info, 4, 1, "CYCLES TO DIE = % 9d", v->cyc_to_die);
+	mvwprintw(info, 5, 1, "CYCLES DELTA = %d", CYCLE_DELTA);
+	mvwprintw(info, 6, 1, "LIVES SINCE CHECK = % 5d / %d", v->lives_since_check, NBR_LIVE);
+	mvwprintw(info, 7, 1, "CHECKS DONE = %d / %d", v->checks_done, MAX_CHECKS);
+	mvwprintw(info, 8, 1, "LAST STANDING = %d \"%s\"", v->last_standing->num, v->last_standing->name);
+
+
+
+
+
 	box(v->game, 0, 0);
 	box(v->info, 0, 0);
 	refresh();
@@ -228,6 +237,45 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 		while (get_int != 32)
 			get_int = getch();
 	}
+}
+
+void	winner(t_vm *v)
+{
+	initscr();
+    noecho();
+    refresh();
+    curs_set(0);
+    //get screen size
+    int yMax;
+    int xMax;
+    getmaxyx(stdscr, yMax, xMax);
+    start_color();
+    init_pair(1, COLOR_WHITE, COLOR_WHITE);
+    init_pair(2, COLOR_BLACK, COLOR_BLACK);
+
+    WINDOW *black = newwin(yMax, xMax, 0, 0);
+    // WINDOW *menu = newwin(yMax / 4, xMax / 2, yMax / 4, xMax / 4);
+    WINDOW *menu = newwin(17, 90, yMax / 5, xMax / 2.8);
+    // WINDOW *menu = newwin(17, 90, 0, 0);
+
+    //for using arrow keys
+    keypad(menu, true);
+    wattron(black, COLOR_PAIR(2));
+    wattroff(black, COLOR_PAIR(2));
+    wrefresh(black);
+
+	core_img(menu, yMax, xMax);
+	mvwprintw(menu, 12, 43, "%s", v->last_standing->name);
+
+
+    wattron(menu, COLOR_PAIR(1));
+	box(menu, 0,0);
+	wattroff(menu, COLOR_PAIR(1));
+
+
+    wrefresh(menu);
+    sleep(15);
+    endwin();
 }
 
 void	del_win(WINDOW *game, WINDOW *info)
