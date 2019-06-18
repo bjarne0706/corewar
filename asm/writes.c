@@ -105,7 +105,10 @@ int				write_comment(char *line)
 	// printf("comment: %s\n", tmp_name);
 	ft_memcpy(g_str->comment, tmp_name, num);
 	if (ft_strlen(tmp_name) > COMMENT_LENGTH)
+	{
+		g_str->comment = NULL;
 		error("Error: too long comment.");
+	}
 	free(tmp_name);
 	return (1);
 }

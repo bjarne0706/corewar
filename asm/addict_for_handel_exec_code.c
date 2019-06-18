@@ -35,7 +35,7 @@ void		free_and_ret(char **arr)
 void		free_structs()
 {
 	free(g_str->name);
-	if (g_str->comment)
+	if (g_str->comment && ft_strlen(g_str->comment) != 0)
 		free(g_str->comment);
 	ft_bzero(g_str, sizeof(t_strings));
 	ft_bzero(g_files, sizeof(t_files));
