@@ -195,7 +195,15 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 			}
 			if (!prot && v->colors[i].champ_num != 0)
 				wattron(game, COLOR_PAIR(v->colors[i].champ_num));
+			if (--(v->colors[i].st_wait) > 0)
+				wattron(game, A_BOLD);
+			if (--(v->colors[i].live_wait) > 0)
+				wattron(game, COLOR_PAIR(v->colors[i].champ_num * 10));
 			mvwprintw(game, y + 1, x + 2,  "%02x", v->arena[i]);
+			if (v->colors[i].st_wait > 0)
+				wattroff(game, A_BOLD);
+			if ((v->colors[i].live_wait) > 0)
+				wattron(game, COLOR_PAIR(v->colors[i].champ_num * 10));
 			x += 2;
 			if (!prot && v->colors[i].champ_num != 0)
 				wattroff(game, COLOR_PAIR(v->colors[i].champ_num));
@@ -209,6 +217,7 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 			x += 1;
 		}
 	}
+	wattron(info, A_BOLD);
 	mvwprintw(info, 1, 1, "CYCLES TOTAL = %d", v->cycles);
 	mvwprintw(info, 2, 1, "CYCLES SINCE CHECK = %d", v->cyc_since_check);
 	mvwprintw(info, 3, 1, "ACTIVE PROCESSES = %d", v->carrs_num);
@@ -217,6 +226,7 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 	mvwprintw(info, 6, 1, "LIVES SINCE CHECK = % 5d / %d", v->lives_since_check, NBR_LIVE);
 	mvwprintw(info, 7, 1, "CHECKS DONE = %d / %d", v->checks_done, MAX_CHECKS);
 	mvwprintw(info, 8, 1, "LAST STANDING = %d \"%s\"", v->last_standing->num, v->last_standing->name);
+	wattroff(info, A_BOLD);
 
 
 
@@ -318,5 +328,10 @@ void	screen_and_color(void)
     init_pair(6, COLOR_BLACK, COLOR_GREEN);
     init_pair(7, COLOR_BLACK, COLOR_YELLOW);
     init_pair(8, COLOR_BLACK, COLOR_BLUE);
+    ///////////////////////live and st
+    init_pair(10, COLOR_WHITE, COLOR_RED);
+    init_pair(20, COLOR_WHITE, COLOR_GREEN);
+    init_pair(30, COLOR_WHITE, COLOR_YELLOW);
+    init_pair(40, COLOR_WHITE, COLOR_BLUE);
 
 }
