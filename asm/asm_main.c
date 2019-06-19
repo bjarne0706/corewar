@@ -43,9 +43,10 @@ void			write_all(void)
 {
 	char	*line;
 	int 	num;
+	int		status;
 
 	num = 0;
-	while (get_next_line(g_files->f_fd, &line) > 0 && num != 2)
+	while ((status = get_next_line(g_files->f_fd, &line)) > 0 && num != 2)
 	{
 		if (ft_strstr(line, NAME_CMD_STRING))
 			num += write_name(line);
@@ -56,6 +57,8 @@ void			write_all(void)
 		else
 			free(line);
 	}
+	if (num != 2 && status <= 0)
+		error("Empty file");
 	free(line);
 	ft_memcpy(g_full_line + g_posit, g_str->name, PROG_NAME_LENGTH);
 	g_posit += PROG_NAME_LENGTH;
