@@ -218,15 +218,18 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 		}
 	}
 	wattron(info, A_BOLD);
-	mvwprintw(info, 1, 1, "CYCLES TOTAL = %d", v->cycles);
-	mvwprintw(info, 2, 1, "CYCLES SINCE CHECK = %d", v->cyc_since_check);
-	mvwprintw(info, 3, 1, "ACTIVE PROCESSES = %d", v->carrs_num);
-	mvwprintw(info, 4, 1, "CYCLES TO DIE = % 9d", v->cyc_to_die);
-	mvwprintw(info, 5, 1, "CYCLES DELTA = %d", CYCLE_DELTA);
-	mvwprintw(info, 6, 1, "LIVES SINCE CHECK = % 5d / %d", v->lives_since_check, NBR_LIVE);
-	mvwprintw(info, 7, 1, "CHECKS DONE = %d / %d", v->checks_done, MAX_CHECKS);
-	mvwprintw(info, 8, 1, "LAST STANDING = %d \"%s\"", v->last_standing->num, v->last_standing->name);
+	mvwprintw(info, 21, 1, "CYCLES TOTAL  % 24d", v->cycles);
+	mvwprintw(info, 23, 1, "CYCLES SINCE CHECK  % 18d", v->cyc_since_check);
+	mvwprintw(info, 25, 1, "ACTIVE PROCESSES  % 20d", v->carrs_num);
+	mvwprintw(info, 27, 1, "CYCLES TO DIE  % 23d", v->cyc_to_die);
+	mvwprintw(info, 29, 1, "CYCLES DELTA  % 24d", CYCLE_DELTA);
+	mvwprintw(info, 31, 1, "LIVES SINCE CHECK  % 14d / %d", v->lives_since_check, NBR_LIVE);
+	mvwprintw(info, 33, 1, "CHECKS DONE  % 20d / %d", v->checks_done, MAX_CHECKS);
+	mvwprintw(info, 35, 1, "LAST STANDING % 24s", v->last_standing->name);
 	wattroff(info, A_BOLD);
+	///////////////////////players
+	// mvwprintw(info, 1, 1, "%s", v->last_standing->num, v->last_standing->name);
+	print_players(v);
 
 
 
@@ -263,6 +266,25 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 			get_int = getch();
 		}
 		system("pkill -CONT afplay");
+	}
+}
+
+void	print_players(t_vm *v)
+{
+	int	i;
+	int	id;
+
+	i = -1;
+	id = 1;
+	while (++i < MAX_PLAYERS && v->champs[i])
+	{
+		wattron(v->info, A_BOLD | COLOR_PAIR(i + 1));
+		mvwprintw(v->info, id + i, 1, "%s :", v->champs[i]->name);
+			mvwprintw(v->info, id + 1 + i, 5, "last_live_cyc % 20d", v->champs[i]->last_live_cyc);
+			mvwprintw(v->info, id + 2 + i, 5, "current_lives % 20d", v->champs[i]->current_lives);
+			mvwprintw(v->info, id + 3 + i, 5, "prev_lives % 23d", v->champs[i]->prev_lives);
+		wattroff(v->info, A_BOLD | COLOR_PAIR(i + 1));
+		id += 4;
 	}
 }
 
