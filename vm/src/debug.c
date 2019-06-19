@@ -25,7 +25,7 @@ void			print_color_map(t_vm *v)
 		ft_printf("%06p : ", y * 64);
 		while (x < 64)
 		{
-			ft_printf("%.2x ", v->colors[y * 64 + x]);
+			ft_printf("%.2x ", v->colors[y * 64 + x].champ_num);
 			x++;
 		}
 		ft_printf("\n");

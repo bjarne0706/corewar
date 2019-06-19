@@ -162,7 +162,7 @@ void	create_border(t_vm *v)
 
 	wrefresh(v->info);
 	wrefresh(v->game);
-
+	system("afplay sounds/Megalovania.mp3 &> /dev/null &");
 }
 
 void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
@@ -193,12 +193,12 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 				}
 				tmp = tmp->nxt;
 			}
-			if (!prot && v->colors[i] != 0)
-				wattron(game, COLOR_PAIR(v->colors[i]));
+			if (!prot && v->colors[i].champ_num != 0)
+				wattron(game, COLOR_PAIR(v->colors[i].champ_num));
 			mvwprintw(game, y + 1, x + 2,  "%02x", v->arena[i]);
 			x += 2;
-			if (!prot && v->colors[i] != 0)
-				wattroff(game, COLOR_PAIR(v->colors[i]));
+			if (!prot && v->colors[i].champ_num != 0)
+				wattroff(game, COLOR_PAIR(v->colors[i].champ_num));
 			wattroff(game, COLOR_PAIR(5));
 			wattroff(game, COLOR_PAIR(6));
 			wattroff(game, COLOR_PAIR(7));
@@ -231,11 +231,28 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 	int get_int;
 	nodelay(stdscr, TRUE);
 	get_int = getch();
+	int	stop_music;
+	stop_music = 0;
+	if (get_int == 27)
+	{
+		del_win(game, info);
+		exit (1);
+	}
 	if (get_int == 32)
 	{
+		system("pkill -STOP afplay");
+		stop_music++;
 		get_int = 0;
 		while (get_int != 32)
+		{
+			if (get_int == 27)
+			{
+				del_win(game, info);
+				exit (1);
+			}
 			get_int = getch();
+		}
+		system("pkill -CONT afplay");
 	}
 }
 
@@ -283,6 +300,7 @@ void	del_win(WINDOW *game, WINDOW *info)
 	delwin(game);
 	delwin(info);
 	endwin();
+	system("pkill afplay");
 }
 
 void	screen_and_color(void)

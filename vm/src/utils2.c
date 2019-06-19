@@ -74,7 +74,11 @@ void		int_to_arena(t_vm *v, int32_t pos, t_carr *c, int32_t num)
 	while (size)
 	{
 		v->arena[calc_address(pos + size - 1, false, 0)] = (uint8_t)(num >> shift);
-		v->colors[calc_address(pos + size - 1, false, 0)] = c->champ->num;
+		if (v->options[2] == 'v')
+		{
+			v->colors[calc_address(pos + size - 1, false, 0)].champ_num = c->champ->num;
+			v->colors[calc_address(pos + size - 1, false, 0)].st_wait = 50;
+		}
 		shift += 8;
 		size--;
 	}

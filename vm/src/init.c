@@ -64,7 +64,7 @@ void			setup_arena(t_vm *v)
 		j = pos;
 		while (j - pos < (int)v->champs[i]->size)
 		{
-			v->colors[j] = v->champs[i]->num;
+			v->colors[j].champ_num = v->champs[i]->num;
 			j++;
 		}
 		pos += MEM_SIZE / v->champs_num;
@@ -102,7 +102,7 @@ t_vm			*init_vm(void)
 	v->log = 0;
 	i = 0;
 	ft_bzero(v->arena, MEM_SIZE);
-	ft_bzero(v->colors, MEM_SIZE);
+	ft_bzero(v->colors, MEM_SIZE * sizeof(t_colors));
 	v->champs_num = 0;
 		i = -1;
 		while (++i < MAX_PLAYERS)
