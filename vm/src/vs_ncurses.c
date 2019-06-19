@@ -193,12 +193,12 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 				}
 				tmp = tmp->nxt;
 			}
-			if (!prot && v->colors[i] != 0)
-				wattron(game, COLOR_PAIR(v->colors[i]));
+			if (!prot && v->colors[i].champ_num != 0)
+				wattron(game, COLOR_PAIR(v->colors[i].champ_num));
 			mvwprintw(game, y + 1, x + 2,  "%02x", v->arena[i]);
 			x += 2;
-			if (!prot && v->colors[i] != 0)
-				wattroff(game, COLOR_PAIR(v->colors[i]));
+			if (!prot && v->colors[i].champ_num != 0)
+				wattroff(game, COLOR_PAIR(v->colors[i].champ_num));
 			wattroff(game, COLOR_PAIR(5));
 			wattroff(game, COLOR_PAIR(6));
 			wattroff(game, COLOR_PAIR(7));
