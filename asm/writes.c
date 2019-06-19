@@ -24,96 +24,118 @@ void			write_header()
 
 int				write_name(char *line)
 {
-	int 		brack_flag;
+	int 		flag;
 	char 		*tmp_name;
-	char 		*tmp;
-	long int	num;
 	int 		i;
+	int			j;
 
-	i = 0;
-	if (g_str->name_flag)
+	j = 0;
+	if (g_str->name != NULL)
 		error("Error: too many names.");
-	num = PROG_NAME_LENGTH;
-	g_str->name = (char *)ft_memalloc(num + 1);
-	tmp_name = (char *)ft_memalloc(num + 1);
-	brack_flag = 0;
-	validate_name_comment_cmd(line, 1);
-	while (brack_flag != 2)
+	g_str->name = (char *)ft_memalloc(PROG_NAME_LENGTH);
+	tmp_name = (char *)ft_memalloc(PROG_NAME_LENGTH);
+	flag = 1;
+	i = validate_name_comment_cmd(line, 1) + 1;
+	if (line[i] == '\n')
+		tmp_name[j++] = '\n';
+	while (flag > 0 && line[i] != '"')
 	{
-		tmp = ft_strdup(tmp_name);
-		if (brack_flag != 1 && (i = search_bracks(line)))
-			brack_flag++;
-		if (search_r_bracks(line, i) || line[0] == '"')
-			brack_flag++;
-		free(tmp_name);
-		tmp_name = ft_strjoin_three(tmp, line, "\n", 1);
-		free(tmp);
-		if (brack_flag != 2)
+		while (line[i] && line[i] != '"')
+		{
+			check_size(&tmp_name, j, 0);
+			tmp_name[j++] = line[i++];
+		}
+		if (line[i] != '"')
+		{
+			check_size(&tmp_name, j, 0);
+			tmp_name[j++] = '\n';
+		}
+		if (line[i] != '"')
 		{
 			ft_strdel(&line);
-			get_next_line(g_files->f_fd, &line);
+			flag = get_next_line(g_files->f_fd, &line);
+			i = 0;
 		}
-		if ((find_op(line) != 0 && brack_flag == 1) || ft_strstr(line, COMMENT_CMD_STRING))
-			error("Error: no closing bracket.");
 	}
-	g_str->name_flag = 1;
+	if (flag <= 0)
+		error("Error: no closing bracket.");
 	ft_strdel(&line);
-	tmp_name = read_betw_brack(tmp_name, 1);
-	ft_memcpy(g_str->name, tmp_name, num);
+	ft_memcpy(g_str->name, tmp_name, PROG_NAME_LENGTH);
 	free(tmp_name);
 	return (1);
 }
 
 int				write_comment(char *line)
 {
-	int 		brack_flag;
+	int 		flag;
 	char 		*tmp_name;
-	char 		*tmp;
-	long int	num;
 	int 		i;
+	int			j;
 
-	i = 0;
-	if (g_str->comment_flag)
+	j = 0;
+	if (g_str->comment != NULL)
 		error("Error: too many comments.");
-	num = COMMENT_LENGTH;
-	g_str->comment = (char *)ft_memalloc(num * 2);
-	tmp_name = (char *)ft_memalloc(num * 2);
-	brack_flag = 0;
-	validate_name_comment_cmd(line, 0);
-	while (brack_flag != 2)
+	g_str->comment = (char *)ft_memalloc(COMMENT_LENGTH);
+	tmp_name = (char *)ft_memalloc(COMMENT_LENGTH);
+	flag = 1;
+	i = validate_name_comment_cmd(line, 0) + 1;
+	if (line[i] == '\n')
+		tmp_name[j++] = '\n';
+	while (flag > 0 && line[i] != '"')
 	{
-		tmp = ft_strdup(tmp_name);
-		if (brack_flag != 1 && (i = search_bracks(line)))
-			brack_flag++;
-		if (search_r_bracks(line, i) || line[0] == '"')
-			brack_flag++;
-		free(tmp_name);
-		tmp_name = ft_strjoin_three(tmp, line, "\n", 0);
-		free(tmp);
-		if (brack_flag != 2)
+		while (line[i] && line[i] != '"')
+		{
+			check_size(&tmp_name, j, 1);
+			tmp_name[j++] = line[i++];
+		}
+		if (line[i] != '"')
+		{
+			check_size(&tmp_name, j, 1);
+			tmp_name[j++] = '\n';
+		}
+		if (line[i] != '"')
 		{
 			ft_strdel(&line);
-			get_next_line(g_files->f_fd, &line);
+			flag = get_next_line(g_files->f_fd, &line);
+			i = 0;
 		}
-		if ((find_op(line) != 0 && brack_flag == 1) || ft_strstr(line, NAME_CMD_STRING))
-			error("Error: no closing bracket.");
 	}
-	g_str->comment_flag = 1;
-	ft_strdel(&line);
-	// printf("comment: %s\n", tmp_name);
-	tmp_name = read_betw_brack(tmp_name, 0);
-	// printf("comment: %s\n", tmp_name);
-	ft_memcpy(g_str->comment, tmp_name, num);
-	if (ft_strlen(tmp_name) > COMMENT_LENGTH)
+	while (line[++i])
 	{
-		g_str->comment = NULL;
-		error("Error: too long comment.");
+		if (!ft_space(line[i]) && line[i] != '\0')
+			error("Syntax error.");
 	}
+	if (flag <= 0)
+		error("Error: no closing bracket.");
+	ft_strdel(&line);
+	ft_memcpy(g_str->comment, tmp_name, COMMENT_LENGTH);
 	free(tmp_name);
 	return (1);
 }
 
-void		validate_name_comment_cmd(char *str, int n_or_c)
+void		check_size(char **str, int size, int type)
+{
+	if (type)
+	{
+		if (size >= COMMENT_LENGTH)
+		{
+			ft_strdel(str);
+			error("Error: too long comment.");				
+		}
+	}
+		
+	else
+	{
+		if (size >= PROG_NAME_LENGTH)
+		{
+			ft_strdel(str);
+			error("Error: too long name.");				
+		}
+	}
+	
+}
+
+int			validate_name_comment_cmd(char *str, int n_or_c)
 {
 	int		i;
 	char	*pattern;
@@ -139,6 +161,8 @@ void		validate_name_comment_cmd(char *str, int n_or_c)
 	if (str[i] == '\0' || str[i] != '"')
 		error(error_msg);
 	free(pattern);
+	// printf("i: %d\n", i);
+	return (i);
 }
 
 void		put_hex(int32_t nbr, int size)
