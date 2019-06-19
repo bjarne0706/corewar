@@ -90,10 +90,11 @@ void				write_token();
 //writes
 void				write_header();
 int					write_name(char *line);
-void				validate_name_comment_cmd(char *str, int n_or_c);
+int					validate_name_comment_cmd(char *str, int n_or_c);
 int					write_comment(char *line);
 void				put_hex(int32_t nbr, int size);
 void				print_args(t_oken *tkn);
+void				check_size(char **str, int size, int type);
 //addit_for_writes
 int					search_bracks(char *line);
 int 				search_r_bracks(char *line, int num);
@@ -109,6 +110,7 @@ void				make_lbl(char *str);
 void				del_comment(char **line);
 int					comment_line(char *line);
 void				del_space_end(char **line);
+int					validate_arg(char *arg, int type);
 //addict_func_for_read_asm
 int					label_char_pos(char *str);
 int					ft_space(char c);
@@ -132,5 +134,5 @@ int					make_from_binary(char *str);
 void				fill_type_code(int count, char **code);
 void				free_and_ret(char **arr);
 void				free_structs();
-char				*ft_strjoin_three(char *s1, char *s2, char *s3, int i);
+void				ft_strjoin_three(char **s1, char *s2, char *s3, int i);
 #endif

@@ -31,7 +31,10 @@ void		read_asm_put_code_size(void)
 			else if (if_has_smthng(line))
 			{
 					if (find_op(line) == 0)
+					{f
 						error("Syntax error.");
+
+					}
 					else if (find_op(line) == 3)
 					{
 						tmp = ft_strsub(line, 0, label_char_pos(line));
@@ -111,13 +114,20 @@ void		make_lbl(char *str)
 {
 	t_label		*tmp;
 	t_label		*new;
+	int			i;
 
-
+	i = label_char_pos(str);
+	printf("line %s\n", str);
 	new = (t_label *)ft_memalloc(sizeof(t_label));
 	new->mem_pos = g_exec_size;
-	// printf("STR IN MAKE_LBL: %s.\n", str);
 	new->label = ft_strsub(str, 0, label_char_pos(str));
-	// printf("label: %s\n", new->label);
+	while (str[++i])
+	{
+		printf("str[i] %c\n", str[i]);
+		if (!ft_space(str[i]))
+			error("Syntax error.1");
+	}
+		
 	if (g_lbl == NULL)
 		g_lbl = new;
 	else
@@ -186,8 +196,44 @@ void		handle_args(char **arr, t_oken *new, int num)
 			g_exec_size += 2;
 			new->args_type[y] = 3;
 		}
+		if (!validate_arg(arr[y], new->args_type[y]))
+			error("Error: syntax error in argument.");
 		new->args_value[y] = ft_strdup(arr[y]);
 		y++;
 	}
 	num = 1;
+}
+
+int			validate_arg(char *arg, int type)
+{
+	int		x;
+
+	x = trim_space(0, arg);
+	if (type == 1)
+	{
+		while (arg[++x])
+			if (!ft_isdigit(arg[x]) && arg[x] != '-')
+				return (0);
+	}
+	else if (type == 2 && arg[x + 1] == LABEL_CHAR)
+	{
+		x++;
+		while (arg[++x])
+			if (ft_strchr(LABEL_CHARS, arg[x]) == 0)
+				return (0);
+	}
+	else if (type == 2 && arg[x + 1] != LABEL_CHAR)
+	{
+		while (arg[++x])
+			if (!ft_isdigit(arg[x]) && arg[x] != '-')
+				return (0);
+	}
+	else
+	{
+		while (arg[++x])
+			if (ft_strchr(LABEL_CHARS, arg[x]) == 0)
+				return (0);
+	}
+	
+	return (1);
 }

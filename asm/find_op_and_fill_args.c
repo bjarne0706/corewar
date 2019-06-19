@@ -42,10 +42,10 @@ void		fill_args(int num, char *line, t_oken *new)
 	tmp = &line[i];
 	// printf("LINE:%s\n", line);
 	arr = ft_strsplit(tmp, SEPARATOR_CHAR);
-	i = 0;
+	// i = 0;
 	// while (i < new->token->arg_count)
 	// {
-	// 	// printf("ARR IN FILL_ARGS: %s.\n", arr[i]);
+	// 	printf("ARR IN FILL_ARGS: %s.\n", arr[i]);
 	// 	i++;
 	// }
 	if (count_separ(line) != new->token->arg_count - 1)
@@ -85,7 +85,7 @@ int			find_op(char *line)
 	while (line[y] && !ft_space(line[y]))
 	{
 		if (y > 0)
-			if (line[y] == LABEL_CHAR && line[y - 1] != DIRECT_CHAR)
+			if (line[y] == LABEL_CHAR && ft_strchr(LABEL_CHARS, line[y - 1]))
 			{
 				sum++;
 				break ;
@@ -106,6 +106,7 @@ int			find_op(char *line)
 		}
 		i++;
 	}
+	// printf("on line %s sum:%d\n",line, sum);
 	return (sum);
 }
 
