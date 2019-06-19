@@ -162,7 +162,7 @@ void	create_border(t_vm *v)
 
 	wrefresh(v->info);
 	wrefresh(v->game);
-
+	system("afplay sounds/Megalovania.mp3 &> /dev/null &");
 }
 
 void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
@@ -231,11 +231,25 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 	int get_int;
 	nodelay(stdscr, TRUE);
 	get_int = getch();
+	mvwprintw(info, 9, 1, "LAST STANDING = %d", get_int);
+
+	if (get_int == 27)
+	{
+		del_win(game, info);
+		exit (1);
+	}
 	if (get_int == 32)
 	{
 		get_int = 0;
 		while (get_int != 32)
+		{
+			if (get_int == 27)
+			{
+				del_win(game, info);
+				exit (1);
+			}
 			get_int = getch();
+		}
 	}
 }
 
@@ -283,6 +297,7 @@ void	del_win(WINDOW *game, WINDOW *info)
 	delwin(game);
 	delwin(info);
 	endwin();
+	system("pkill afplay");
 }
 
 void	screen_and_color(void)
