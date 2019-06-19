@@ -96,7 +96,7 @@ t_vm			*init_vm(void)
 
 	if (!(v = (t_vm *)ft_memalloc(sizeof(t_vm))))
 		vm_error("VM initialization failed");
-	ft_bzero(v->options, 3);
+	ft_bzero(v->options, 5);
 	v->dump_cycles[0] = -1;
 	v->dump_cycles[1] = -1;
 	v->log = 0;
