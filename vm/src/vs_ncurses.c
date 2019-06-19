@@ -232,7 +232,8 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 	nodelay(stdscr, TRUE);
 	get_int = getch();
 	mvwprintw(info, 9, 1, "LAST STANDING = %d", get_int);
-
+	int	stop_music;
+	stop_music = 0;
 	if (get_int == 27)
 	{
 		del_win(game, info);
@@ -240,6 +241,8 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 	}
 	if (get_int == 32)
 	{
+		system("pkill -STOP afplay");
+		stop_music++;
 		get_int = 0;
 		while (get_int != 32)
 		{
@@ -250,6 +253,7 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 			}
 			get_int = getch();
 		}
+		system("pkill -CONT afplay");
 	}
 }
 
