@@ -58,5 +58,6 @@ void			run_the_game(t_vm *v)
 		if (v->cyc_since_check == (size_t)v->cyc_to_die || v->cyc_to_die <= 0)
 			die_check(v);
 	}
-	del_win(v->game, v->info);
+	if (v->options[2] == 'v')
+		del_win(v->game, v->info);
 }

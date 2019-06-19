@@ -231,7 +231,6 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 	int get_int;
 	nodelay(stdscr, TRUE);
 	get_int = getch();
-	mvwprintw(info, 9, 1, "LAST STANDING = %d", get_int);
 	int	stop_music;
 	stop_music = 0;
 	if (get_int == 27)
