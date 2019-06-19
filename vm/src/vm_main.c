@@ -47,8 +47,8 @@ int				main(int ac, char *av[])
 		assign_champ_nums(v);
 //			print_champs(v);		//
 		setup_arena(v);
-//			print_arena(v, v->options[0]);		//
-//			print_color_map(v);		///
+			print_arena(v, v->options[0]);		//
+			print_color_map(v);		///
 		introduce_champs(v);		//
 		setup_carriages(v);
 //					print_carriages(v);		//

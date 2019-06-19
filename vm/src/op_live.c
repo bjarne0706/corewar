@@ -39,6 +39,11 @@ void			op_live(t_vm *v, t_carr *c, t_op *op)
 		ch->last_live_cyc = v->cycles;
 		ch->current_lives++;
 		v->last_standing = ch;
+		if (v->options[2] == 'v')
+		{
+			v->colors[calc_address(c->pc + 1, false, 0)].champ_num = ch->num;
+			v->colors[calc_address(c->pc + 1, false, 0)].live_wait = 50;
+		}
 		if (v->log & LOG_LIVES)
 			log_live(ch->num, ch->name);
 	}

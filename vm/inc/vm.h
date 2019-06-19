@@ -28,6 +28,14 @@
 # define LOG_DEATHS	8
 # define LOG_MOVES	16
 
+typedef struct		s_colors
+{
+	int				champ_num;
+	int				st_wait;
+	int				live_wait;
+}					t_colors;
+
+
 typedef struct		s_champ
 {
 	int				num;
@@ -69,7 +77,7 @@ typedef struct		s_vm
 	int				dump_cycles[2];
 	int8_t			log;
 	uint8_t			arena[MEM_SIZE];
-	uint8_t			colors[MEM_SIZE];
+	t_colors		colors[MEM_SIZE];
 	int				champs_num;
 	t_champ			*champs[MAX_PLAYERS];
 	t_champ			*last_standing;
