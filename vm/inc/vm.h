@@ -189,15 +189,16 @@ void				slaughter_carriage(t_vm *v, t_carr *slow, t_carr *fast);
 ** Logs
 */
 
-void            	log_cycles(size_t cycles);
-void            	log_deaths(t_vm *v, t_carr *del);
-void        	    log_moves(t_vm *v, t_carr *c);
+void				log_cycles(size_t cycles);
+void				log_deaths(t_vm *v, t_carr *del);
+void				log_moves(t_vm *v, t_carr *c);
 
 /*
 ** Byebye
 */
 
 void				vm_error(char *msg);
+void				byebye_our_darling(t_vm *v);
 
 ///DEBUG
 void			print_champs(t_vm *v);

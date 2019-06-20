@@ -56,8 +56,11 @@ void			run_the_game(t_vm *v)
 				;
 		}
 		run_cycle(v);
-		if (v->cyc_since_check == (size_t)v->cyc_to_die || v->cyc_to_die <= 0)
+		if ((v->cyc_since_check == (size_t)v->cyc_to_die) || (v->cyc_to_die <= 0))
+		{
 			die_check(v);
+		}
+			// printf("v->lives_since_check = %zd\n", v->lives_since_check);		//
 	}
 	if (v->options[2] == 'v')
 		del_win(v->game, v->info);
