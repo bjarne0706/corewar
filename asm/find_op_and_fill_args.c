@@ -90,7 +90,7 @@ int			find_op(char *line)
 				sum++;
 				break ;
 			}
-		if (ft_isalnum(line[y]) && ft_space(line[y + 1]))
+		if (ft_isalnum(line[y]) && (ft_space(line[y + 1]) || line[y + 1] == '-' || line[y + 1] == '%'))
 		{
 			y = 0;
 			break ;
@@ -102,6 +102,7 @@ int			find_op(char *line)
 		if (ft_strstr(&line[y], g_op_tab[i].name))
 		{
 			sum += 2;
+			// printf("LINE: %s.\n", g_op_tab[i].name);
 			break ;
 		}
 		i++;
@@ -126,7 +127,7 @@ int			get_op_name(char *line)
 	while (ft_space(line[i]))
 		i++;
 	start = i;
-	while (line[i] && line[0] != 'r' && line[i] != DIRECT_CHAR && !ft_space(line[i]))
+	while (line[i] && line[0] != 'r' && line[i] != DIRECT_CHAR && !ft_space(line[i]) && line[i] != '-')
 	{
 		y++;
 		i++;

@@ -96,11 +96,15 @@ int			get_value_of_arg(char *arg, t_oken *tkn, char **type_code)
 	{
 		if ((!ft_strchr(LABEL_CHARS, arg[i + 1]) && arg[i + 1] != '-') || arg[i + 1] == '\0')
 			error("Syntax error.");
+		if (arg[i + 1] == '-' && !ft_isdigit(arg[i + 2]))
+			error("Error: incorrect argument.");
 		value = ft_atoi(&arg[i + 1]);
 		(*type_code) = ft_strjoin((*type_code), "10");
 	}
 	else
 	{
+		if (arg[i] == '-' && !ft_isdigit(arg[i + 1]))
+			error("Error: incorrect argument.");
 		value = ft_atoi(&arg[i]);
 		(*type_code) = ft_strjoin((*type_code), "11");
 	}

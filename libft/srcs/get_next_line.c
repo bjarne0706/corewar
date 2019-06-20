@@ -39,6 +39,21 @@ static char		*ft_cut_line(char *str, char **line)
 	return (str);
 }
 
+static void		check_baf(char *buf)
+{
+	int	i;
+
+	i = ft_strlen(buf);
+	if (buf[i - 1] == '\n')
+	{
+		printf("%s\n", buf);
+		g_new_l = 1;
+	}
+	else if (buf[0] != '\0')
+		g_new_l = 0;
+	
+}
+
 int				get_next_line(const int fd, char **line)
 {
 	static char		*arr[4864];
@@ -63,6 +78,7 @@ int				get_next_line(const int fd, char **line)
 	}
 	if (ret == 0 && (!arr[fd] || arr[fd][0] == '\0'))
 		return (0);
+	check_baf(arr[fd]);
 	arr[fd] = ft_cut_line(arr[fd], line);
 	return (1);
 }

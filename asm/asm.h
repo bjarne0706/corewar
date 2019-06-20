@@ -90,7 +90,8 @@ void				write_token();
 //writes
 void				write_header();
 int					write_name(char *line);
-int					validate_name_comment_cmd(char *str, int n_or_c);
+int					validate_name_cmd(char *str);
+int					validate_comment_cmd(char *str);
 int					write_comment(char *line);
 void				put_hex(int32_t nbr, int size);
 void				print_args(t_oken *tkn);
@@ -102,7 +103,7 @@ char 				*read_betw_brack(char *str, int flag);
 unsigned int		reverse_byte(unsigned int num);
 void				error(char *str);
 //read_asm
-void				read_asm_put_code_size();
+void				read_asm_put_code_size(char *line);
 void				create_token();
 void				work_on_op(int num, char *line);
 void				handle_args(char **arr, t_oken *new, int num);
@@ -111,6 +112,7 @@ void				del_comment(char **line);
 int					comment_line(char *line);
 void				del_space_end(char **line);
 int					validate_arg(char *arg, int type);
+void				check_labels_chars(char *str);
 //addict_func_for_read_asm
 int					label_char_pos(char *str);
 int					ft_space(char c);
