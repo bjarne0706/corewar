@@ -19,4 +19,3 @@ nodeadplz:
 	live %2
 	live %2
 	zjmp %:nodeadplz
-

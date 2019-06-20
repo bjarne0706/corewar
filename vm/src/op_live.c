@@ -31,10 +31,10 @@ void			op_live(t_vm *v, t_carr *c, t_op *op)
 
 	arg = get_int(v, calc_address(c->pc + 1, false, 0), op->t_dir_size);
 	c->last_live = v->cycles;
-	v->lives_since_check++;
 	ch = NULL;
 	if (arg < 0 && arg >= -(v->champs_num))
 	{
+		v->lives_since_check++;
 		ch = v->champs[-arg - 1];
 		ch->last_live_cyc = v->cycles;
 		ch->current_lives++;

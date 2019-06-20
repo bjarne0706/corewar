@@ -12,6 +12,26 @@
 
 #include "../inc/vm.h"
 
+void			byebye_our_darling(t_vm *v)
+{
+	int			i;
+	t_carr		*cur;
+	t_carr		*del;
+
+	i = 0;
+	while (i < v->champs_num)
+		ft_memdel((void **)&v->champs[i++]);
+	cur = v->carrs;
+	while (cur)
+	{
+		del = cur;
+		cur = cur->nxt;
+		ft_memdel((void **)&del);
+	}
+	v->carrs = NULL;
+	ft_memdel((void **)&v);
+}
+
 void			vm_error(char *msg)
 {
 	ft_printf("{red}{b}ERROR: ");
@@ -20,7 +40,7 @@ void			vm_error(char *msg)
 	else
 		perror(msg);
 	ft_printf("{0}");
-		printf("\n++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");		//
-		system("leaks -q corewar");		//
+		// printf("\n++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");		//
+		// system("leaks -q corewar");		//
 	exit(1);
 }

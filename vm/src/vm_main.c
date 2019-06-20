@@ -61,6 +61,7 @@ int				main(int ac, char *av[])
 			v->options[4] == 'E' ? print_arena(v, 'D') :  print_arena(v, 'd');
 				// print_carriages(v);		//
 		hail_the_hero(v);
+		byebye_our_darling(v);
 	}
 	else
 		print_usage();

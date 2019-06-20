@@ -35,7 +35,7 @@ int				write_name(char *line)
 	g_str->name = (char *)ft_memalloc(PROG_NAME_LENGTH);
 	tmp_name = (char *)ft_memalloc(PROG_NAME_LENGTH);
 	flag = 1;
-	i = validate_name_comment_cmd(line, 1) + 1;
+	i = validate_name_cmd(line) + 1;
 	if (line[i] == '\n')
 		tmp_name[j++] = '\n';
 	while (flag > 0 && line[i] != '"')
@@ -56,6 +56,11 @@ int				write_name(char *line)
 			flag = get_next_line(g_files->f_fd, &line);
 			i = 0;
 		}
+	}
+	while (line[++i] && line[i] != COMMENT_CHAR && line[i] != ';')
+	{
+		if (!ft_space(line[i]) && line[i] != '\0')
+			error("Syntax error.");
 	}
 	if (flag <= 0)
 		error("Error: no closing bracket.");
@@ -78,7 +83,7 @@ int				write_comment(char *line)
 	g_str->comment = (char *)ft_memalloc(COMMENT_LENGTH);
 	tmp_name = (char *)ft_memalloc(COMMENT_LENGTH);
 	flag = 1;
-	i = validate_name_comment_cmd(line, 0) + 1;
+	i = validate_comment_cmd(line) + 1;
 	if (line[i] == '\n')
 		tmp_name[j++] = '\n';
 	while (flag > 0 && line[i] != '"')
@@ -100,7 +105,7 @@ int				write_comment(char *line)
 			i = 0;
 		}
 	}
-	while (line[++i])
+	while (line[++i] && line[i] != COMMENT_CHAR && line[i] != ';')
 	{
 		if (!ft_space(line[i]) && line[i] != '\0')
 			error("Syntax error.");
@@ -135,32 +140,45 @@ void		check_size(char **str, int size, int type)
 	
 }
 
-int			validate_name_comment_cmd(char *str, int n_or_c)
+int			validate_name_cmd(char *str)
 {
 	int		i;
-	char	*pattern;
-	char	*error_msg;
+	int		j;
 
-	if (n_or_c)
-	{
-		error_msg = "Syntax error in name command.";
-		pattern = ft_strdup(NAME_CMD_STRING);
-	}
-	else
-	{
-		error_msg = "Syntax error in comment command.";
-		pattern = ft_strdup(COMMENT_CMD_STRING);
-	}
-	// printf("pattern: %s\n", pattern);
 	i = -1;
+	j = 0;
+	while (str[++i] != NAME_CMD_STRING[0])
+		if (!ft_space(str[i]))
+			error("Syntax error in name command.");
+	i--;
 	while (str[++i] != '"' && !ft_space(str[i]) && str[i])
-		if (str[i] != pattern[i])
-			error(error_msg);
+		if (str[i] != NAME_CMD_STRING[j++])
+			error("Syntax error in name command.");
 	while (str[i] != '"' && ft_space(str[i]) && str[i])
 		i++;
 	if (str[i] == '\0' || str[i] != '"')
-		error(error_msg);
-	free(pattern);
+		error("Syntax error in name command.");
+	return (i);
+}
+
+int			validate_comment_cmd(char *str)
+{
+	int		i;
+	int		j;
+
+	i = -1;
+	j = 0;
+	while (str[++i] != COMMENT_CMD_STRING[0])
+		if (!ft_space(str[i]))
+			error("Syntax error in comment command.");
+	i--;
+	while (str[++i] != '"' && !ft_space(str[i]) && str[i])
+		if (str[i] != COMMENT_CMD_STRING[j++])
+			error("Syntax error in comment command.");
+	while (str[i] != '"' && ft_space(str[i]) && str[i])
+		i++;
+	if (str[i] == '\0' || str[i] != '"')
+		error("Syntax error in comment command.");
 	// printf("i: %d\n", i);
 	return (i);
 }
@@ -206,7 +224,7 @@ void		print_args(t_oken *tkn)
 			size = 1;
 		else if (tkn->args_type[y] == 2)
 			size = tkn->token->t_dir_size;
-		else if (tkn->args_type[y] == 3)
+		else if (tkn->args_type[y] == 4)
 			size = 2;
 		put_hex(tkn->token->argums[y], size);
 		y++;
