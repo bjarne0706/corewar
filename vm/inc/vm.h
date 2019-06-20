@@ -35,7 +35,6 @@ typedef struct		s_colors
 	int				live_wait;
 }					t_colors;
 
-
 typedef struct		s_champ
 {
 	int				num;
@@ -68,12 +67,13 @@ typedef struct		s_carr
 **			[1] (-s = 's' = 32 | -S = 'S' = 64);
 **			[2] -v
 **			[3] -a
+**			[4] (-e = 'e'= 32 / -E = 'E' = 64)
 ** dump_cycles: [0] -d; [1] -s
 */
 
 typedef struct		s_vm
 {
-	char			options[4];
+	char			options[5];
 	int				dump_cycles[2];
 	int8_t			log;
 	uint8_t			arena[MEM_SIZE];
@@ -100,10 +100,11 @@ typedef struct		s_vm
 ** Parse flags
 */
 
-void				parse_args(int ac, char *av[], t_vm *v);
+void				parse_vm_args(int ac, char *av[], t_vm *v);
 void				flag_d(char *av[], int ac, int *i, t_vm *v);
 void				flag_s(char *av[], int ac, int *i, t_vm *v);
 void				flag_l(char *av[], int ac, int *i, t_vm *v);
+void				flag_e(char *av[], int *i, t_vm *v);
 
 /*
 ** Parse players
@@ -160,6 +161,7 @@ void				print_usage(void);
 void				introduce_champs(t_vm *v);
 void				print_arena(t_vm *v, char flag);
 void				hail_the_hero(t_vm *v);
+void				update_options(t_vm *v);
 
 /*
 ** Utils

@@ -12,6 +12,14 @@
 
 #include "../inc/vm.h"
 
+void			flag_e(char *av[], int *i, t_vm *v)
+{
+	if (!ft_strcmp(av[*i], "-E"))
+		v->options[4] = 'E';
+	else
+		v->options[4] = 'e';
+}
+
 void			flag_l(char *av[], int ac, int *i, t_vm *v)
 {
 	if ((*i + 1 < ac) && ft_isint(av[*i + 1]))
@@ -52,7 +60,7 @@ void			flag_s(char *av[], int ac, int *i, t_vm *v)
 	if (!v->options[1] && (*i + 1 < ac) && ft_isint(av[*i + 1]))
 	{
 		v->dump_cycles[1] = ft_atoi(av[*i + 1]);
-		if (v->dump_cycles[1] < 0)
+		if (v->dump_cycles[1] <= 0)
 			v->dump_cycles[1] = -1;
 		else
 		{
@@ -68,7 +76,7 @@ void			flag_s(char *av[], int ac, int *i, t_vm *v)
 	
 }
 
-void			parse_args(int ac, char *av[], t_vm *v)
+void			parse_vm_args(int ac, char *av[], t_vm *v)
 {
 	int		i;
 
@@ -80,6 +88,8 @@ void			parse_args(int ac, char *av[], t_vm *v)
 			flag_d(av, ac, &i, v);
 		else if (!ft_strcmp(av[i], "-S") || !ft_strcmp(av[i], "-s"))
 			flag_s(av, ac, &i, v);
+		else if (!ft_strcmp(av[i], "-E") || !ft_strcmp(av[i], "-e"))
+			flag_e(av, &i, v);
 		else if (!ft_strcmp(av[i], "-l"))
 			flag_l(av, ac, &i, v);
 		else if (!ft_strcmp(av[i], "-v"))

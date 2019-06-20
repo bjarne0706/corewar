@@ -167,8 +167,12 @@ void	create_border(t_vm *v)
 
 	wrefresh(v->info);
 	wrefresh(v->game);
+<<<<<<< HEAD
 	wrefresh(help);
 	// system("afplay sounds/Megalovania.mp3 &> /dev/null &");
+=======
+	system("afplay sounds/Megalovania.mp3 &> /dev/null &");
+>>>>>>> 387869d17427b4cf4a73557b62277d87950eb2e1
 }
 
 void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
