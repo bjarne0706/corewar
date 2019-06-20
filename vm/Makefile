@@ -29,7 +29,7 @@ SRC			=	vm_main.c \
 				parse_players2.c \
 				game.c \
 				cycle.c \
-				parse_args.c \
+				parse_op_args.c \
 				printer.c \
 				utils.c \
 				utils2.c \

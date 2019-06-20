@@ -41,30 +41,30 @@ int				main(int ac, char *av[])
 	if (ac > 1)
 	{
 		v = init_vm();
-		parse_args(ac, av, v);
+		parse_vm_args(ac, av, v);
 		if (v->champs_num < 1)
 			vm_error("Where are these little naughty players?");
+		update_options(v);
 		assign_champ_nums(v);
 //			print_champs(v);		//
 		setup_arena(v);
-			print_arena(v, v->options[0]);		//
-			print_color_map(v);		///
+//			print_arena(v, 'D');		//
+//			print_color_map(v);		///
 		introduce_champs(v);		//
 		setup_carriages(v);
-//					print_carriages(v);		//
-		// while (v->cycles < 2000)			////
-			// run_cycle(v);
+//			print_carriages(v);		//
 //			print_vm_params(v);		//
 		run_the_game(v);
-//			print_arena(v, v->options[0]);		//
+//			print_arena(v, 'D');		//
 //			print_color_map(v);		///
+		if (!v->options[2] && v->options[4])
+			v->options[4] == 'E' ? print_arena(v, 'D') :  print_arena(v, 'd');
+				// print_carriages(v);		//
 		hail_the_hero(v);
-			// print_carriages(v);		//
-//			print_arena(v, v->options[0]);		//
 	}
 	else
 		print_usage();
-//		printf("\n++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");		//
-//		system("leaks -q corewar");	//
+		printf("\n++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");		//
+		system("leaks -q corewar");	//
 	return (0);
 }

@@ -149,20 +149,26 @@ void	create_border(t_vm *v)
 	// mvwin(game, 0, 0);
 	// wresize(game, yMax - yMax / 4, xMax - xMax / 4);
 	screen_and_color();
-	v->info = newwin(66, 100, 0, 197);
-	v->game = newwin(66, 197, 0, 0);
+	v->info = newwin(65, 100, 0, 197);
+	v->game = newwin(65, 197, 0, 0);
+	WINDOW *help = newwin(6, 197, 66, 0);
 
     wattron(v->info, COLOR_PAIR(9));
     wattron(v->game, COLOR_PAIR(9));
 	box(v->game, 0, 0);
 	box(v->info, 0, 0);
+	box(help, 0, 0);
+
 	wattroff(v->info, COLOR_PAIR(9));
 	wattroff(v->game, COLOR_PAIR(9));
-
+	mvwprintw(help, 1, 15, "SPEED 1");
+	mvwprintw(help, 1, 30, "SPEED 2");
+	mvwprintw(help, 1, 45, "SPEED 3");
 
 	wrefresh(v->info);
 	wrefresh(v->game);
-	// system("afplay sounds/Megalovania.mp3 &> /dev/null &");
+	wrefresh(help);
+	system("afplay sounds/Megalovania.mp3 &> /dev/null &");
 }
 
 void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
@@ -322,8 +328,12 @@ void	winner(t_vm *v)
 	mvwprintw(menu, 12, 43, "%s", v->last_standing->name);
     wattroff(menu, COLOR_PAIR(v->last_standing->num));
     wrefresh(menu);
-    wgetch(menu);
-    endwin();
+    while (1)
+    	if (getch() == 27)
+    	{
+    		endwin();
+    		// exit(1);
+    	}
 }
 
 void	del_win(WINDOW *game, WINDOW *info)

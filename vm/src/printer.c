@@ -12,6 +12,16 @@
 
 #include "../inc/vm.h"
 
+void			update_options(t_vm *v)
+{
+	if (v->options[2] == 'v')
+	{
+		ft_bzero(v->options, 5);
+		v->log = 0;
+		v->options[2] = 'v';
+	}
+}
+
 void			hail_the_hero(t_vm *v)
 {
 	ft_printf("{magenta}Player {b}%d{0} ", v->last_standing->num);
@@ -62,12 +72,12 @@ void			introduce_champs(t_vm *v)
 void			print_usage(void)
 {
 	ft_printf("{b}{yellow}{u}USAGE:{0}\n");
-	ft_printf("	{yellow}./corewar [-d N] [-s N] [-v] [-l N] <[-n N]");
-	ft_printf(" champ1.cor> <...>{-}\n");
+	ft_printf("	{yellow}./corewar [-d N] [-s N] [-e / -E] [-v] [-l N]");
+	ft_printf(" <[-n N] champ1.cor> <...>{-}\n");
 	ft_printf("\n{u}{b}FLAGS:\n{0}");
 	ft_printf("	{b}-n N{0}	: Specify player's number ");
 	ft_printf("(N >= 1 && N <= number_of_players (%d max)){0}\n", MAX_PLAYERS);
-	ft_printf("	{b}-v{0}	: Visual mode\n\n");
+	ft_printf("\n	{b}-v{0}	: Visual mode (overrides dumps and logs)\n\n");
 	ft_printf("	{b}-d N (-dump N){0}	: ");
 	ft_printf("Dump memory (32 octets/line) after N cycles then exit\n");
 	ft_printf("	{b}-D N{0}		: ");
@@ -76,13 +86,15 @@ void			print_usage(void)
 	ft_printf("dump memory (32 octets/line), pause, then repeat\n");
 	ft_printf("	{b}-S N{0}	: ");
 	ft_printf("same as -s but 64 octets/line\n");
-	ft_printf("	{b}-a{0}	: Print output of 'aff' operation\n");
+	ft_printf("	{b}-e / -E{0}	: Dump memory at the end of a game ");
+	ft_printf("(32 / 64 octets)\n\n");
+	ft_printf("	{b}-a{0}	: Print output of 'aff' operation\n\n");
 	ft_printf("	{b}-l N{0}	: ");
 	ft_printf("Print logs. Add numbers together to enable several logs:\n");
 	ft_printf("\t\t\t{b}1{0} - show lives\n\t\t\t{b}2{0} - show cycles\n");
 	ft_printf("\t\t\t{b}4{0} - show operations\n\t\t\t{b}8{0} - show deaths\n");
 	ft_printf("\t\t\t{b}16{0} - show PC movements (except for jumps)\n");
-//		printf("\n++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");		//
-//		system("leaks -q corewar");		//
+		printf("\n++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");		//
+		system("leaks -q corewar");		//
 	exit(1);
 }

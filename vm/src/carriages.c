@@ -14,11 +14,8 @@
 
 void				slaughter_carriage(t_vm *v, t_carr *prev, t_carr *del)
 {
-	if (v->options[2] == 'v')
-	{
-		system("pkill afplay");
-		system("afplay sounds/hitmarker_2.mp3 &> /dev/null &");
-	}
+	 static int32_t	cyc = -1;
+	
 	if (del == v->carrs)
 	{
 		v->carrs = v->carrs->nxt;
@@ -33,6 +30,12 @@ void				slaughter_carriage(t_vm *v, t_carr *prev, t_carr *del)
 	{
 		prev->nxt = del->nxt;
 		ft_memdel((void **)&del);
+	}
+	if (v->options[2] == 'v' && cyc != (int32_t)v->cycles)
+	 {
+		// system("pkill afplay");
+		system("afplay sounds/hitmarker_2.mp3 &> /dev/null &");
+		cyc = (int32_t)v->cycles;
 	}
 }
 
