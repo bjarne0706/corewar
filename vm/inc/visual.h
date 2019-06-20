@@ -28,6 +28,7 @@ void	start_menu(t_vm *v);
 void	screen_and_color(void);
 void	core_img(WINDOW *core, int yMax, int xMax);
 void	winner(t_vm *v);
+void	print_players(t_vm *v);
 
 
 

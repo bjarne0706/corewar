@@ -162,7 +162,7 @@ void	create_border(t_vm *v)
 
 	wrefresh(v->info);
 	wrefresh(v->game);
-	system("afplay sounds/Megalovania.mp3 &> /dev/null &");
+	// system("afplay sounds/Megalovania.mp3 &> /dev/null &");
 }
 
 void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
@@ -218,15 +218,18 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 		}
 	}
 	wattron(info, A_BOLD);
-	mvwprintw(info, 1, 1, "CYCLES TOTAL = %d", v->cycles);
-	mvwprintw(info, 2, 1, "CYCLES SINCE CHECK = %d", v->cyc_since_check);
-	mvwprintw(info, 3, 1, "ACTIVE PROCESSES = %d", v->carrs_num);
-	mvwprintw(info, 4, 1, "CYCLES TO DIE = % 9d", v->cyc_to_die);
-	mvwprintw(info, 5, 1, "CYCLES DELTA = %d", CYCLE_DELTA);
-	mvwprintw(info, 6, 1, "LIVES SINCE CHECK = % 5d / %d", v->lives_since_check, NBR_LIVE);
-	mvwprintw(info, 7, 1, "CHECKS DONE = %d / %d", v->checks_done, MAX_CHECKS);
-	mvwprintw(info, 8, 1, "LAST STANDING = %d \"%s\"", v->last_standing->num, v->last_standing->name);
+	mvwprintw(info, 21, 1, "CYCLES TOTAL  % 24d", v->cycles);
+	mvwprintw(info, 23, 1, "CYCLES SINCE CHECK  % 18d", v->cyc_since_check);
+	mvwprintw(info, 25, 1, "ACTIVE PROCESSES  % 20d", v->carrs_num);
+	mvwprintw(info, 27, 1, "CYCLES TO DIE  % 23d", v->cyc_to_die);
+	mvwprintw(info, 29, 1, "CYCLES DELTA  % 24d", CYCLE_DELTA);
+	mvwprintw(info, 31, 1, "LIVES SINCE CHECK  % 14d / %d", v->lives_since_check, NBR_LIVE);
+	mvwprintw(info, 33, 1, "CHECKS DONE  % 20d / %d", v->checks_done, MAX_CHECKS);
+	mvwprintw(info, 35, 1, "LAST STANDING % 24s", v->last_standing->name);
 	wattroff(info, A_BOLD);
+	///////////////////////players
+	// mvwprintw(info, 1, 1, "%s", v->last_standing->num, v->last_standing->name);
+	print_players(v);
 
 
 
@@ -241,8 +244,15 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 	int get_int;
 	nodelay(stdscr, TRUE);
 	get_int = getch();
+	mvwprintw(info, 45, 1, "SYMB %d", get_int);
 	int	stop_music;
 	stop_music = 0;
+	if (get_int == 49)
+		v->speed = 0;
+	if (get_int == 50)
+		v->speed = 50;
+	if (get_int == 51)
+		v->speed = 100;
 	if (get_int == 27)
 	{
 		del_win(game, info);
@@ -266,42 +276,53 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 	}
 }
 
+void	print_players(t_vm *v)
+{
+	int	i;
+	int	id;
+
+	i = -1;
+	id = 1;
+	while (++i < MAX_PLAYERS && v->champs[i])
+	{
+		wattron(v->info, A_BOLD | COLOR_PAIR(i + 1));
+		mvwprintw(v->info, id + i, 1, "%s :", v->champs[i]->name);
+			mvwprintw(v->info, id + 1 + i, 5, "last_live_cyc % 20d", v->champs[i]->last_live_cyc);
+			mvwprintw(v->info, id + 2 + i, 5, "current_lives % 20d", v->champs[i]->current_lives);
+			mvwprintw(v->info, id + 3 + i, 5, "prev_lives % 23d", v->champs[i]->prev_lives);
+		wattroff(v->info, A_BOLD | COLOR_PAIR(i + 1));
+		id += 4;
+	}
+}
+
 void	winner(t_vm *v)
 {
-	initscr();
-    noecho();
-    refresh();
-    curs_set(0);
+	screen_and_color();
     //get screen size
     int yMax;
     int xMax;
     getmaxyx(stdscr, yMax, xMax);
-    start_color();
-    init_pair(1, COLOR_WHITE, COLOR_WHITE);
-    init_pair(2, COLOR_BLACK, COLOR_BLACK);
+    init_pair(69, COLOR_WHITE, COLOR_WHITE);
+    init_pair(70, COLOR_BLACK, COLOR_BLACK);
 
     WINDOW *black = newwin(yMax, xMax, 0, 0);
     // WINDOW *menu = newwin(yMax / 4, xMax / 2, yMax / 4, xMax / 4);
     WINDOW *menu = newwin(17, 90, yMax / 5, xMax / 2.8);
     // WINDOW *menu = newwin(17, 90, 0, 0);
-
     //for using arrow keys
     keypad(menu, true);
-    wattron(black, COLOR_PAIR(2));
-    wattroff(black, COLOR_PAIR(2));
+    wattron(black, COLOR_PAIR(70));
+    wattroff(black, COLOR_PAIR(70));
     wrefresh(black);
-
 	core_img(menu, yMax, xMax);
-	mvwprintw(menu, 12, 43, "%s", v->last_standing->name);
-
-
-    wattron(menu, COLOR_PAIR(1));
+    wattron(menu, COLOR_PAIR(69));
 	box(menu, 0,0);
-	wattroff(menu, COLOR_PAIR(1));
-
-
+	wattroff(menu, COLOR_PAIR(69));
+    wattron(menu, COLOR_PAIR(v->last_standing->num));
+	mvwprintw(menu, 12, 43, "%s", v->last_standing->name);
+    wattroff(menu, COLOR_PAIR(v->last_standing->num));
     wrefresh(menu);
-    sleep(15);
+    wgetch(menu);
     endwin();
 }
 
