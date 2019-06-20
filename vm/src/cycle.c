@@ -52,11 +52,18 @@ void			process_carriage(t_vm *v, t_carr *c)
 void			run_cycle(t_vm *v)
 {
 	t_carr		*c;
+	static	int	speed;
 
+	if (!speed || speed > v->speed)
+		speed = 0;
 	v->cycles++;
 	v->cyc_since_check++;
-	if (v->options[2] == 'v')
+	if (v->options[2] == 'v' && speed == v->speed)
+	{
 		car_loop(v, v->game, v->info);
+		speed = 0;
+	}
+	speed++;
 	if (v->log & LOG_CYCLES)
 		log_cycles(v->cycles);
 	c = v->carrs;

@@ -162,7 +162,7 @@ void	create_border(t_vm *v)
 
 	wrefresh(v->info);
 	wrefresh(v->game);
-	system("afplay sounds/Megalovania.mp3 &> /dev/null &");
+	// system("afplay sounds/Megalovania.mp3 &> /dev/null &");
 }
 
 void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
@@ -244,8 +244,15 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 	int get_int;
 	nodelay(stdscr, TRUE);
 	get_int = getch();
+	mvwprintw(info, 45, 1, "SYMB %d", get_int);
 	int	stop_music;
 	stop_music = 0;
+	if (get_int == 49)
+		v->speed = 0;
+	if (get_int == 50)
+		v->speed = 50;
+	if (get_int == 51)
+		v->speed = 100;
 	if (get_int == 27)
 	{
 		del_win(game, info);
@@ -290,40 +297,32 @@ void	print_players(t_vm *v)
 
 void	winner(t_vm *v)
 {
-	initscr();
-    noecho();
-    refresh();
-    curs_set(0);
+	screen_and_color();
     //get screen size
     int yMax;
     int xMax;
     getmaxyx(stdscr, yMax, xMax);
-    start_color();
-    init_pair(1, COLOR_WHITE, COLOR_WHITE);
-    init_pair(2, COLOR_BLACK, COLOR_BLACK);
+    init_pair(69, COLOR_WHITE, COLOR_WHITE);
+    init_pair(70, COLOR_BLACK, COLOR_BLACK);
 
     WINDOW *black = newwin(yMax, xMax, 0, 0);
     // WINDOW *menu = newwin(yMax / 4, xMax / 2, yMax / 4, xMax / 4);
     WINDOW *menu = newwin(17, 90, yMax / 5, xMax / 2.8);
     // WINDOW *menu = newwin(17, 90, 0, 0);
-
     //for using arrow keys
     keypad(menu, true);
-    wattron(black, COLOR_PAIR(2));
-    wattroff(black, COLOR_PAIR(2));
+    wattron(black, COLOR_PAIR(70));
+    wattroff(black, COLOR_PAIR(70));
     wrefresh(black);
-
 	core_img(menu, yMax, xMax);
-	mvwprintw(menu, 12, 43, "%s", v->last_standing->name);
-
-
-    wattron(menu, COLOR_PAIR(1));
+    wattron(menu, COLOR_PAIR(69));
 	box(menu, 0,0);
-	wattroff(menu, COLOR_PAIR(1));
-
-
+	wattroff(menu, COLOR_PAIR(69));
+    wattron(menu, COLOR_PAIR(v->last_standing->num));
+	mvwprintw(menu, 12, 43, "%s", v->last_standing->name);
+    wattroff(menu, COLOR_PAIR(v->last_standing->num));
     wrefresh(menu);
-    sleep(15);
+    wgetch(menu);
     endwin();
 }
 

@@ -90,6 +90,7 @@ typedef struct		s_vm
 	int32_t			cyc_to_die;
 	WINDOW			*info;
 	WINDOW 			*game;
+	int				speed;
 }					t_vm;
 
 # include "vm_op.h"
