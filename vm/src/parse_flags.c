@@ -52,7 +52,6 @@ void			flag_d(char *av[], int ac, int *i, t_vm *v)
 	}
 	else
 		print_usage();
-	
 }
 
 void			flag_s(char *av[], int ac, int *i, t_vm *v)
@@ -73,7 +72,6 @@ void			flag_s(char *av[], int ac, int *i, t_vm *v)
 	}
 	else
 		print_usage();
-	
 }
 
 void			parse_vm_args(int ac, char *av[], t_vm *v)

@@ -51,7 +51,7 @@ int			trim_space(int i, char *line)
 	return (i);
 }
 
-int 		choose_name(char *line)
+int			choose_name(char *line)
 {
 	if (ft_strcmp(line, "live") == 0)
 		return (1);

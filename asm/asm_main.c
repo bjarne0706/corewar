@@ -12,10 +12,10 @@
 
 #include "asm.h"
 
-int				main(int ac, char **av)
+int			main(int ac, char **av)
 {
 	char		*filename;
-	char 		**arr;
+	char		**arr;
 
 	g_files = (t_files *)ft_memalloc(sizeof(t_files));
 	g_str = (t_strings *)ft_memalloc(sizeof(t_strings));
@@ -42,10 +42,10 @@ int				main(int ac, char **av)
 	system("leaks asm");
 }
 
-void			write_all(void)
+void		write_all(void)
 {
 	char	*line;
-	int 	num;
+	int		num;
 	int		status;
 
 	num = 0;
@@ -74,7 +74,7 @@ void			write_all(void)
 	write_token();
 }
 
-void		write_token()
+void		write_token(void)
 {
 	t_oken		*tmp_tkn;
 
@@ -87,7 +87,7 @@ void		write_token()
 	put_exec_code();
 }
 
-char			*get_name(char *name)
+char		*get_name(char *name)
 {
 	char	*str;
 	char	*ext;

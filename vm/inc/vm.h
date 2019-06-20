@@ -20,7 +20,10 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <ncurses.h>
-# include <limits.h>	//?
+# include <limits.h>
+
+# include "vm_op.h"
+# include "visual.h"
 
 # define LOG_LIVES	1
 # define LOG_CYCLES	2
@@ -50,7 +53,7 @@ typedef struct		s_champ
 
 typedef struct		s_carr
 {
-	int			 	id;
+	int				id;
 	t_champ			*champ;
 	int32_t			pc;
 	uint8_t			op;
@@ -64,7 +67,7 @@ typedef struct		s_carr
 }					t_carr;
 
 /*
-** options: [0] (-dump/-d = 'd' = 32 | -D = 'D' = 64); 
+** options: [0] (-dump/-d = 'd' = 32 | -D = 'D' = 64);
 **			[1] (-s = 's' = 32 | -S = 'S' = 64);
 **			[2] -v
 **			[3] -a
@@ -90,12 +93,9 @@ typedef struct		s_vm
 	size_t			checks_done;
 	int32_t			cyc_to_die;
 	WINDOW			*info;
-	WINDOW 			*game;
+	WINDOW			*game;
 	int				speed;
 }					t_vm;
-
-# include "vm_op.h"
-# include "visual.h"
 
 /*
 ** Parse flags
@@ -130,7 +130,8 @@ t_vm				*init_vm(void);
 t_champ				*add_champ(int n);
 void				setup_arena(t_vm *v);
 void				setup_carriages(t_vm *v);
-void				add_carriage(t_carr **carr, t_champ *chmp, unsigned int pos);
+void				add_carriage(t_carr **carr, t_champ *chmp,
+						unsigned int pos);
 
 /*
 ** Game
@@ -202,9 +203,9 @@ void				vm_error(char *msg);
 void				byebye_our_darling(t_vm *v);
 
 ///DEBUG
-void			print_champs(t_vm *v);
-void			print_carriages(t_vm *v);
-void			print_vm_params(t_vm *v);
-void			print_color_map(t_vm *v);
+void				print_champs(t_vm *v);
+void				print_carriages(t_vm *v);
+void				print_vm_params(t_vm *v);
+void				print_color_map(t_vm *v);
 
 #endif

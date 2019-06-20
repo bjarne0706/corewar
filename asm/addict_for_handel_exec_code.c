@@ -32,7 +32,7 @@ void		free_and_ret(char **arr)
 	free(arr);
 }
 
-void		free_structs()
+void		free_structs(void)
 {
 	if (g_str->name)
 		ft_strdel(&g_str->name);
@@ -58,7 +58,7 @@ void		ft_strjoin_three(char **s1, char *s2, char *s3, int num)
 	// printf("ft_strlen(s1): %d ft_strlen(s2): %d\n", ft_strlen((*s1)), ft_strlen(s2));
 	while (s2[++i2])
 	{
-		// printf("i: %d i2: %d\n", i, i2);
+	// printf("i: %d i2: %d\n", i, i2);
 		if (num)
 		{
 			if (i == COMMENT_LENGTH || i2 == COMMENT_LENGTH)
@@ -68,13 +68,12 @@ void		ft_strjoin_three(char **s1, char *s2, char *s3, int num)
 				error("Error: too long comment.");
 			}
 		}
-		else
-			if (i == PROG_NAME_LENGTH || i2 == PROG_NAME_LENGTH)
-			{
-				ft_strdel(&g_str->name);
-				ft_strdel(s1);
-				error("Error: too long name.");
-			}
+		else if (i == PROG_NAME_LENGTH || i2 == PROG_NAME_LENGTH)
+		{
+			ft_strdel(&g_str->name);
+			ft_strdel(s1);
+			error("Error: too long name.");
+		}
 		(*s1)[++i] = s2[i2];
 	}
 	while (s3[++i3])

@@ -47,10 +47,10 @@ uint32_t			step_calc(t_carr *c, t_op *op)
 	int				i;
 
 	step = 1;
-	step += (op->types_byte) ? 1 : 0; 
-	//  printf("TB: %d\n", op->types_byte);	
+	step += (op->types_byte) ? 1 : 0;
+	//  printf("TB: %d\n", op->types_byte);
 	//  printf("OP: %2x __step__: %d\n", op->code, step);		//
-	//  printf("ar num: %d\n", op->ar_num);	
+	//  printf("ar num: %d\n", op->ar_num);
 	i = 0;
 	while (i < op->ar_num)
 	{

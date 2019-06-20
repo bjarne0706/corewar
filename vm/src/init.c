@@ -104,9 +104,9 @@ t_vm			*init_vm(void)
 	ft_bzero(v->arena, MEM_SIZE);
 	ft_bzero(v->colors, MEM_SIZE * sizeof(t_colors));
 	v->champs_num = 0;
-		i = -1;
-		while (++i < MAX_PLAYERS)
-			v->champs[i] = NULL;
+	i = -1;
+	while (++i < MAX_PLAYERS)
+		v->champs[i] = NULL;
 	v->last_standing = NULL;
 	v->carrs = NULL;
 	v->carrs_num = 0;

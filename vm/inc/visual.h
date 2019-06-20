@@ -15,12 +15,10 @@
 
 # include "vm.h"
 
-
-
 int		interface(WINDOW *menu, int yMax, int xMax, t_vm *v);
 void	create_border(t_vm *v);
-void    del_win(WINDOW *game, WINDOW *info);
-void    car_loop(t_vm *v, WINDOW *game, WINDOW *info);
+void	del_win(WINDOW *game, WINDOW *info);
+void	car_loop(t_vm *v, WINDOW *game, WINDOW *info);
 
 void	*animation(WINDOW *picture);
 void	*inter_loop(WINDOW *menu, int yMax, int xMax, t_vm *v);
@@ -30,6 +28,5 @@ void	core_img(WINDOW *core, int yMax, int xMax);
 void	winner(t_vm *v);
 void	print_players(t_vm *v);
 void	dash_line(t_vm *v);
-
 
 #endif

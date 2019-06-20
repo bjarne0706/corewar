@@ -19,8 +19,8 @@ void		read_asm_put_code_size(char *line)
 	int		r;
 
 	r = 1;
-		if (!if_has_smthng(line) && line[0] != '\0')
-			g_new_l = 1;
+	if (!if_has_smthng(line) && line[0] != '\0')
+		g_new_l = 1;
 	while (r > 0)
 	{
 		if (!comment_line(line))
@@ -32,19 +32,19 @@ void		read_asm_put_code_size(char *line)
 				make_lbl(line);
 			else if (if_has_smthng(line))
 			{
-					if (find_op(line) == 0)
-						error("Syntax error.");
-					else if (find_op(line) == 3)
-					{
-						tmp = ft_strsub(line, 0, label_char_pos(line));
-						tmp2 = ft_strsub(line, label_char_pos(line) + 1, ft_strlen(line) - (label_char_pos(line) + 1));
-						make_lbl(tmp);
-						create_token(tmp2);
-						free(tmp);
-						free(tmp2);
-					}
-					else
-						create_token(line);					
+				if (find_op(line) == 0)
+					error("Syntax error.");
+				else if (find_op(line) == 3)
+				{
+					tmp = ft_strsub(line, 0, label_char_pos(line));
+					tmp2 = ft_strsub(line, label_char_pos(line) + 1, ft_strlen(line) - (label_char_pos(line) + 1));
+					make_lbl(tmp);
+					create_token(tmp2);
+					free(tmp);
+					free(tmp2);
+				}
+				else
+					create_token(line);
 			}
 		}
 		if (!if_has_smthng(line) && line[0] != '\0')
@@ -56,7 +56,7 @@ void		read_asm_put_code_size(char *line)
 		error("Error: no operations");
 	put_hex(g_exec_size, 4);
 	g_full_line = (unsigned char *)realloc(g_full_line,
-	 PROG_NAME_LENGTH + COMMENT_LENGTH + 16 + g_exec_size + 1);
+		PROG_NAME_LENGTH + COMMENT_LENGTH + 16 + g_exec_size + 1);
 }
 
 int			comment_line(char *line)
@@ -146,7 +146,8 @@ void		check_labels_chars(char *str)
 
 void		create_token(char *line)
 {
-	int 	type_of_op;
+	int		type_of_op;
+
 	// printf("LINE2: %s\n", line);
 	type_of_op = get_op_name(line);
 	work_on_op(type_of_op, line);

@@ -12,9 +12,9 @@
 
 #include "asm.h"
 
-int 			search_bracks(char *line)
+int				search_bracks(char *line)
 {
-	int 		i;
+	int		i;
 
 	i = -1;
 	while (line[++i])
@@ -23,9 +23,9 @@ int 			search_bracks(char *line)
 	return (0);
 }
 
-int 			search_r_bracks(char *line, int num)
+int				search_r_bracks(char *line, int num)
 {
-	int 		i;
+	int		i;
 
 	i = ft_strlen(line);
 	while (line[--i])
@@ -34,7 +34,7 @@ int 			search_r_bracks(char *line, int num)
 	return (0);
 }
 
-char 			*read_betw_brack(char *str, int flag)
+char			*read_betw_brack(char *str, int flag)
 {
 	char	*new;
 	int		i;
@@ -45,7 +45,7 @@ char 			*read_betw_brack(char *str, int flag)
 	if (flag)
 		new = (char *)ft_memalloc(PROG_NAME_LENGTH);
 	else
-		new = (char *)ft_memalloc(COMMENT_LENGTH);	
+		new = (char *)ft_memalloc(COMMENT_LENGTH);
 	while (str[i] != '"')
 		i++;
 	i++;
@@ -62,9 +62,9 @@ char 			*read_betw_brack(char *str, int flag)
 
 unsigned int	reverse_byte(unsigned int num)
 {
-	unsigned   write;
-	unsigned   bt;
-	int     i;
+	unsigned	write;
+	unsigned	bt;
+	int			i;
 
 	i = -1;
 	write = 0;

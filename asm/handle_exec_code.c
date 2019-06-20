@@ -112,7 +112,7 @@ int			get_value_of_arg(char *arg, t_oken *tkn, char **type_code)
 	return (value);
 }
 
-int				work_on_label(t_oken *tkn, char *arg)
+int			work_on_label(t_oken *tkn, char *arg)
 {
 	t_label		*tmp;
 	int			value;

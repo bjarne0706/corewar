@@ -12,7 +12,7 @@
 
 #include "../inc/vm.h"
 
-int32_t			get_arg(t_vm *v, t_carr *c, uint8_t idx, int32_t *pc)
+int32_t		get_arg(t_vm *v, t_carr *c, uint8_t idx, int32_t *pc)
 {
 	int32_t		arg;
 	int8_t		r;
@@ -73,10 +73,12 @@ void		int_to_arena(t_vm *v, int32_t pos, t_carr *c, int32_t num)
 	size = REG_SIZE;
 	while (size)
 	{
-		v->arena[calc_address(pos + size - 1, false, 0)] = (uint8_t)(num >> shift);
+		v->arena[calc_address(pos + size - 1, false, 0)] =
+			(uint8_t)(num >> shift);
 		if (v->options[2] == 'v')
 		{
-			v->colors[calc_address(pos + size - 1, false, 0)].champ_num = c->champ->num;
+			v->colors[calc_address(pos + size - 1, false, 0)].champ_num =
+				c->champ->num;
 			v->colors[calc_address(pos + size - 1, false, 0)].st_wait = 50;
 		}
 		shift += 8;
@@ -84,16 +86,16 @@ void		int_to_arena(t_vm *v, int32_t pos, t_carr *c, int32_t num)
 	}
 }
 
-int32_t			get_int(t_vm *v, int pc, int size)
+int32_t		get_int(t_vm *v, int pc, int size)
 {
 	int32_t				num;
- 	int 				i;
+	int					i;
 	unsigned char		str[size];
-// num = ((v->arena[(pc) % MEM_SIZE] << 24) + (v->arena[(pc + 1) % MEM_SIZE] << 16) + (v->arena[(pc + 2) % MEM_SIZE] << 8) +(v->arena[(pc + 3) % MEM_SIZE]));
 
- 	num = 0;
- 	i = 0;
- 	while (i < size)
+	// num = ((v->arena[(pc) % MEM_SIZE] << 24) + (v->arena[(pc + 1) % MEM_SIZE] << 16) + (v->arena[(pc + 2) % MEM_SIZE] << 8) +(v->arena[(pc + 3) % MEM_SIZE]));
+	num = 0;
+	i = 0;
+	while (i < size)
 	{
 		str[i] = v->arena[calc_address(pc + i, false, 0)];
 		num += str[i];

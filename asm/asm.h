@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COREWAR_H
-# define COREWAR_H
+#ifndef ASM_H
+# define ASM_H
 
 # include "../libft/includes/libft.h"
 # include "../our_op.h"
@@ -27,15 +27,15 @@
 
 typedef struct		s_files
 {
-	int 			f_fd;
-	int 			s_fd;
+	int				f_fd;
+	int				s_fd;
 }					t_files;
 
 typedef struct		s_strings
 {
-	char 			*name;
+	char			*name;
 	int				name_flag;
-	char 			*comment;
+	char			*comment;
 	int				comment_flag;
 }					t_strings;
 
@@ -44,7 +44,7 @@ typedef struct		s_oken
 	t_op			*token;
 	int				args_type[3];
 	char			*args_value[3];
-	char 			*label;
+	char			*label;
 	int				code_size;
 	int				mem_pos;
 	char			*code_types;
@@ -81,13 +81,17 @@ t_files				*g_files;
 t_strings			*g_str;
 t_oken				*g_tkns;
 t_label				*g_lbl;
-char 				*g_cor_line;
-long 				g_exec_size;
-//asm_main
+char				*g_cor_line;
+long				g_exec_size;
+/*
+** asm_main
+*/
 void				write_all(void);
 char				*get_name(char *name);
 void				write_token();
-//writes
+/*
+** writes
+*/
 void				write_header();
 int					write_name(char *line);
 int					validate_name_cmd(char *str);
@@ -96,13 +100,17 @@ int					write_comment(char *line);
 void				put_hex(int32_t nbr, int size);
 void				print_args(t_oken *tkn);
 void				check_size(char **str, int size, int type);
-//addit_for_writes
+/*
+** addit_for_writes
+*/
 int					search_bracks(char *line);
-int 				search_r_bracks(char *line, int num);
-char 				*read_betw_brack(char *str, int flag);
+int					search_r_bracks(char *line, int num);
+char				*read_betw_brack(char *str, int flag);
 unsigned int		reverse_byte(unsigned int num);
 void				error(char *str);
-//read_asm
+/*
+** read_asm
+*/
 void				read_asm_put_code_size(char *line);
 void				create_token();
 void				work_on_op(int num, char *line);
@@ -113,26 +121,34 @@ int					comment_line(char *line);
 void				del_space_end(char **line);
 int					validate_arg(char *arg, int type);
 void				check_labels_chars(char *str);
-//addict_func_for_read_asm
+/*
+** addict_func_for_read_asm
+*/
 int					label_char_pos(char *str);
 int					ft_space(char c);
 int					count_separ(char *str);
 int					trim_space(int i, char *line);
 int					choose_name(char *line);
-//find_op_and_fill_args
+/*
+** find_op_and_fill_args
+*/
 void				fill_token(int num, t_oken *tkn);
 void				fill_args(int num, char *line, t_oken *new);
 int					if_has_smthng(char *line);
 int					find_op(char *line);
 int					get_op_name();
 int					check_line(char *str);
-//handle_exec_code
+/*
+** handle_exec_code
+*/
 void				analize_token(t_oken *tkn);
 int					get_value_of_arg(char *arg, t_oken *tkn, char **type_code);
 int					work_on_label(t_oken *tkn, char *arg);
 void				put_exec_code(void);
 int					make_from_binary(char *str);
-//addict_for_handle_exec_code
+/*
+** addict_for_handle_exec_code
+*/
 void				fill_type_code(int count, char **code);
 void				free_and_ret(char **arr);
 void				free_structs();

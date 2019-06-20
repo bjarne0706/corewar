@@ -12,10 +12,10 @@
 
 #include "../inc/vm.h"
 
-void				slaughter_carriage(t_vm *v, t_carr *prev, t_carr *del)
+void		slaughter_carriage(t_vm *v, t_carr *prev, t_carr *del)
 {
-	 static int32_t	cyc = -1;
-	
+	static int32_t	cyc = -1;
+
 	if (del == v->carrs)
 	{
 		v->carrs = v->carrs->nxt;
@@ -32,14 +32,14 @@ void				slaughter_carriage(t_vm *v, t_carr *prev, t_carr *del)
 		ft_memdel((void **)&del);
 	}
 	if (v->options[2] == 'v' && cyc != (int32_t)v->cycles)
-	 {
+	{
 		// system("pkill afplay");
 		system("afplay sounds/hitmarker_2.mp3 &> /dev/null &");
 		cyc = (int32_t)v->cycles;
 	}
 }
 
-void			kill_those_loosers(t_vm *v)
+void		kill_those_loosers(t_vm *v)
 {
 	t_carr		*prev;
 	t_carr		*cur;
@@ -49,7 +49,8 @@ void			kill_those_loosers(t_vm *v)
 	prev = NULL;
 	while (cur)
 	{
-		if (v->cycles - cur->last_live >= (size_t)v->cyc_to_die || v->cyc_to_die <= 0)
+		if (v->cycles - cur->last_live >=
+			(size_t)v->cyc_to_die || v->cyc_to_die <= 0)
 		{
 			del = cur;
 			cur = cur->nxt;
@@ -64,10 +65,10 @@ void			kill_those_loosers(t_vm *v)
 			cur = cur->nxt;
 		}
 	}
-//		print_carriages(v);	//
+	//		print_carriages(v);	//
 }
 
-void			copy_carriage(t_vm *v, t_carr *c, int32_t pos)
+void		copy_carriage(t_vm *v, t_carr *c, int32_t pos)
 {
 	t_carr		*cp;
 	int			i;

@@ -19,7 +19,7 @@ int			validate_reg_args(t_vm *v, t_carr *c, t_op *op)
 	unsigned char	reg;
 
 	pos = 1;
-	pos += (op->types_byte) ? 1 : 0; 
+	pos += (op->types_byte) ? 1 : 0;
 	i = 0;
 	while (i < op->ar_num)
 	{
@@ -52,7 +52,7 @@ void			byte_to_arr3(uint8_t arg_types[], unsigned char byte)
 			arg_types[i] = T_IND;
 		i++;
 	}
-}			
+}
 
 int			validate_args_types(t_vm *v, t_carr *c, t_op *op)
 {

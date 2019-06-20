@@ -12,22 +12,22 @@
 
 #include "asm.h"
 
-void			write_header()
+void		write_header(void)
 {
 	unsigned	i;
-	
+
 	g_full_line = ft_memalloc(PROG_NAME_LENGTH + COMMENT_LENGTH + 16);
 	i = reverse_byte(COREWAR_EXEC_MAGIC);
 	ft_memcpy(g_full_line, &i, 4);
 	g_posit += 4;
 }
 
-int				write_name(char *line)
+int			write_name(char *line)
 {
-	int 		flag;
-	char 		*tmp_name;
-	int 		i;
-	int			j;
+	int		flag;
+	char	*tmp_name;
+	int		i;
+	int		j;
 
 	j = 0;
 	if (g_str->name != NULL)
@@ -70,12 +70,12 @@ int				write_name(char *line)
 	return (1);
 }
 
-int				write_comment(char *line)
+int			write_comment(char *line)
 {
-	int 		flag;
-	char 		*tmp_name;
-	int 		i;
-	int			j;
+	int		flag;
+	char	*tmp_name;
+	int		i;
+	int		j;
 
 	j = 0;
 	if (g_str->comment != NULL)
@@ -125,19 +125,17 @@ void		check_size(char **str, int size, int type)
 		if (size >= COMMENT_LENGTH)
 		{
 			ft_strdel(str);
-			error("Error: too long comment.");				
+			error("Error: too long comment.");
 		}
 	}
-		
 	else
 	{
 		if (size >= PROG_NAME_LENGTH)
 		{
 			ft_strdel(str);
-			error("Error: too long name.");				
+			error("Error: too long name.");
 		}
 	}
-	
 }
 
 int			validate_name_cmd(char *str)
@@ -179,7 +177,7 @@ int			validate_comment_cmd(char *str)
 		i++;
 	if (str[i] == '\0' || str[i] != '"')
 		error("Syntax error in comment command.");
-	// printf("i: %d\n", i);
+		// printf("i: %d\n", i);
 	return (i);
 }
 

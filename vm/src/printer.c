@@ -68,7 +68,7 @@ void			introduce_champs(t_vm *v)
 	while (n <= v->champs_num)
 	{
 		ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
-				n, 
+				n,
 				v->champs[n - 1]->size,
 				v->champs[n - 1]->name,
 				v->champs[n - 1]->comment);
@@ -85,7 +85,7 @@ void			introduce_champs(t_vm *v)
 // 	while (n <= v->champs_num)
 // 	{
 // 		ft_printf("#%d [%d bytes] {b}%s{0}: {i}\"%s\"{0}\n",
-// 				n, 
+// 				n,
 // 				v->champs[n - 1]->size,
 // 				v->champs[n - 1]->name,
 // 				v->champs[n - 1]->comment);

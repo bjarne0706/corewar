@@ -15,7 +15,7 @@
 void			log_moves(t_vm *v, t_carr *c)
 {
 	uint32_t		i;
-	
+
 	ft_printf(">> [p%d {i}ch%d\e[23m] ADV %d (%#0.4x -> %#0.4x) ",
 						c->id, c->champ->num, c->step, c->pc, c->pc + c->step);
 	i = 0;

@@ -38,7 +38,6 @@ void			op_lldi(t_vm *v, t_carr *c, t_op *op)
 	c->step = step_calc(c, op);
 	if (v->log & LOG_OPS)
 		log_op_lldi(c, arg[0], arg[1], reg);
-
 		// ft_printf("{I}	%02x %s{0}\n", op->code, op->name);		//
 		// ft_printf("{I}pc: %d; arg[0]: %d{0}\n", pc, arg[0]);		//
 		// ft_printf("{I}pc: %d; arg[1]: %d{0}\n", pc, arg[1]);		//

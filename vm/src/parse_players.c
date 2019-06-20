@@ -24,7 +24,7 @@ int				validate_magic(int fd)
 	return (exec_magic == COREWAR_EXEC_MAGIC);
 }
 
-void				parse_champ(t_vm *v, char *filecor, int n)
+void			parse_champ(t_vm *v, char *filecor, int n)
 {
 	int				fd;
 
@@ -56,7 +56,7 @@ int				cor_filename(const char *s)
 int				find_champ(t_vm *v, int n)
 {
 	int		i;
-	
+
 	i = 0;
 	while (i < MAX_PLAYERS)
 	{
@@ -74,7 +74,7 @@ int				find_champ(t_vm *v, int n)
 void			flag_n(char *av[], int ac, int *i, t_vm *v)
 {
 	int			n;
-	
+
 	n = 0;
 	if ((*i + 2 < ac) && ft_isint(av[*i + 1]))
 	{

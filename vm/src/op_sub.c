@@ -32,7 +32,7 @@ void			op_sub(t_vm *v, t_carr *c, t_op *op)
 	if (v->log & LOG_OPS)
 		log_op_sub(c, r);
 	c->reg[r[2] - 1] = c->reg[r[0] - 1] - c->reg[r[1] - 1];
-		// ft_printf("{blue}[%d]%d - [%d]%d = [%d]%d{0}\n", r[0], c->reg[r[0] - 1], r[1], c->reg[r[1] - 1], r[2], c->reg[r[2] - 1]);	///
+	// ft_printf("{blue}[%d]%d - [%d]%d = [%d]%d{0}\n", r[0], c->reg[r[0] - 1], r[1], c->reg[r[1] - 1], r[2], c->reg[r[2] - 1]);	///
 	if (c->reg[r[2] - 1] == 0)
 		c->carry = true;
 	else

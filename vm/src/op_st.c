@@ -22,7 +22,7 @@ static void		log_op_st(t_carr *c, int8_t r[], int16_t ind)
 		ft_printf("--> %d(pc) %+d(ind){0}\n", c->pc, ind);
 }
 
-void		op_st(t_vm *v, t_carr *c, t_op *op)
+void			op_st(t_vm *v, t_carr *c, t_op *op)
 {
 	int16_t		ind;
 	int8_t		r[2];

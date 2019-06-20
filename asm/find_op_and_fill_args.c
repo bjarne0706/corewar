@@ -63,8 +63,8 @@ int			if_has_smthng(char *line)
 	i = -1;
 	while (line[++i])
 		if (ft_isalnum(line[i]) || ft_strchr(LABEL_CHARS, line[i])
-		 || line[i] == LABEL_CHAR || line[i] == DIRECT_CHAR
-		  || line[i] == SEPARATOR_CHAR)
+		|| line[i] == LABEL_CHAR || line[i] == DIRECT_CHAR
+		|| line[i] == SEPARATOR_CHAR)
 			sum++;
 	if (sum == 0)
 		return (0);
@@ -118,7 +118,7 @@ int			get_op_name(char *line)
 	int		y;
 	char	*name;
 	char	*tmp;
-	
+
 	name = (char *)ft_memalloc(6);
 	i = 0;
 	y = 0;
