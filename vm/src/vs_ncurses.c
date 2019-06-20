@@ -192,7 +192,7 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 			while (tmp)
 			{
 
-				if (tmp->pc == i)
+				if (tmp->pc == i && !prot)
 				{
 					wattron(game, COLOR_PAIR(tmp->champ->num + 4));
 					prot = 1;
@@ -236,6 +236,8 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 	///////////////////////players
 	// mvwprintw(info, 1, 1, "%s", v->last_standing->num, v->last_standing->name);
 	print_players(v);
+	dash_line(v);
+
 
 
 
@@ -250,7 +252,6 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 	int get_int;
 	nodelay(stdscr, TRUE);
 	get_int = getch();
-	mvwprintw(info, 45, 1, "SYMB %d", get_int);
 	int	stop_music;
 	stop_music = 0;
 	if (get_int == 49)
@@ -280,6 +281,36 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 		}
 		system("pkill -CONT afplay");
 	}
+}
+
+void	dash_line(t_vm *v)
+{
+	double	divide;
+	int		i;
+	int		j;
+
+	i = -1;
+	j = 1;
+	divide = v->lives_since_check / 50;
+	while (++i < v->champs_num)
+	{
+			// mvwprintw(v->info, 45, j++, "%d", v->champs[i]->current_lives);
+		if (divide != 0)
+			v->champs[i]->dashes = (double)v->champs[i]->current_lives / divide;
+		wattron(v->info, COLOR_PAIR(i + 1));
+		while (v->champs[i]->dashes)
+		{
+			if (j < 50)
+				mvwprintw(v->info, 45, j++, "-");
+			v->champs[i]->dashes--;
+		}
+		wattroff(v->info, COLOR_PAIR(i + 1));
+	}
+	while (j < 49)
+		mvwprintw(v->info, 45, j++, "-");
+
+
+
 }
 
 void	print_players(t_vm *v)
@@ -332,7 +363,7 @@ void	winner(t_vm *v)
     	if (getch() == 27)
     	{
     		endwin();
-    		// exit(1);
+    		exit(1);
     	}
 }
 

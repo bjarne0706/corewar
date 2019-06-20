@@ -45,6 +45,7 @@ typedef struct		s_champ
 	size_t			last_live_cyc;
 	size_t			current_lives;
 	size_t			prev_lives;
+	size_t			dashes;
 }					t_champ;
 
 typedef struct		s_carr
