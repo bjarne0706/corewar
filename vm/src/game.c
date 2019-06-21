@@ -40,7 +40,7 @@ void			run_the_game(t_vm *v)
 	if (v->options[2] == 'v')
 	{
 		v->speed = 0;
-		// start_menu(v);
+		start_menu(v);
 		create_border(v);
 	}
 	while (v->carrs_num > 0)
@@ -63,6 +63,6 @@ void			run_the_game(t_vm *v)
 		}
 			// printf("v->lives_since_check = %zd\n", v->lives_since_check);		//
 	}
-	if (v->options[2] == 'v')
-		del_win(v->game, v->info);
+	// if (v->options[2] == 'v')
+		// del_win(v->game, v->info);
 }

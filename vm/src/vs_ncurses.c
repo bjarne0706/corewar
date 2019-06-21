@@ -356,31 +356,10 @@ void	print_players(t_vm *v)
 
 void	winner(t_vm *v)
 {
-	screen_and_color();
-    //get screen size
-    int yMax;
-    int xMax;
-    getmaxyx(stdscr, yMax, xMax);
-    init_pair(69, COLOR_WHITE, COLOR_WHITE);
-    init_pair(70, COLOR_BLACK, COLOR_BLACK);
-
-    WINDOW *black = newwin(yMax, xMax, 0, 0);
-    // WINDOW *menu = newwin(yMax / 4, xMax / 2, yMax / 4, xMax / 4);
-    WINDOW *menu = newwin(17, 90, yMax / 5, xMax / 2.8);
-    // WINDOW *menu = newwin(17, 90, 0, 0);
-    //for using arrow keys
-    keypad(menu, true);
-    wattron(black, COLOR_PAIR(70));
-    wattroff(black, COLOR_PAIR(70));
-    wrefresh(black);
-	core_img(menu, yMax, xMax);
-    wattron(menu, COLOR_PAIR(69));
-	box(menu, 0,0);
-	wattroff(menu, COLOR_PAIR(69));
-    wattron(menu, COLOR_PAIR(v->last_standing->num));
-	mvwprintw(menu, 12, 43, "%s", v->last_standing->name);
-    wattroff(menu, COLOR_PAIR(v->last_standing->num));
-    wrefresh(menu);
+    wattron(v->info, COLOR_PAIR(v->last_standing->num));
+	mvwprintw(v->info, 48, 10, "Player %d (%s) won!", v->last_standing->num, v->last_standing->name);
+    wattroff(v->info, COLOR_PAIR(v->last_standing->num));
+	wrefresh(v->info);
     while (1)
     	if (getch() == 27)
     	{
