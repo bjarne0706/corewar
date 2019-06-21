@@ -12,7 +12,7 @@
 
 #include "asm.h"
 
-int			label_char_pos(char *str)
+int	label_char_pos(char *str)
 {
 	int		i;
 
@@ -22,14 +22,14 @@ int			label_char_pos(char *str)
 	return (i);
 }
 
-int			ft_space(char c)
+int	ft_space(char c)
 {
 	if (c == '\t' || c == '\v' || c == '\f' || c == '\r' || c == ' ')
 		return (1);
 	return (0);
 }
 
-int			count_separ(char *str)
+int	count_separ(char *str)
 {
 	int		i;
 	int		counter;
@@ -44,14 +44,7 @@ int			count_separ(char *str)
 	return (counter);
 }
 
-int			trim_space(int i, char *line)
-{
-	while (line[i] == ' ' || line[i] == '\t')
-		i++;
-	return (i);
-}
-
-int			choose_name(char *line)
+int	choose_name(char *line)
 {
 	if (ft_strcmp(line, "live") == 0)
 		return (1);
@@ -69,7 +62,13 @@ int			choose_name(char *line)
 		return (7);
 	else if (ft_strcmp(line, "xor") == 0)
 		return (8);
-	else if (ft_strcmp(line, "zjmp") == 0)
+	else
+		return (choose_name_p2(line));
+}
+
+int	choose_name_p2(char *line)
+{
+	if (ft_strcmp(line, "zjmp") == 0)
 		return (9);
 	else if (ft_strcmp(line, "ldi") == 0)
 		return (10);

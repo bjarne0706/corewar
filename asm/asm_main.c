@@ -31,7 +31,7 @@ int			main(int ac, char **av)
 	g_files->f_fd = open(av[1], O_RDONLY);
 	filename = get_name(av[1]);
 	write_header();
-	write_all();
+	write_all(0, 1);
 	if (g_new_l == 0)
 		error("error");
 	if (!(g_files->s_fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, 0666)))
@@ -39,25 +39,21 @@ int			main(int ac, char **av)
 	ft_printf("Writing output program to %s\n", filename);
 	write(g_files->s_fd, g_full_line, g_posit);
 	free_structs();
-	system("leaks asm");
 }
 
-void		write_all(void)
+void		write_all(int num, int status)
 {
 	char	*line;
-	int		num;
-	int		status;
 
-	num = 0;
 	while ((status = get_next_line(g_files->f_fd, &line)) > 0 && num != 2)
 	{
 		if (comment_line(line))
 			free(line);
 		else if (ft_strstr(line, NAME_CMD_STRING))
-			num += write_name(line);
+			num += write_name(line, 0, 0, 1);
 		else if (ft_strstr(line, COMMENT_CMD_STRING))
-			num += write_comment(line);
-		else if (find_op(line) != 0)
+			num += write_comment(line, 0, 0, 1);
+		else if (find_op(line, 0, 0, 0) != 0)
 			error("Syntax error in name/comment.");
 		else
 			free(line);
@@ -102,7 +98,7 @@ char		*get_name(char *name)
 	if (ft_strcmp(ext, "s") != 0)
 		error("Error: incorrect file extension.");
 	tmp = str;
-	str = ft_strjoin(str, "1.cor");
+	str = ft_strjoin(str, ".cor");
 	free(tmp);
 	free(ext);
 	return (str);
