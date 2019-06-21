@@ -22,9 +22,6 @@
 # include <ncurses.h>
 # include <limits.h>
 
-# include "vm_op.h"
-# include "visual.h"
-
 # define LOG_LIVES	1
 # define LOG_CYCLES	2
 # define LOG_OPS	4
@@ -96,6 +93,76 @@ typedef struct		s_vm
 	WINDOW			*game;
 	int				speed;
 }					t_vm;
+
+typedef struct			s_op
+{
+	char			*name;
+	uint8_t			code;
+	uint8_t			ar_num;
+	int				types_byte;
+	uint8_t			types[3];
+	uint32_t		cycles;
+	int				carry;
+	uint8_t			t_dir_size;
+}					t_op;
+
+static t_op g_ops[17] =
+{
+	{"live", 0x01, 1, false, {T_DIR, 0, 0}, 10, false, 4},                         //1
+	{"ld", 0x02, 2, true, {T_DIR | T_IND, T_REG, 0}, 5, true, 4},//2
+	{"st", 0x03, 2, true, {T_REG, T_IND | T_REG}, 5, false, 4},//3
+	{"add", 0x04, 3, true, {T_REG, T_REG, T_REG}, 10, true, 4},//4
+	{"sub", 0x05, 3, true, {T_REG, T_REG, T_REG}, 10, true, 4},//5
+	{"and", 0x06, 3, true, {T_REG | T_DIR | T_IND, T_REG | T_IND | T_DIR, T_REG}, 6, true, 4},//6
+	{"or", 0x07, 3, true, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 6, true, 4},//7
+	{"xor", 0x08, 3, true, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 6, true, 4},//8
+	{"zjmp", 0x09, 1, false, {T_DIR, 0, 0}, 20, false, 2},//9
+	{"ldi", 0x0a, 3, true, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 25, false, 2},//10
+	{"sti", 0x0b, 3, true, {T_REG, T_REG | T_DIR | T_IND, T_DIR | T_REG}, 25, false, 2},//11
+	{"fork", 0x0c, 1, false, {T_DIR, 0, 0}, 800, false, 2},//12
+	{"lld", 0x0d, 2, true, {T_DIR | T_IND, T_REG, 0}, 10, true, 4},//13
+	{"lldi", 0x0e, 3, true, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 50, true, 2},//14
+	{"lfork", 0x0f, 1, false, {T_DIR, 0, 0}, 1000, false, 2},//15
+	{"aff", 0x10, 1, true, {T_REG, 0, 0}, 2, false, 4},//16
+	{0, 0, 0, 0, {0, 0, 0}, 0, 0, 0}
+};
+
+void		op_live(t_vm *v, t_carr *c, t_op *op);
+void		op_ld(t_vm *v, t_carr *c, t_op *op);
+void		op_st(t_vm *v, t_carr *c, t_op *op);
+void		op_add(t_vm *v, t_carr *c, t_op *op);
+void		op_sub(t_vm *v, t_carr *c, t_op *op);
+void		op_and(t_vm *v, t_carr *c, t_op *op);
+void		op_or(t_vm *v, t_carr *c, t_op *op);
+void		op_xor(t_vm *v, t_carr *c, t_op *op);
+void		op_zjmp(t_vm *v, t_carr *c, t_op *op);
+void		op_ldi(t_vm *v, t_carr *c, t_op *op);
+void		op_sti(t_vm *v, t_carr *c, t_op *op);
+void		op_fork(t_vm *v, t_carr *c, t_op *op);
+void		op_lld(t_vm *v, t_carr *c, t_op *op);
+void		op_lldi(t_vm *v, t_carr *c, t_op *op);
+void		op_lfork(t_vm *v, t_carr *c, t_op *op);
+void		op_aff(t_vm *v, t_carr *c, t_op *op);
+
+static void (*g_func_arr[16])(t_vm *v, t_carr *c, t_op *op) = 
+{
+	op_live,
+	op_ld,
+	op_st,
+	op_add,
+	op_sub,
+	op_and,
+	op_or,
+	op_xor,
+	op_zjmp,
+	op_ldi,
+	op_sti,
+	op_fork,
+	op_lld,
+	op_lldi,
+	op_lfork,
+	op_aff
+};
 
 /*
 ** Parse flags
@@ -201,6 +268,26 @@ void				log_moves(t_vm *v, t_carr *c);
 
 void				vm_error(char *msg);
 void				byebye_our_darling(t_vm *v);
+
+/*
+** Visuals
+*/
+
+int		interface(WINDOW *menu, int yMax, int xMax, t_vm *v);
+void	create_border(t_vm *v);
+void	del_win(WINDOW *game, WINDOW *info);
+void	car_loop(t_vm *v, WINDOW *game, WINDOW *info);
+
+void	*animation(WINDOW *picture);
+void	*inter_loop(WINDOW *menu, int yMax, int xMax, t_vm *v);
+void	start_menu(t_vm *v);
+void	screen_and_color(void);
+void	core_img(WINDOW *core, int yMax, int xMax);
+void	winner(t_vm *v);
+void	print_players(t_vm *v);
+void	dash_line(t_vm *v);
+
+
 
 ///DEBUG
 void				print_champs(t_vm *v);

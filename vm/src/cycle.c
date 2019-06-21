@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../inc/vm.h"
-#include "../inc/visual.h"
 
 void			do_op(t_vm *v, t_carr *c, t_op *op)
 {

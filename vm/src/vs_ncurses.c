@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/visual.h"
+#include "../inc/vm.h"
 
 void	core_img(WINDOW *core, int yMax, int xMax)
 {
