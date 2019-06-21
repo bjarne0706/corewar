@@ -163,7 +163,6 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 		while (x < 194)
 		{
 			prot = 0;
-			// mvwprintw(info, 1, 1, "Index = %d", i);
 			tmp = v->carrs;
 			while (tmp)
 			{
@@ -262,7 +261,15 @@ void	print_and_refresh(t_vm *v)
 	mvwprintw(v->info, 25, 10, "PREVIOUS PERIOD LIVES BREAKDOWN");
 	dash_line(v);
 	dash_line2(v);
-	mvwprintw(v->info, 45, 21, "CONTROLS");
+	// mvwprintw(v->info, 45, 21, "CONTROLS :");
+	mvwprintw(v->info, 43, 4, "/----------------------------------------\\");
+	mvwprintw(v->info, 44, 5, "* Press \"SPACE\" for pause");
+	mvwprintw(v->info, 45, 5, "* Press KEY UP/DOWN for choose your speed");
+	mvwprintw(v->info, 46, 5, "* Press ESC for exit");
+	mvwprintw(v->info, 47, 4, "\\----------------------------------------/");
+
+
+
 
 	box(v->game, 0, 0);
 	box(v->info, 0, 0);
