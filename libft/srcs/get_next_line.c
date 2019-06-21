@@ -48,7 +48,6 @@ static void		check_baf(char *buf)
 		g_new_l = 1;
 	else if (buf[0] != '\0')
 		g_new_l = 0;
-	
 }
 
 int				get_next_line(const int fd, char **line)
