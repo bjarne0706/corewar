@@ -12,7 +12,7 @@
 
 #include "../inc/vm.h"
 
-void				rearrange_champs(t_vm *v)
+void			rearrange_champs(t_vm *v)
 {
 	t_champ		*tmp;
 	int			i;
@@ -36,7 +36,7 @@ void				rearrange_champs(t_vm *v)
 	}
 }
 
-void				validate_champ_nums(t_vm *v)
+void			validate_champ_nums(t_vm *v)
 {
 	int		i;
 
@@ -49,7 +49,7 @@ void				validate_champ_nums(t_vm *v)
 	}
 }
 
-void				assign_champ_nums(t_vm *v)
+void			assign_champ_nums(t_vm *v)
 {
 	int		n;
 	int		i;
@@ -73,10 +73,9 @@ void				assign_champ_nums(t_vm *v)
 	}
 	rearrange_champs(v);
 	v->last_standing = v->champs[v->champs_num - 1];
-	///		ft_printf("{lightgray}INIT LAST STANDING: %d. %s{0}\n", v->last_standing->num, v->last_standing->name);		//
 }
 
-void				parse_size_and_comment(int fd, t_champ *ch)
+void			parse_size_and_comment(int fd, t_champ *ch)
 {
 	unsigned int	null_check;
 	int				actual_size;
@@ -84,30 +83,18 @@ void				parse_size_and_comment(int fd, t_champ *ch)
 	if ((read(fd, &ch->size, 4) < 4))
 		vm_error("Invalid file (exec code size declaration)");
 	ch->size = reverse_byte(ch->size);
-	//			printf("> size: %d\n", ch->size);		//
 	if (ch->size == 0 || ch->size > CHAMP_MAX_SIZE)
 		vm_error("Invalid file (exec code size declaration)");
 	if (read(fd, &ch->comment, COMMENT_LENGTH) < COMMENT_LENGTH)
 		vm_error("Invalid file (comment)");
-	//		printf("> comment: %s\n", ch->comment);
 	null_check = 0;
 	if ((read(fd, &null_check, 4) < 4) || null_check != 0)
 		vm_error("Invalid file (NULL-delimiter)");
 	actual_size = 0;
 	actual_size = read(fd, &ch->code, CHAMP_MAX_SIZE);
-	//		printf("> actual_size: %u\n", actual_size);		//
 	if (actual_size <= 0 || (unsigned int)actual_size != ch->size ||
 		(read(fd, &null_check, 1) != 0))
 		vm_error("Invalid file (exec code actual size)");
-	/*	for (int i = 1; i <= actual_size; i++)
-	{
-		printf("%.2x", ch->code[i - 1]);		//
-		if (i % 2 == 0)
-			printf(" ");
-		if (i % 16 == 0)
-			printf("\n");
-	}
-	*///	printf("\n");			///
 }
 
 int				parse_name(int fd, t_champ *ch)
@@ -116,10 +103,8 @@ int				parse_name(int fd, t_champ *ch)
 
 	if (read(fd, &ch->name, PROG_NAME_LENGTH) < PROG_NAME_LENGTH)
 		return (false);
-//		printf("> name: %s\n", ch->name);		//
 	null_check = 0;
 	if ((read(fd, &null_check, 4) < 4) || null_check != 0)
 		return (false);
-//		printf("null: %#x\n", null_check);	//
 	return (true);
 }

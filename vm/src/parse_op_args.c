@@ -12,7 +12,7 @@
 
 #include "../inc/vm.h"
 
-int			validate_reg_args(t_vm *v, t_carr *c, t_op *op)
+int				validate_reg_args(t_vm *v, t_carr *c, t_op *op)
 {
 	int				i;
 	int				pos;
@@ -26,7 +26,6 @@ int			validate_reg_args(t_vm *v, t_carr *c, t_op *op)
 		if (c->arg_types[i] == T_REG)
 		{
 			reg = v->arena[calc_address(c->pc + pos, false, 0)];
-//				printf("..reg: %.2x\n", reg);	//
 			if (reg < 1 || reg > REG_NUMBER)
 				return (false);
 		}
@@ -54,17 +53,13 @@ void			byte_to_arr3(uint8_t arg_types[], unsigned char byte)
 	}
 }
 
-int			validate_args_types(t_vm *v, t_carr *c, t_op *op)
+int				validate_args_types(t_vm *v, t_carr *c, t_op *op)
 {
 	int				i;
 
-		//  	ft_printf("T_REG: %08b\n", T_REG);		//
-		//  ft_printf("T_DIR: %08b\n", T_DIR);
-		//  	ft_printf("T_IND: %08b\n", T_IND);
 	if (op->types_byte)
 	{
 		byte_to_arr3(c->arg_types, v->arena[calc_address(c->pc + 1, false, 0)]);
-
 		i = 0;
 		while (i < op->ar_num)
 		{
@@ -72,15 +67,11 @@ int			validate_args_types(t_vm *v, t_carr *c, t_op *op)
 				return (false);
 			i++;
 		}
-			// ft_printf("c->ar_types[0]: %08b\n", c->arg_types[0]);	//
-			// ft_printf("c->ar_types[1]: %08b\n", c->arg_types[1]);
-			// ft_printf("c->ar_types[2]: %08b\n", c->arg_types[2]);
 		return (true);
 	}
 	else
 	{
 		c->arg_types[0] = op->types[0];
-			// ft_printf("c->ar_types[0]: %08b\n", c->arg_types[0]);
 		return (true);
 	}
 }

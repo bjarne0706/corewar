@@ -32,7 +32,6 @@ void			op_add(t_vm *v, t_carr *c, t_op *op)
 	if (v->log & LOG_OPS)
 		log_op_add(c, r);
 	c->reg[r[2] - 1] = c->reg[r[0] - 1] + c->reg[r[1] - 1];
-	// ft_printf("{blue}[%d]%d + [%d]%d = [%d]%d{0}\n", r1, c->reg[r1 - 1], r2, c->reg[r2 - 1], r3, c->reg[r3 - 1]);	///
 	if (c->reg[r[2] - 1] == 0)
 		c->carry = true;
 	else

@@ -17,8 +17,8 @@ static void		log_op_lldi(t_carr *c, int32_t arg1, int32_t arg2, int8_t reg)
 	ft_printf("{yellow}[p%d {i}ch%d\e[23m]> ", c->id, c->champ->num);
 	ft_printf("{I}lldi\e[27m %d %d r%d (%d)\n", arg1, arg2, reg,
 		c->reg[reg - 1]);
-	ft_printf("	-> load from %d + %d = %d (with pc and mode %d){0}\n", arg1, arg2, arg1 + arg2,
-		c->pc + ((arg1 + arg2) % IDX_MOD));
+	ft_printf("	-> load from %d + %d = %d (with pc and mode %d){0}\n",
+		arg1, arg2, arg1 + arg2, c->pc + ((arg1 + arg2) % IDX_MOD));
 }
 
 void			op_lldi(t_vm *v, t_carr *c, t_op *op)
@@ -38,9 +38,4 @@ void			op_lldi(t_vm *v, t_carr *c, t_op *op)
 	c->step = step_calc(c, op);
 	if (v->log & LOG_OPS)
 		log_op_lldi(c, arg[0], arg[1], reg);
-		// ft_printf("{I}	%02x %s{0}\n", op->code, op->name);		//
-		// ft_printf("{I}pc: %d; arg[0]: %d{0}\n", pc, arg[0]);		//
-		// ft_printf("{I}pc: %d; arg[1]: %d{0}\n", pc, arg[1]);		//
-		// ft_printf("{I}pc: %d; arg3(r): %d{0}\n", pc, reg);		//
-		// ft_printf("{I}c->reg[r - 1]: %08x{0}\n", c->reg[reg - 1]);		//
 }

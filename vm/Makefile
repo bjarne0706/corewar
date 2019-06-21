@@ -53,7 +53,6 @@ SRC			=	vm_main.c \
 				op_lfork.c \
 				logs.c \
 				vs_ncurses.c \
-				debug.c 						####TMP!!!!!!!!!!!!!
 
 OBJ 		= $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 

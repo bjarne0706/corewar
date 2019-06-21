@@ -20,7 +20,6 @@ int				validate_magic(int fd)
 	if (read(fd, &exec_magic, 4) < 4)
 		return (false);
 	exec_magic = reverse_byte(exec_magic);
-//		printf("magic is: %x\n must be: %x\n", exec_magic, COREWAR_EXEC_MAGIC);	//
 	return (exec_magic == COREWAR_EXEC_MAGIC);
 }
 
@@ -32,7 +31,6 @@ void			parse_champ(t_vm *v, char *filecor, int n)
 		vm_error("Can't open this rubbish");
 	if (!validate_magic(fd))
 		vm_error("Invalid file (magic header)");
-//		else printf("	Valid magic header!\n");		//
 	if (++v->champs_num > MAX_PLAYERS)
 		vm_error("Too many guys for such a tiny, tight VM!");
 	v->champs[v->champs_num - 1] = add_champ(n);
