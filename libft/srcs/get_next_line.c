@@ -45,10 +45,7 @@ static void		check_baf(char *buf)
 
 	i = ft_strlen(buf);
 	if (buf[i - 1] == '\n')
-	{
-		printf("%s\n", buf);
 		g_new_l = 1;
-	}
 	else if (buf[0] != '\0')
 		g_new_l = 0;
 	
