@@ -22,20 +22,20 @@ void			update_options(t_vm *v)
 	}
 }
 
-void			hail_the_hero(t_vm *v)
-{
-	ft_printf("Contestant %d, \"%s\", has won !\n",
-													v->last_standing->num,
-													v->last_standing->name);
-}
-
 // void			hail_the_hero(t_vm *v)
 // {
-// 	ft_printf("{magenta}Player {b}%d{0} ", v->last_standing->num);
-// 	ft_printf("{magenta}({b}%s{0}{magenta}) won!{0}\n", v->last_standing->name);
-// 	if (v->options[2] == 'v')
-// 		winner(v);
+// 	ft_printf("Contestant %d, \"%s\", has won !\n",
+// 													v->last_standing->num,
+// 													v->last_standing->name);
 // }
+
+void			hail_the_hero(t_vm *v)
+{
+	ft_printf("{magenta}Player {b}%d{0} ", v->last_standing->num);
+	ft_printf("{magenta}({b}%s{0}{magenta}) won!{0}\n", v->last_standing->name);
+	if (v->options[2] == 'v')
+		winner(v);
+}
 
 void			print_arena(t_vm *v, char flag)
 {
@@ -59,32 +59,15 @@ void			print_arena(t_vm *v, char flag)
 	}
 }
 
-void			introduce_champs(t_vm *v)
-{
-	int		n;
-
-	n = 1;
-	ft_printf("Introducing contestants...\n");
-	while (n <= v->champs_num)
-	{
-		ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
-				n,
-				v->champs[n - 1]->size,
-				v->champs[n - 1]->name,
-				v->champs[n - 1]->comment);
-		n++;
-	}
-}
-
 // void			introduce_champs(t_vm *v)
 // {
 // 	int		n;
 
-// 	ft_printf("	{b}{I} Meet the gloriuos champions! {0}\n");
 // 	n = 1;
+// 	ft_printf("Introducing contestants...\n");
 // 	while (n <= v->champs_num)
 // 	{
-// 		ft_printf("#%d [%d bytes] {b}%s{0}: {i}\"%s\"{0}\n",
+// 		ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
 // 				n,
 // 				v->champs[n - 1]->size,
 // 				v->champs[n - 1]->name,
@@ -92,6 +75,23 @@ void			introduce_champs(t_vm *v)
 // 		n++;
 // 	}
 // }
+
+void			introduce_champs(t_vm *v)
+{
+	int		n;
+
+	ft_printf("	{b}{I} Meet the gloriuos champions! {0}\n");
+	n = 1;
+	while (n <= v->champs_num)
+	{
+		ft_printf("#%d [%d bytes] {b}%s{0}: {i}\"%s\"{0}\n",
+				n,
+				v->champs[n - 1]->size,
+				v->champs[n - 1]->name,
+				v->champs[n - 1]->comment);
+		n++;
+	}
+}
 
 void			print_usage(void)
 {

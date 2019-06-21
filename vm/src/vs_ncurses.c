@@ -305,13 +305,13 @@ void	dash_line(t_vm *v)
 		while (v->champs[i]->dashes)
 		{
 			if (j < 50)
-				mvwprintw(v->info, 45, j++, "-");
+				mvwprintw(v->info, 45, j++, "=");
 			v->champs[i]->dashes--;
 		}
 		wattroff(v->info, COLOR_PAIR(i + 1));
 	}
 	while (j < 49)
-		mvwprintw(v->info, 45, j++, "-");
+		mvwprintw(v->info, 45, j++, "=");
 
 
 
