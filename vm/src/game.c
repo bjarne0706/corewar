@@ -40,7 +40,7 @@ void			run_the_game(t_vm *v)
 	if (v->options[2] == 'v')
 	{
 		v->speed = 0;
-		start_menu(v);
+		// start_menu(v);
 		create_border(v);
 	}
 	while (v->carrs_num > 0)

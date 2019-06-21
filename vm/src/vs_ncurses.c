@@ -206,13 +206,14 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 	print_and_refresh(v);
 
 	int get_int;
+	keypad(stdscr, TRUE);
 	nodelay(stdscr, TRUE);
 	get_int = getch();
 	int	stop_music;
 	stop_music = 0;
-	if (get_int == 49 && v->speed >= 10)
+	if (get_int == KEY_DOWN && v->speed >= 10)
 		v->speed -= 10;
-	if (get_int == 50)
+	if (get_int == KEY_UP)
 		v->speed += 10;
 	if (get_int == 27)
 	{
