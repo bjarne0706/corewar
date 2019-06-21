@@ -89,6 +89,8 @@ char		*get_name(char *name)
 	int		e_len;
 	int		name_len;
 
+	if (ft_strchr(ext, '.') == 0)
+		error("Error: incorrect file name.");
 	e_len = (int)ft_strlen(ft_strrchr(name, '.'));
 	name_len = (int)ft_strlen(name) - e_len;
 	str = ft_strsub(name, 0, name_len);
