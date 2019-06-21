@@ -92,7 +92,6 @@ int32_t		get_int(t_vm *v, int pc, int size)
 	int					i;
 	unsigned char		str[size];
 
-	// num = ((v->arena[(pc) % MEM_SIZE] << 24) + (v->arena[(pc + 1) % MEM_SIZE] << 16) + (v->arena[(pc + 2) % MEM_SIZE] << 8) +(v->arena[(pc + 3) % MEM_SIZE]));
 	num = 0;
 	i = 0;
 	while (i < size)

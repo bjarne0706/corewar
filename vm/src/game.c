@@ -35,6 +35,23 @@ void			die_check(t_vm *v)
 	v->lives_since_check = 0;
 }
 
+void			handle_dumps(t_vm *v)
+{
+	if (!v->options[2] && v->options[0] &&
+			v->cycles == (size_t)v->dump_cycles[0])
+	{
+		print_arena(v, v->options[0]);
+		exit(0);
+	}
+	if (!v->options[2] && v->options[1] &&
+			!(v->cycles % (size_t)v->dump_cycles[1]))
+	{
+		print_arena(v, v->options[1]);
+		while (getchar() != '\n')
+			;
+	}
+}
+
 void			run_the_game(t_vm *v)
 {
 	if (v->options[2] == 'v')
@@ -45,22 +62,10 @@ void			run_the_game(t_vm *v)
 	}
 	while (v->carrs_num > 0)
 	{
-		if (!v->options[2] && v->options[0] && v->cycles == (size_t)v->dump_cycles[0])
-		{
-			print_arena(v, v->options[0]);
-			exit(0);
-		}
-		if (!v->options[2] && v->options[1] && !(v->cycles % (size_t)v->dump_cycles[1]))
-		{
-			print_arena(v, v->options[1]);
-			while (getchar() != '\n')
-				;
-		}
+		handle_dumps(v);
 		run_cycle(v);
-		if ((v->cyc_since_check == (size_t)v->cyc_to_die) || (v->cyc_to_die <= 0))
-		{
+		if ((v->cyc_since_check == (size_t)v->cyc_to_die)
+				|| (v->cyc_to_die <= 0))
 			die_check(v);
-		}
-			// printf("v->lives_since_check = %zd\n", v->lives_since_check);		//
 	}
 }

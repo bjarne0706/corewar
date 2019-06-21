@@ -33,7 +33,6 @@ void		slaughter_carriage(t_vm *v, t_carr *prev, t_carr *del)
 	}
 	if (v->options[2] == 'v' && cyc != (int32_t)v->cycles)
 	{
-		// system("pkill afplay");
 		system("afplay sounds/hitmarker_2.mp3 &> /dev/null &");
 		cyc = (int32_t)v->cycles;
 	}
@@ -65,7 +64,6 @@ void		kill_those_loosers(t_vm *v)
 			cur = cur->nxt;
 		}
 	}
-	//		print_carriages(v);	//
 }
 
 void		copy_carriage(t_vm *v, t_carr *c, int32_t pos)

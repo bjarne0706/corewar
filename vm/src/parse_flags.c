@@ -25,7 +25,6 @@ void			flag_l(char *av[], int ac, int *i, t_vm *v)
 	if ((*i + 1 < ac) && ft_isint(av[*i + 1]))
 	{
 		v->log = ft_atoi(av[*i + 1]);
-			ft_printf("==> LOG: %d [%08b]\n", v->log, v->log);	//
 		if (v->log < 0 || v->log > 31)
 			print_usage();
 		*i += 1;
@@ -78,8 +77,8 @@ void			parse_vm_args(int ac, char *av[], t_vm *v)
 {
 	int		i;
 
-	i = 1;
-	while (i < ac)
+	i = 0;
+	while (++i < ac)
 	{
 		if (!ft_strcmp(av[i], "-D") || !ft_strcmp(av[i], "-d") ||
 				!ft_strcmp(av[i], "-dump"))
@@ -100,6 +99,5 @@ void			parse_vm_args(int ac, char *av[], t_vm *v)
 			parse_champ(v, av[i], 0);
 		else
 			print_usage();
-		i++;
 	}
 }
