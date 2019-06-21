@@ -87,11 +87,12 @@ typedef struct		s_vm
 	size_t			cycles;
 	size_t			cyc_since_check;
 	size_t			lives_since_check;
+	size_t			prev_lives;
 	size_t			checks_done;
 	int32_t			cyc_to_die;
 	WINDOW			*info;
 	WINDOW			*game;
-	int				speed;
+	long			speed;
 }					t_vm;
 
 typedef struct			s_op
@@ -286,6 +287,11 @@ void	core_img(WINDOW *core, int yMax, int xMax);
 void	winner(t_vm *v);
 void	print_players(t_vm *v);
 void	dash_line(t_vm *v);
+void	dash_line2(t_vm *v);
+void	print_and_refresh(t_vm *v);
+void	authors(WINDOW *menu);
+
+
 
 
 

@@ -22,20 +22,26 @@ void			update_options(t_vm *v)
 	}
 }
 
-void			hail_the_hero(t_vm *v)
-{
-	ft_printf("Contestant %d, \"%s\", has won !\n",
-													v->last_standing->num,
-													v->last_standing->name);
-}
-
 // void			hail_the_hero(t_vm *v)
 // {
-// 	ft_printf("{magenta}Player {b}%d{0} ", v->last_standing->num);
-// 	ft_printf("{magenta}({b}%s{0}{magenta}) won!{0}\n", v->last_standing->name);
-// 	if (v->options[2] == 'v')
-// 		winner(v);
+// 	ft_printf("Contestant %d, \"%s\", has won !\n",
+// 													v->last_standing->num,
+// 													v->last_standing->name);
 // }
+
+void			hail_the_hero(t_vm *v)
+{
+	if (v->options[2] == 'v')
+	{
+		winner(v);
+		del_win(v->game, v->info);
+	}
+	else
+	{
+		ft_printf("{magenta}Player {b}%d{0} ", v->last_standing->num);
+		ft_printf("{magenta}({b}%s{0}{magenta}) won!{0}\n", v->last_standing->name);
+	}
+}
 
 void			print_arena(t_vm *v, char flag)
 {
@@ -59,32 +65,15 @@ void			print_arena(t_vm *v, char flag)
 	}
 }
 
-void			introduce_champs(t_vm *v)
-{
-	int		n;
-
-	n = 1;
-	ft_printf("Introducing contestants...\n");
-	while (n <= v->champs_num)
-	{
-		ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
-				n,
-				v->champs[n - 1]->size,
-				v->champs[n - 1]->name,
-				v->champs[n - 1]->comment);
-		n++;
-	}
-}
-
 // void			introduce_champs(t_vm *v)
 // {
 // 	int		n;
 
-// 	ft_printf("	{b}{I} Meet the gloriuos champions! {0}\n");
 // 	n = 1;
+// 	ft_printf("Introducing contestants...\n");
 // 	while (n <= v->champs_num)
 // 	{
-// 		ft_printf("#%d [%d bytes] {b}%s{0}: {i}\"%s\"{0}\n",
+// 		ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
 // 				n,
 // 				v->champs[n - 1]->size,
 // 				v->champs[n - 1]->name,
@@ -92,6 +81,23 @@ void			introduce_champs(t_vm *v)
 // 		n++;
 // 	}
 // }
+
+void			introduce_champs(t_vm *v)
+{
+	int		n;
+
+	ft_printf("	{b}{I} Meet the gloriuos champions! {0}\n");
+	n = 1;
+	while (n <= v->champs_num)
+	{
+		ft_printf("#%d [%d bytes] {b}%s{0}: {i}\"%s\"{0}\n",
+				n,
+				v->champs[n - 1]->size,
+				v->champs[n - 1]->name,
+				v->champs[n - 1]->comment);
+		n++;
+	}
+}
 
 void			print_usage(void)
 {
@@ -118,6 +124,8 @@ void			print_usage(void)
 	ft_printf("\t\t\t{b}1{0} - show lives\n\t\t\t{b}2{0} - show cycles\n");
 	ft_printf("\t\t\t{b}4{0} - show operations\n\t\t\t{b}8{0} - show deaths\n");
 	ft_printf("\t\t\t{b}16{0} - show PC movements (except for jumps)\n");
+	ft_printf("\n{b}{red}AND REMEMBER: DON'T BE A DICK! (c) zaz{0}\n");
+	
 		printf("\n++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");		//
 		system("leaks -q corewar");		//
 	exit(1);
