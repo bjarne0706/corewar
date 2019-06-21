@@ -10,35 +10,57 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = asm
-
-FLAGS = -Wall -Wextra -Werror
-
-all: $(NAME)
-
-.SILENT:
-
-SRC_NAME = asm_main.c addict_for_all.c addict_for_handel_exec_code.c\
+SRC = asm_main.c addict_for_all.c addict_for_handel_exec_code.c\
 			addict_for_read_asm.c addict_for_read_asm_p2.c\
 			addict_func_for_read_asm.c addit_for_writes.c\
 			find_op_and_fill_args.c handle_exec_code.c\
 			read_asm.c writes.c 
 
-OBJ  = $(patsubst %.c,%.o,$(SRC_NAME))
+NAME		= asm
+CC			= gcc
+FLAGS		= -g -Wall -Wextra -Werror
 
-$(NAME): $(OBJ)
-	make -C ../libft
-	gcc $(FLAGS) $(SRC_NAME) -I include -lft -L.././libft/ -o $(NAME)
+SRC_DIR		= 
+OBJ_DIR		= 
+INC_DIR		= 
 
-obj/%.o:%.c
-	 $(CC) $< -o $@ $(FLAGS) $(HDR)
+LIB_DIR		= ../libft/
+LIBFT 		= $(LIB_DIR)libft.a
+LIB_INC		= $(LIB_DIR)includes/
+
+OBJ 		= $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
+
+all: $(NAME)
+
+$(NAME): $(LIBFT) $(OBJ)
+	@$(CC) $(FLAGS) -lncurses $(OBJ) -lft -L $(LIB_DIR) -o $(NAME)
+	@echo "\033[32m\033[100m\033[1mASM executable compiled.\033[0m"
+
+$(OBJ): | $(OBJ_DIR)
+
+$(OBJ_DIR):
+	@mkdir $(OBJ_DIR)
+
+$(OBJ_DIR)%.o: %.c $(INC_DIR)vm.h ../op.h
+	@$(CC) $(FLAGS) -c $< -o $@ -I $(INC_DIR) -I $(LIB_INC)
+	@echo "	\033[96m$@\033[0m"
+
+$(LIBFT):
+	@make -C $(LIB_DIR)
 
 clean:
-	rm -rf *.o
-	make clean -C ../libft
+	@rm -f $(OBJ)
+	@rm -rf $(OBJ_DIR)
+	@make clean -C $(LIB_DIR)
+	@echo "\033[31mASM object files removed.\033[0m"
 
 fclean: clean
-	rm -rf $(NAME) ../libft.a
-	make fclean -C ../libft
+	@rm -f $(NAME)
+	@@make fclean -C $(LIB_DIR)
+	@echo "\033[31mASM executable removed.\033[0m"
 
 re: fclean all
+
+vpath %.c $(SRC_DIR)
+
+.PHONY: all clean fclean re
