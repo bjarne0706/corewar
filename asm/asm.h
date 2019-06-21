@@ -18,12 +18,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
-# include <stdio.h>
-
-# define f printf("KEK\n");
-# define f2 printf("KEK2\n");
-# define f3 printf("KEK3\n");
-# define f4 printf("KEK4\n");
 
 typedef struct		s_files
 {
@@ -34,9 +28,7 @@ typedef struct		s_files
 typedef struct		s_strings
 {
 	char			*name;
-	int				name_flag;
 	char			*comment;
-	int				comment_flag;
 }					t_strings;
 
 typedef struct		s_oken
@@ -51,21 +43,6 @@ typedef struct		s_oken
 	struct s_oken	*next;
 }					t_oken;
 
-typedef struct		s_file
-{
-	char			*line;
-	struct s_file	*next;
-}					t_file;
-
-typedef struct		s_tmp
-{
-	char			*op;
-	char			**args;
-	char			*label;
-	int				code_size;
-	struct s_tmp	*next;
-}					t_tmp;
-
 typedef struct		s_label
 {
 	char			*label;
@@ -75,82 +52,94 @@ typedef struct		s_label
 
 unsigned char		*g_full_line;
 int					g_posit;
-t_tmp				*g_tmp_op;
-t_file				*g_file;
 t_files				*g_files;
 t_strings			*g_str;
 t_oken				*g_tkns;
 t_label				*g_lbl;
-char				*g_cor_line;
 long				g_exec_size;
 /*
 ** asm_main
 */
-void				write_all(void);
+void				write_all(int num, int status);
 char				*get_name(char *name);
 void				write_token();
 /*
 ** writes
 */
 void				write_header();
-int					write_name(char *line);
-int					validate_name_cmd(char *str);
-int					validate_comment_cmd(char *str);
-int					write_comment(char *line);
-void				put_hex(int32_t nbr, int size);
-void				print_args(t_oken *tkn);
-void				check_size(char **str, int size, int type);
+int					write_name(char *line, int j, int i, int flag);
+int					write_comment(char *line, int j, int i, int flag);
+void				write_name_p2(int *i, int *j, char **line, char **tmp_name);
+void				write_comment_p2(int *i, int *j,
+										char **line, char **tmp_name);
 /*
 ** addit_for_writes
 */
-int					search_bracks(char *line);
-int					search_r_bracks(char *line, int num);
-char				*read_betw_brack(char *str, int flag);
 unsigned int		reverse_byte(unsigned int num);
 void				error(char *str);
+void				check_size(char **str, int size, int type);
+int					validate_name_cmd(char *str);
+void				put_hex(int32_t nbr, int size);
 /*
 ** read_asm
 */
 void				read_asm_put_code_size(char *line);
+void				read_asm_p2(char *line, char *tmp, char *tmp2);
 void				create_token();
 void				work_on_op(int num, char *line);
+/*
+** addict_for_read_asm
+*/
 void				handle_args(char **arr, t_oken *new, int num);
+void				handle_args_while(char *arr, int y, t_oken *new, int num);
+int					validate_arg(char *arg, int type);
+int					validate_arg_p2(char *arg, int type, int x);
+void				check_labels_chars(char *str);
+/*
+** addict_for_read_asm_p2
+*/
 void				make_lbl(char *str);
 void				del_comment(char **line);
 int					comment_line(char *line);
 void				del_space_end(char **line);
-int					validate_arg(char *arg, int type);
-void				check_labels_chars(char *str);
+void				print_args(t_oken *tkn);
 /*
 ** addict_func_for_read_asm
 */
 int					label_char_pos(char *str);
 int					ft_space(char c);
 int					count_separ(char *str);
-int					trim_space(int i, char *line);
 int					choose_name(char *line);
+int					choose_name_p2(char *line);
 /*
 ** find_op_and_fill_args
 */
 void				fill_token(int num, t_oken *tkn);
 void				fill_args(int num, char *line, t_oken *new);
-int					if_has_smthng(char *line);
-int					find_op(char *line);
-int					get_op_name();
-int					check_line(char *str);
+int					find_op(char *line, int sum, int i, int y);
+int					get_op_name(char *line, int i);
+void				find_op_p2(int i, int *sum, int y, char *line);
 /*
 ** handle_exec_code
 */
 void				analize_token(t_oken *tkn);
-int					get_value_of_arg(char *arg, t_oken *tkn, char **type_code);
+int					get_value(char *arg, t_oken *tkn, char **type_code);
 int					work_on_label(t_oken *tkn, char *arg);
 void				put_exec_code(void);
-int					make_from_binary(char *str);
+void				get_value_p2(char **arg, int *value,
+									char **type_code, t_oken *tkn);
 /*
 ** addict_for_handle_exec_code
 */
 void				fill_type_code(int count, char **code);
 void				free_and_ret(char **arr);
 void				free_structs();
-void				ft_strjoin_three(char **s1, char *s2, char *s3, int i);
+/*
+**addict_for_all.c
+*/
+int					make_from_binary(char *str);
+int					trim_space(int i, char *line);
+int					validate_comment_cmd(char *str);
+int					if_has_smthng(char *line);
+int					check_line(char *str);
 #endif

@@ -12,19 +12,23 @@
 
 NAME = asm
 
-FLAGS = 
+FLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
 .SILENT:
 
-SRC_NAME = asm_main.c
+SRC_NAME = asm_main.c addict_for_all.c addict_for_handel_exec_code.c\
+			addict_for_read_asm.c addict_for_read_asm_p2.c\
+			addict_func_for_read_asm.c addit_for_writes.c\
+			find_op_and_fill_args.c handle_exec_code.c\
+			read_asm.c writes.c 
 
 OBJ  = $(patsubst %.c,%.o,$(SRC_NAME))
 
 $(NAME): $(OBJ)
 	make -C ../libft
-	gcc $(FLAGS) *.c -I include -lft -L.././libft/ -o $(NAME)
+	gcc $(FLAGS) $(SRC_NAME) -I include -lft -L.././libft/ -o $(NAME)
 
 obj/%.o:%.c
 	 $(CC) $< -o $@ $(FLAGS) $(HDR)
