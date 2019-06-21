@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME		= corewar
+NAME		= ../corewar
 CC			= gcc
 FLAGS		= -g -Wall -Wextra -Werror
 

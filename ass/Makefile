@@ -16,7 +16,7 @@ SRC = asm_main.c addict_for_all.c addict_for_handel_exec_code.c\
 			find_op_and_fill_args.c handle_exec_code.c\
 			read_asm.c writes.c 
 
-NAME		= asm
+NAME		= ../asm
 CC			= gcc
 FLAGS		= -g -Wall -Wextra -Werror
 
