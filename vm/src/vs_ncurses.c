@@ -12,45 +12,51 @@
 
 #include "../inc/vm.h"
 
-void	core_img(WINDOW *core, int ymax, int xmax)
+void	core_img(WINDOW *core)
 {
-	int i;
-	const char *str[] = {"  /$$$$$$\n",
+	const char	*str[] = {"  /$$$$$$\n",
 " /$$__  $$\n",
 "| $$  \\__/  /$$$$$$   /$$$$$$   /$$$$$$  /$$  /$$  /$$  /$$$$$$   /$$$$$$\n",
 "| $$       /$$__  $$ /$$__  $$ /$$__  $$| $$ | $$ | $$ |____  $$ /$$__  $$\n",
 "| $$      | $$  \\ $$| $$  \\__/| $$$$$$$$| $$ | $$ | $$  /$$$$$$$| $$  \\__/\n",
 "| $$    $$| $$  | $$| $$      | $$_____/| $$ | $$ | $$ /$$__  $$| $$\n",
 "|  $$$$$$/|  $$$$$$/| $$      |  $$$$$$$|  $$$$$/$$$$/|  $$$$$$$| $$\n",
-" \\______/  \\______/ |__/       \\_______/ \\_____/\\___/  \\_______/|__/\n", NULL};
-	// wprintw(core, str);
-	ymax = 0;/////////////////////need to del
-	xmax = 0;
+" \\______/  \\______/ |__/       \\_______/ \\_____/\\___/  \\_______/|__/\n",
+NULL};
+	int			i;
+
 	i = -1;
 	while (str[++i] != NULL)
 		mvwprintw(core, i + 2, 7, str[i]);
-
 }
 
-void start_menu(t_vm *v)
+void	start_menu2(void)
 {
 	initscr();
 	noecho();
 	refresh();
 	curs_set(0);
-	int ymax;
-	int xmax;
-	getmaxyx(stdscr, ymax, xmax);
 	start_color();
+}
+
+void	start_menu(t_vm *v)
+{
+	int		ymax;
+	int		xmax;
+	WINDOW	*black;
+	WINDOW	*menu;
+
+	start_menu2();
+	getmaxyx(stdscr, ymax, xmax);
 	init_pair(1, COLOR_WHITE, COLOR_WHITE);
 	init_pair(2, COLOR_BLACK, COLOR_BLACK);
-	WINDOW *black = newwin(ymax, xmax, 0, 0);
-	WINDOW *menu = newwin(17, 90, ymax / 5, xmax / 2.8);
+	black = newwin(ymax, xmax, 0, 0);
+	menu = newwin(17, 90, ymax / 5, xmax / 2.8);
 	keypad(menu, true);
 	wattron(black, COLOR_PAIR(2));
 	wattroff(black, COLOR_PAIR(2));
 	wrefresh(black);
-	core_img(menu, ymax, xmax);
+	core_img(menu);
 	wattron(menu, COLOR_PAIR(1));
 	box(menu, 0, 0);
 	wattroff(menu, COLOR_PAIR(1));

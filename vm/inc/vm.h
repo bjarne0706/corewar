@@ -95,7 +95,7 @@ typedef struct		s_vm
 	long			speed;
 }					t_vm;
 
-typedef struct			s_op
+typedef struct		s_op
 {
 	char			*name;
 	uint8_t			code;
@@ -109,43 +109,49 @@ typedef struct			s_op
 
 static t_op g_ops[17] =
 {
-	{"live", 0x01, 1, false, {T_DIR, 0, 0}, 10, false, 4},                         //1
-	{"ld", 0x02, 2, true, {T_DIR | T_IND, T_REG, 0}, 5, true, 4},//2
-	{"st", 0x03, 2, true, {T_REG, T_IND | T_REG}, 5, false, 4},//3
-	{"add", 0x04, 3, true, {T_REG, T_REG, T_REG}, 10, true, 4},//4
-	{"sub", 0x05, 3, true, {T_REG, T_REG, T_REG}, 10, true, 4},//5
-	{"and", 0x06, 3, true, {T_REG | T_DIR | T_IND, T_REG | T_IND | T_DIR, T_REG}, 6, true, 4},//6
-	{"or", 0x07, 3, true, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 6, true, 4},//7
-	{"xor", 0x08, 3, true, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 6, true, 4},//8
-	{"zjmp", 0x09, 1, false, {T_DIR, 0, 0}, 20, false, 2},//9
-	{"ldi", 0x0a, 3, true, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 25, false, 2},//10
-	{"sti", 0x0b, 3, true, {T_REG, T_REG | T_DIR | T_IND, T_DIR | T_REG}, 25, false, 2},//11
-	{"fork", 0x0c, 1, false, {T_DIR, 0, 0}, 800, false, 2},//12
-	{"lld", 0x0d, 2, true, {T_DIR | T_IND, T_REG, 0}, 10, true, 4},//13
-	{"lldi", 0x0e, 3, true, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 50, true, 2},//14
-	{"lfork", 0x0f, 1, false, {T_DIR, 0, 0}, 1000, false, 2},//15
-	{"aff", 0x10, 1, true, {T_REG, 0, 0}, 2, false, 4},//16
+	{"live", 0x01, 1, false, {T_DIR, 0, 0}, 10, false, 4},
+	{"ld", 0x02, 2, true, {T_DIR | T_IND, T_REG, 0}, 5, true, 4},
+	{"st", 0x03, 2, true, {T_REG, T_IND | T_REG}, 5, false, 4},
+	{"add", 0x04, 3, true, {T_REG, T_REG, T_REG}, 10, true, 4},
+	{"sub", 0x05, 3, true, {T_REG, T_REG, T_REG}, 10, true, 4},
+	{"and", 0x06, 3, true,
+		{T_REG | T_DIR | T_IND, T_REG | T_IND | T_DIR, T_REG}, 6, true, 4},
+	{"or", 0x07, 3, true,
+		{T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 6, true, 4},
+	{"xor", 0x08, 3, true,
+		{T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 6, true, 4},
+	{"zjmp", 0x09, 1, false, {T_DIR, 0, 0}, 20, false, 2},
+	{"ldi", 0x0a, 3, true,
+		{T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 25, false, 2},
+	{"sti", 0x0b, 3, true,
+		{T_REG, T_REG | T_DIR | T_IND, T_DIR | T_REG}, 25, false, 2},
+	{"fork", 0x0c, 1, false, {T_DIR, 0, 0}, 800, false, 2},
+	{"lld", 0x0d, 2, true, {T_DIR | T_IND, T_REG, 0}, 10, true, 4},
+	{"lldi", 0x0e, 3, true,
+		{T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 50, true, 2},
+	{"lfork", 0x0f, 1, false, {T_DIR, 0, 0}, 1000, false, 2},
+	{"aff", 0x10, 1, true, {T_REG, 0, 0}, 2, false, 4},
 	{0, 0, 0, 0, {0, 0, 0}, 0, 0, 0}
 };
 
-void		op_live(t_vm *v, t_carr *c, t_op *op);
-void		op_ld(t_vm *v, t_carr *c, t_op *op);
-void		op_st(t_vm *v, t_carr *c, t_op *op);
-void		op_add(t_vm *v, t_carr *c, t_op *op);
-void		op_sub(t_vm *v, t_carr *c, t_op *op);
-void		op_and(t_vm *v, t_carr *c, t_op *op);
-void		op_or(t_vm *v, t_carr *c, t_op *op);
-void		op_xor(t_vm *v, t_carr *c, t_op *op);
-void		op_zjmp(t_vm *v, t_carr *c, t_op *op);
-void		op_ldi(t_vm *v, t_carr *c, t_op *op);
-void		op_sti(t_vm *v, t_carr *c, t_op *op);
-void		op_fork(t_vm *v, t_carr *c, t_op *op);
-void		op_lld(t_vm *v, t_carr *c, t_op *op);
-void		op_lldi(t_vm *v, t_carr *c, t_op *op);
-void		op_lfork(t_vm *v, t_carr *c, t_op *op);
-void		op_aff(t_vm *v, t_carr *c, t_op *op);
+void				op_live(t_vm *v, t_carr *c, t_op *op);
+void				op_ld(t_vm *v, t_carr *c, t_op *op);
+void				op_st(t_vm *v, t_carr *c, t_op *op);
+void				op_add(t_vm *v, t_carr *c, t_op *op);
+void				op_sub(t_vm *v, t_carr *c, t_op *op);
+void				op_and(t_vm *v, t_carr *c, t_op *op);
+void				op_or(t_vm *v, t_carr *c, t_op *op);
+void				op_xor(t_vm *v, t_carr *c, t_op *op);
+void				op_zjmp(t_vm *v, t_carr *c, t_op *op);
+void				op_ldi(t_vm *v, t_carr *c, t_op *op);
+void				op_sti(t_vm *v, t_carr *c, t_op *op);
+void				op_fork(t_vm *v, t_carr *c, t_op *op);
+void				op_lld(t_vm *v, t_carr *c, t_op *op);
+void				op_lldi(t_vm *v, t_carr *c, t_op *op);
+void				op_lfork(t_vm *v, t_carr *c, t_op *op);
+void				op_aff(t_vm *v, t_carr *c, t_op *op);
 
-static void (*g_func_arr[16])(t_vm *v, t_carr *c, t_op *op) = 
+static void (*g_func_arr[16])(t_vm *v, t_carr *c, t_op *op) =
 {
 	op_live,
 	op_ld,
@@ -206,6 +212,7 @@ void				add_carriage(t_carr **carr, t_champ *chmp,
 */
 
 void				run_the_game(t_vm *v);
+void				handle_dumps(t_vm *v);
 void				die_check(t_vm *v);
 
 /*
@@ -274,31 +281,22 @@ void				byebye_our_darling(t_vm *v);
 ** Visuals
 */
 
-int		interface(WINDOW *menu, t_vm *v);
-void	create_border(t_vm *v);
-void	del_win(WINDOW *game, WINDOW *info);
-void	car_loop(t_vm *v, WINDOW *game, WINDOW *info);
-void	print_and_refresh2(t_vm *v);
-void	*animation(WINDOW *picture);
-void	*inter_loop(WINDOW *menu, t_vm *v);
-void	start_menu(t_vm *v);
-void	screen_and_color(void);
-void	core_img(WINDOW *core, int ymax, int xmax);
-void	winner(t_vm *v);
-void	print_players(t_vm *v);
-void	dash_line(t_vm *v);
-void	dash_line2(t_vm *v);
-void	print_and_refresh(t_vm *v);
-void	authors(WINDOW *menu);
-
-
-
-
-
-///DEBUG
-void				print_champs(t_vm *v);
-void				print_carriages(t_vm *v);
-void				print_vm_params(t_vm *v);
-void				print_color_map(t_vm *v);
+int					interface(WINDOW *menu, t_vm *v);
+void				create_border(t_vm *v);
+void				del_win(WINDOW *game, WINDOW *info);
+void				car_loop(t_vm *v, WINDOW *game, WINDOW *info);
+void				print_and_refresh2(t_vm *v);
+void				*animation(WINDOW *picture);
+void				*inter_loop(WINDOW *menu, t_vm *v);
+void				start_menu(t_vm *v);
+void				screen_and_color(void);
+void				core_img(WINDOW *core);
+void				winner(t_vm *v);
+void				print_players(t_vm *v);
+void				dash_line(t_vm *v);
+void				dash_line2(t_vm *v);
+void				print_and_refresh(t_vm *v);
+void				authors(WINDOW *menu);
+void				start_menu2(void);
 
 #endif
