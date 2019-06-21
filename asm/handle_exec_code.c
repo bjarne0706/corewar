@@ -20,31 +20,11 @@ void		put_exec_code(void)
 	while (tkn != NULL)
 	{
 		put_hex((int32_t)tkn->token->code, 1);
-		// printf("NAME: %s\n", tkn->token->name);
 		if (tkn->token->arg_code_type)
 			put_hex(make_from_binary(tkn->code_types), 1);
 		print_args(tkn);
 		tkn = tkn->next;
 	}
-}
-
-int			make_from_binary(char *str)
-{
-	int		i;
-	int		sum;
-	int		mult;
-
-	sum = 0;
-	mult = 1;
-	i = ft_strlen(str) - 1;
-	while (i >= 0)
-	{
-		if (str[i] == '1')
-			sum += mult;
-		mult *= 2;
-		i--;
-	}
-	return (sum);
 }
 
 void		analize_token(t_oken *tkn)
@@ -55,7 +35,7 @@ void		analize_token(t_oken *tkn)
 	type_code = (char *)ft_memalloc(sizeof(char) * 9);
 	i = -1;
 	while (tkn->args_value[++i] && i < tkn->token->arg_count)
-		tkn->token->argums[i] = get_value_of_arg(tkn->args_value[i], tkn, &type_code);
+		tkn->token->argums[i] = get_value(tkn->args_value[i], tkn, &type_code);
 	fill_type_code(tkn->token->arg_count, &type_code);
 	if (tkn->token->arg_code_type)
 		tkn->code_types = ft_strdup(type_code);
@@ -64,7 +44,7 @@ void		analize_token(t_oken *tkn)
 	free(type_code);
 }
 
-int			get_value_of_arg(char *arg, t_oken *tkn, char **type_code)
+int			get_value(char *arg, t_oken *tkn, char **type_code)
 {
 	int		value;
 	int		i;
@@ -87,29 +67,39 @@ int			get_value_of_arg(char *arg, t_oken *tkn, char **type_code)
 		value = work_on_label(tkn, &arg[i + 2]);
 		(*type_code) = ft_strjoin((*type_code), "10");
 	}
-	else if (arg[i] == ':')
+	else
+		get_value_p2(&arg, &value, type_code, tkn);
+	free(tmp);
+	return (value);
+}
+
+void		get_value_p2(char **arg, int *value, char **type_code, t_oken *tkn)
+{
+	int		i;
+
+	i = trim_space(0, (*arg));
+	if ((*arg)[i] == ':')
 	{
-		value = work_on_label(tkn, &arg[i + 1]);
+		(*value) = work_on_label(tkn, &(*arg)[i + 1]);
 		(*type_code) = ft_strjoin((*type_code), "11");
 	}
-	else if (arg[i] == '%')
+	else if ((*arg)[i] == '%')
 	{
-		if ((!ft_strchr(LABEL_CHARS, arg[i + 1]) && arg[i + 1] != '-') || arg[i + 1] == '\0')
+		if ((!ft_strchr(LABEL_CHARS, (*arg)[i + 1]) &&
+			(*arg)[i + 1] != '-') || (*arg)[i + 1] == '\0')
 			error("Syntax error.");
-		if (arg[i + 1] == '-' && !ft_isdigit(arg[i + 2]))
+		if ((*arg)[i + 1] == '-' && !ft_isdigit((*arg)[i + 2]))
 			error("Error: incorrect argument.");
-		value = ft_atoi(&arg[i + 1]);
+		(*value) = ft_atoi(&(*arg)[i + 1]);
 		(*type_code) = ft_strjoin((*type_code), "10");
 	}
 	else
 	{
-		if (arg[i] == '-' && !ft_isdigit(arg[i + 1]))
+		if ((*arg)[i] == '-' && !ft_isdigit((*arg)[i + 1]))
 			error("Error: incorrect argument.");
-		value = ft_atoi(&arg[i]);
+		(*value) = ft_atoi(&(*arg)[i]);
 		(*type_code) = ft_strjoin((*type_code), "11");
 	}
-	free(tmp);
-	return (value);
 }
 
 int			work_on_label(t_oken *tkn, char *arg)

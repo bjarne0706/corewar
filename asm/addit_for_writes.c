@@ -12,54 +12,6 @@
 
 #include "asm.h"
 
-int				search_bracks(char *line)
-{
-	int		i;
-
-	i = -1;
-	while (line[++i])
-		if (line[i] == '"')
-			return (i);
-	return (0);
-}
-
-int				search_r_bracks(char *line, int num)
-{
-	int		i;
-
-	i = ft_strlen(line);
-	while (line[--i])
-		if (line[i] == '"' && i != num)
-			return (i);
-	return (0);
-}
-
-char			*read_betw_brack(char *str, int flag)
-{
-	char	*new;
-	int		i;
-	int		y;
-
-	i = 0;
-	y = 0;
-	if (flag)
-		new = (char *)ft_memalloc(PROG_NAME_LENGTH);
-	else
-		new = (char *)ft_memalloc(COMMENT_LENGTH);
-	while (str[i] != '"')
-		i++;
-	i++;
-	while (str[i] != '"' && str[i])
-	{
-		new[y] = str[i];
-		y++;
-		i++;
-	}
-	new[y] = '\0';
-	free(str);
-	return (new);
-}
-
 unsigned int	reverse_byte(unsigned int num)
 {
 	unsigned	write;
@@ -80,6 +32,75 @@ void			error(char *str)
 {
 	ft_printf("%s\n", str);
 	free_structs();
-	system("leaks asm");
 	exit(1);
+}
+
+void			check_size(char **str, int size, int type)
+{
+	if (type)
+	{
+		if (size >= COMMENT_LENGTH)
+		{
+			ft_strdel(str);
+			error("Error: too long comment.");
+		}
+	}
+	else
+	{
+		if (size >= PROG_NAME_LENGTH)
+		{
+			ft_strdel(str);
+			error("Error: too long name.");
+		}
+	}
+}
+
+int				validate_name_cmd(char *str)
+{
+	int		i;
+	int		j;
+
+	i = -1;
+	j = 0;
+	while (str[++i] != NAME_CMD_STRING[0])
+		if (!ft_space(str[i]))
+			error("Syntax error in name command.");
+	i--;
+	while (str[++i] != '"' && !ft_space(str[i]) && str[i])
+		if (str[i] != NAME_CMD_STRING[j++])
+			error("Syntax error in name command.");
+	while (str[i] != '"' && ft_space(str[i]) && str[i])
+		i++;
+	if (str[i] == '\0' || str[i] != '"')
+		error("Syntax error in name command.");
+	return (i);
+}
+
+void			put_hex(int32_t nbr, int size)
+{
+	unsigned int	tmp;
+	int				i;
+	unsigned int	max;
+	char			*res;
+
+	if (size == 1)
+		max = 255;
+	if (size == 2)
+		max = 65535;
+	if (size == 4)
+		max = 4294967295;
+	if (nbr < 0)
+		tmp = max + nbr + 1;
+	else
+		tmp = nbr;
+	res = (char *)malloc(size);
+	i = size;
+	while (--i >= 0)
+	{
+		res[i] = tmp % 256;
+		tmp /= 256;
+	}
+	ft_memcpy(g_full_line + g_posit, res, size);
+	g_posit += size;
+	free(res);
 }
