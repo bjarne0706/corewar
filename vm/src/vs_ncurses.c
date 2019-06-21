@@ -123,6 +123,8 @@ int	interface(WINDOW *menu, int yMax, int xMax, t_vm *v)
     	endwin();
     	exit (1);
 	}
+	else if (key == 10 && highlight == 1)
+		authors(menu);
 	else if (key == 10 && highlight == 0)
 	{
 		wrefresh(menu);
@@ -130,6 +132,15 @@ int	interface(WINDOW *menu, int yMax, int xMax, t_vm *v)
 	}
 	return (1);
 }
+
+void	authors(WINDOW *menu)
+{
+	mvwprintw(menu, 12, 10, "anerus");
+	mvwprintw(menu, 12, 25, "dstepane");
+	mvwprintw(menu, 12, 55, "dchantse");
+	mvwprintw(menu, 12, 70, "evlasov");
+}
+
 
 void	create_border(t_vm *v)
 {
@@ -264,7 +275,7 @@ void	print_and_refresh(t_vm *v)
 	// mvwprintw(v->info, 45, 21, "CONTROLS :");
 	mvwprintw(v->info, 43, 4, "/----------------------------------------\\");
 	mvwprintw(v->info, 44, 5, "* Press \"SPACE\" for pause");
-	mvwprintw(v->info, 45, 5, "* Press KEY UP/DOWN for choose your speed");
+	mvwprintw(v->info, 45, 5, "* Press UP/DOWN for choose your speed");
 	mvwprintw(v->info, 46, 5, "* Press ESC for exit");
 	mvwprintw(v->info, 47, 4, "\\----------------------------------------/");
 
@@ -357,7 +368,7 @@ void	print_players(t_vm *v)
 void	winner(t_vm *v)
 {
     wattron(v->info, COLOR_PAIR(v->last_standing->num));
-	mvwprintw(v->info, 48, 10, "Player %d (%s) won!", v->last_standing->num, v->last_standing->name);
+	mvwprintw(v->info, 55, 11, "Player %d (%s) won!", v->last_standing->num, v->last_standing->name);
     wattroff(v->info, COLOR_PAIR(v->last_standing->num));
 	wrefresh(v->info);
     while (1)

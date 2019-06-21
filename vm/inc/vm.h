@@ -289,6 +289,8 @@ void	print_players(t_vm *v);
 void	dash_line(t_vm *v);
 void	dash_line2(t_vm *v);
 void	print_and_refresh(t_vm *v);
+void	authors(WINDOW *menu);
+
 
 
 

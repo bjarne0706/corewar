@@ -50,7 +50,7 @@ int				main(int ac, char *av[])
 		setup_arena(v);
 //			print_arena(v, 'D');		//
 //			print_color_map(v);		///
-		if (!v->options[2])
+		// if (!v->options[2])
 			introduce_champs(v);		//
 		setup_carriages(v);
 //			print_carriages(v);		//
@@ -61,13 +61,13 @@ int				main(int ac, char *av[])
 		if (!v->options[2] && v->options[4])
 			v->options[4] == 'E' ? print_arena(v, 'D') :  print_arena(v, 'd');
 				// print_carriages(v);		//
-		if (!v->options[2])
+		// if (!v->options[2])
 			hail_the_hero(v);
 		byebye_our_darling(v);
 	}
 	else
 		print_usage();
-		printf("\n++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");		//
-		system("leaks -q corewar");	//
+		// printf("\n++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");		//
+		// system("leaks -q corewar");	//
 	return (0);
 }

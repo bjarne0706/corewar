@@ -63,6 +63,4 @@ void			run_the_game(t_vm *v)
 		}
 			// printf("v->lives_since_check = %zd\n", v->lives_since_check);		//
 	}
-	// if (v->options[2] == 'v')
-		// del_win(v->game, v->info);
 }
