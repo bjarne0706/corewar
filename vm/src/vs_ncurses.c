@@ -38,37 +38,24 @@ void start_menu(t_vm *v)
     noecho();
     refresh();
     curs_set(0);
-    //get screen size
     int yMax;
     int xMax;
     getmaxyx(stdscr, yMax, xMax);
     start_color();
     init_pair(1, COLOR_WHITE, COLOR_WHITE);
     init_pair(2, COLOR_BLACK, COLOR_BLACK);
-
     WINDOW *black = newwin(yMax, xMax, 0, 0);
-    // WINDOW *menu = newwin(yMax / 4, xMax / 2, yMax / 4, xMax / 4);
     WINDOW *menu = newwin(17, 90, yMax / 5, xMax / 2.8);
-    // WINDOW *menu = newwin(17, 90, 0, 0);
-
-    //for using arrow keys
     keypad(menu, true);
     wattron(black, COLOR_PAIR(2));
     wattroff(black, COLOR_PAIR(2));
     wrefresh(black);
-
 	core_img(menu, yMax, xMax);
-
     wattron(menu, COLOR_PAIR(1));
 	box(menu, 0,0);
 	wattroff(menu, COLOR_PAIR(1));
-
-
     wrefresh(menu);
-
-    /////////menu interface
 	inter_loop(menu, yMax, xMax, v);
-	// delwin(menu);
     endwin();
 }
 
@@ -146,28 +133,17 @@ int	interface(WINDOW *menu, int yMax, int xMax, t_vm *v)
 
 void	create_border(t_vm *v)
 {
-	// mvwin(game, 0, 0);
-	// wresize(game, yMax - yMax / 4, xMax - xMax / 4);
 	screen_and_color();
-	v->info = newwin(65, 100, 0, 197);
+	v->info = newwin(65, 52, 0, 197);
 	v->game = newwin(65, 197, 0, 0);
-	WINDOW *help = newwin(6, 197, 66, 0);
-
     wattron(v->info, COLOR_PAIR(9));
     wattron(v->game, COLOR_PAIR(9));
 	box(v->game, 0, 0);
 	box(v->info, 0, 0);
-	box(help, 0, 0);
-
 	wattroff(v->info, COLOR_PAIR(9));
 	wattroff(v->game, COLOR_PAIR(9));
-	mvwprintw(help, 1, 15, "SPEED 1");
-	mvwprintw(help, 1, 30, "SPEED 2");
-	mvwprintw(help, 1, 45, "SPEED 3");
-
 	wrefresh(v->info);
 	wrefresh(v->game);
-	wrefresh(help);
 	system("afplay sounds/Megalovania.mp3 &> /dev/null &");
 }
 
@@ -227,43 +203,17 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 			x += 1;
 		}
 	}
-	wattron(info, A_BOLD);
-	mvwprintw(info, 21, 1, "CYCLES TOTAL  % 24d", v->cycles);
-	mvwprintw(info, 23, 1, "CYCLES SINCE CHECK  % 18d", v->cyc_since_check);
-	mvwprintw(info, 25, 1, "ACTIVE PROCESSES  % 20d", v->carrs_num);
-	mvwprintw(info, 27, 1, "CYCLES TO DIE  % 23d", v->cyc_to_die);
-	mvwprintw(info, 29, 1, "CYCLES DELTA  % 24d", CYCLE_DELTA);
-	mvwprintw(info, 31, 1, "LIVES SINCE CHECK  % 14d / %d", v->lives_since_check, NBR_LIVE);
-	mvwprintw(info, 33, 1, "CHECKS DONE  % 20d / %d", v->checks_done, MAX_CHECKS);
-	mvwprintw(info, 35, 1, "LAST STANDING % 24s", v->last_standing->name);
-	wattroff(info, A_BOLD);
-	///////////////////////players
-	// mvwprintw(info, 1, 1, "%s", v->last_standing->num, v->last_standing->name);
-	print_players(v);
-	dash_line(v);
-
-
-
-
-
-
-	box(v->game, 0, 0);
-	box(v->info, 0, 0);
-	refresh();
-	wrefresh(game);
-	wrefresh(info);
+	print_and_refresh(v);
 
 	int get_int;
 	nodelay(stdscr, TRUE);
 	get_int = getch();
 	int	stop_music;
 	stop_music = 0;
-	if (get_int == 49)
-		v->speed = 0;
+	if (get_int == 49 && v->speed >= 10)
+		v->speed -= 10;
 	if (get_int == 50)
-		v->speed = 50;
-	if (get_int == 51)
-		v->speed = 100;
+		v->speed += 10;
 	if (get_int == 27)
 	{
 		del_win(game, info);
@@ -287,6 +237,40 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 	}
 }
 
+void	print_and_refresh(t_vm *v)
+{
+	wattron(v->info, A_BOLD);
+	mvwprintw(v->info, 28, 20, "SPEED % 5d", v->speed);
+	mvwprintw(v->info, 30, 6, "CYCLES TOTAL  % 25d", v->cycles);
+	mvwprintw(v->info, 31, 6, "ACTIVE PROCESSES  % 21d", v->carrs_num);
+	mvwprintw(v->info, 33, 6, "CYCLES SINCE CHECK  % 19d", v->cyc_since_check);
+	mvwprintw(v->info, 34, 6, "CYCLES TO DIE  % 24d", v->cyc_to_die);
+	mvwprintw(v->info, 35, 6, "cycles delta  % 25d", CYCLE_DELTA);
+	mvwprintw(v->info, 37, 6, "LIVES SINCE CHECK  % 20d", v->lives_since_check);
+	mvwprintw(v->info, 38, 6, "nbr live  % 29d", NBR_LIVE);
+
+	mvwprintw(v->info, 40, 6, "CHECKS DONE  % 26d", v->checks_done);
+	mvwprintw(v->info, 41, 6, "max checks  % 27d", MAX_CHECKS);
+
+
+	wattroff(v->info, A_BOLD);
+	///////////////////////players
+	// mvwprintw(info, 1, 1, "%s", v->last_standing->num, v->last_standing->name);
+	print_players(v);
+	mvwprintw(v->info, 22, 13, "CURRENT LIVES BREAKDOWN");
+	mvwprintw(v->info, 25, 10, "PREVIOUS PERIOD LIVES BREAKDOWN");
+	dash_line(v);
+	dash_line2(v);
+	mvwprintw(v->info, 45, 21, "CONTROLS");
+
+	box(v->game, 0, 0);
+	box(v->info, 0, 0);
+
+	refresh();
+	wrefresh(v->game);
+	wrefresh(v->info);
+}
+
 void	dash_line(t_vm *v)
 {
 	double	divide;
@@ -296,25 +280,51 @@ void	dash_line(t_vm *v)
 	i = -1;
 	j = 1;
 	divide = v->lives_since_check / 50;
+	mvwprintw(v->info, 23, j++, "[");
 	while (++i < v->champs_num)
 	{
-			// mvwprintw(v->info, 45, j++, "%d", v->champs[i]->current_lives);
 		if (divide != 0)
 			v->champs[i]->dashes = (double)v->champs[i]->current_lives / divide;
 		wattron(v->info, COLOR_PAIR(i + 1));
 		while (v->champs[i]->dashes)
 		{
 			if (j < 50)
-				mvwprintw(v->info, 45, j++, "=");
+				mvwprintw(v->info, 23, j++, "=");
 			v->champs[i]->dashes--;
 		}
 		wattroff(v->info, COLOR_PAIR(i + 1));
 	}
-	while (j < 49)
-		mvwprintw(v->info, 45, j++, "=");
+	while (j < 50)
+		mvwprintw(v->info, 23, j++, "=");
+	mvwprintw(v->info, 23, j++, "]");
+}
 
+void	dash_line2 (t_vm *v)
+{
+	double	divide;
+	int		i;
+	int		j;
 
-
+	i = -1;
+	j = 1;
+	divide = v->prev_lives / 50;
+	mvwprintw(v->info, 26, j++, "[");
+	while (++i < v->champs_num)
+	{
+		if (divide != 0)
+			v->champs[i]->dashes = (double)v->champs[i]->prev_lives / divide;
+		wattron(v->info, COLOR_PAIR(i + 1));
+		while (v->champs[i]->dashes)
+		{
+			if (j < 50)
+				mvwprintw(v->info, 26, j++, "=");
+			v->champs[i]->dashes--;
+		}
+		wattroff(v->info, COLOR_PAIR(i + 1));
+	}
+	while (j < 50)
+		mvwprintw(v->info, 26, j++, "=");
+	mvwprintw(v->info, 26, j++, "]");
 }
 
 void	print_players(t_vm *v)
@@ -327,10 +337,10 @@ void	print_players(t_vm *v)
 	while (++i < MAX_PLAYERS && v->champs[i])
 	{
 		wattron(v->info, A_BOLD | COLOR_PAIR(i + 1));
-		mvwprintw(v->info, id + i, 1, "%s :", v->champs[i]->name);
-			mvwprintw(v->info, id + 1 + i, 5, "last_live_cyc % 20d", v->champs[i]->last_live_cyc);
-			mvwprintw(v->info, id + 2 + i, 5, "current_lives % 20d", v->champs[i]->current_lives);
-			mvwprintw(v->info, id + 3 + i, 5, "prev_lives % 23d", v->champs[i]->prev_lives);
+		mvwprintw(v->info, id + i, 4, "%s :", v->champs[i]->name);
+		mvwprintw(v->info, id + 1 + i, 8, "Current lives: % 22d", v->champs[i]->current_lives);
+		mvwprintw(v->info, id + 2 + i, 8, "Preveous period lives: % 14d", v->champs[i]->prev_lives);
+		mvwprintw(v->info, id + 3 + i, 8, "Last live cycle: % 20d", v->champs[i]->last_live_cyc);
 		wattroff(v->info, A_BOLD | COLOR_PAIR(i + 1));
 		id += 4;
 	}

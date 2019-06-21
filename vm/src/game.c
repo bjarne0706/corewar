@@ -31,6 +31,7 @@ void			die_check(t_vm *v)
 		v->champs[i]->current_lives = 0;
 		i++;
 	}
+	v->prev_lives = v->lives_since_check;
 	v->lives_since_check = 0;
 }
 
