@@ -93,6 +93,7 @@ typedef struct		s_vm
 	WINDOW			*info;
 	WINDOW			*game;
 	long			speed;
+	short			prot;
 }					t_vm;
 
 typedef struct		s_op
@@ -284,7 +285,7 @@ void				byebye_our_darling(t_vm *v);
 int					interface(WINDOW *menu, t_vm *v);
 void				create_border(t_vm *v);
 void				del_win(WINDOW *game, WINDOW *info);
-void				car_loop(t_vm *v, WINDOW *game, WINDOW *info);
+void				car_loop(t_vm *v);
 void				print_and_refresh2(t_vm *v);
 void				*animation(WINDOW *picture);
 void				*inter_loop(WINDOW *menu, t_vm *v);
@@ -298,5 +299,13 @@ void				dash_line2(t_vm *v);
 void				print_and_refresh(t_vm *v);
 void				authors(WINDOW *menu);
 void				start_menu2(void);
+int					choose_sound(WINDOW *menu, int	*highlight, int *key);
+void				afplay_highl(int *highlight, int value);
+void				car_loop2(t_vm *v);
+void				stop_and_cont(t_vm *v, int *stop_music, int *get_int);
+void				print_cars(t_vm *v, int *i, int *x, int *y);
+void				car_loop_inloop(t_vm *v, int *i, int *y);
+
+
 
 #endif

@@ -18,7 +18,7 @@ void	core_img(WINDOW *core)
 " /$$__  $$\n",
 "| $$  \\__/  /$$$$$$   /$$$$$$   /$$$$$$  /$$  /$$  /$$  /$$$$$$   /$$$$$$\n",
 "| $$       /$$__  $$ /$$__  $$ /$$__  $$| $$ | $$ | $$ |____  $$ /$$__  $$\n",
-"| $$      | $$  \\ $$| $$  \\__/| $$$$$$$$| $$ | $$ | $$  /$$$$$$$| $$  \\__/\n",
+"| $$      | $$  \\ $$| $$  \\__/| $$$$$$$$| $$ | $$ | $$  /$$$$$$$| $$  \\__/",
 "| $$    $$| $$  | $$| $$      | $$_____/| $$ | $$ | $$ /$$__  $$| $$\n",
 "|  $$$$$$/|  $$$$$$/| $$      |  $$$$$$$|  $$$$$/$$$$/|  $$$$$$$| $$\n",
 " \\______/  \\______/ |__/       \\_______/ \\_____/\\___/  \\_______/|__/\n",
@@ -101,34 +101,40 @@ int		interface(WINDOW *menu, t_vm *v)
 		system("pkill afplay");
 		system("afplay sounds/button-sound-14.mp3 &> /dev/null &");
 	}
-	if (key == KEY_UP)
+	if (!choose_sound(menu, &highlight, &key))
+		return (0);
+	return (1);
+}
+
+void	afplay_highl(int *highlight, int value)
+{
+	system("pkill afplay");
+	system("afplay sounds/magic_immune.mp3 &> /dev/null &");
+	(*highlight) = value;
+}
+
+int		choose_sound(WINDOW *menu, int *highlight, int *key)
+{
+	if ((*key) == KEY_UP)
 	{
-		highlight--;
-		if (highlight == -1)
-		{
-			system("pkill afplay");
-			system("afplay sounds/magic_immune.mp3 &> /dev/null &");
-			highlight = 0;
-		}
+		(*highlight)--;
+		if ((*highlight) == -1)
+			afplay_highl(highlight, 0);
 	}
-	else if (key == KEY_DOWN)
+	else if ((*key) == KEY_DOWN)
 	{
-		highlight++;
-		if (highlight == 3)
-		{
-			system("pkill afplay");
-			system("afplay sounds/magic_immune.mp3 &> /dev/null &");
-			highlight = 2;
-		}
+		(*highlight)++;
+		if ((*highlight) == 3)
+			afplay_highl(highlight, 2);
 	}
-	else if (key == 10 && highlight == 2)
+	else if ((*key) == 10 && (*highlight) == 2)
 	{
 		endwin();
 		exit(1);
 	}
-	else if (key == 10 && highlight == 1)
+	else if ((*key) == 10 && (*highlight) == 1)
 		authors(menu);
-	else if (key == 10 && highlight == 0)
+	else if ((*key) == 10 && (*highlight) == 0)
 	{
 		wrefresh(menu);
 		return (0);
@@ -160,67 +166,81 @@ void	create_border(t_vm *v)
 	system("afplay sounds/Megalovania.mp3 &> /dev/null &");
 }
 
-void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
+void	car_loop(t_vm *v)
 {
-	int		x;
 	int		y;
 	int		i;
-	short	prot;
-	t_carr *tmp;
 
 	y = -1;
 	i = 0;
 	while (++y < 63)
 	{
-		x = 0;
-		while (x < 194)
-		{
-			prot = 0;
-			tmp = v->carrs;
-			while (tmp)
-			{
-
-				if (tmp->pc == i)
-				{
-					wattron(game, COLOR_PAIR(tmp->champ->num + 4));
-					prot = 1;
-					break ;
-				}
-				tmp = tmp->nxt;
-			}
-			if (!prot && v->colors[i].champ_num != 0)
-				wattron(game, COLOR_PAIR(v->colors[i].champ_num));
-			if (--(v->colors[i].st_wait) > 0)
-				wattron(game, A_BOLD);
-			if (--(v->colors[i].live_wait) > 0)
-				wattron(game, COLOR_PAIR(v->colors[i].champ_num * 10));
-			mvwprintw(game, y + 1, x + 2, "%02x", v->arena[i]);
-			if (v->colors[i].st_wait > 0)
-				wattroff(game, A_BOLD);
-			if ((v->colors[i].live_wait) > 0)
-				wattron(game, COLOR_PAIR(v->colors[i].champ_num * 10));
-			x += 2;
-			if (!prot && v->colors[i].champ_num != 0)
-				wattroff(game, COLOR_PAIR(v->colors[i].champ_num));
-			if (prot)
-			{
-				wattroff(game, COLOR_PAIR(5));
-				wattroff(game, COLOR_PAIR(6));
-				wattroff(game, COLOR_PAIR(7));
-				wattroff(game, COLOR_PAIR(8));
-			}
-			mvwprintw(game, y + 1, x + 2, " ", v->arena[i]);
-			i++;
-			x += 1;
-		}
+		car_loop_inloop(v, &i, &y);
 	}
 	print_and_refresh(v);
+	car_loop2(v);
+}
 
+void	car_loop_inloop(t_vm *v, int *i, int *y)
+{
+	t_carr	*tmp;
+	int		x;
+
+	x = 0;
+	while (x < 194)
+	{
+		v->prot = 0;
+		tmp = v->carrs;
+		while (tmp)
+		{
+			if (tmp->pc == (*i))
+			{
+				wattron(v->game, COLOR_PAIR(tmp->champ->num + 4));
+				v->prot = 1;
+				break ;
+			}
+			tmp = tmp->nxt;
+		}
+		print_cars(v, i, &x, y);
+	}
+}
+
+void	print_cars(t_vm *v, int *i, int *x, int *y)
+{
+	if (!v->prot && v->colors[(*i)].champ_num != 0)
+		wattron(v->game, COLOR_PAIR(v->colors[(*i)].champ_num));
+	if (--(v->colors[(*i)].st_wait) > 0)
+		wattron(v->game, A_BOLD);
+	if (--(v->colors[(*i)].live_wait) > 0)
+		wattron(v->game, COLOR_PAIR(v->colors[(*i)].champ_num * 10));
+	mvwprintw(v->game, *(y) + 1, *(x) + 2, "%02x", v->arena[(*i)]);
+	if (v->colors[(*i)].st_wait > 0)
+		wattroff(v->game, A_BOLD);
+	if ((v->colors[(*i)].live_wait) > 0)
+		wattron(v->game, COLOR_PAIR(v->colors[(*i)].champ_num * 10));
+	(*x) += 2;
+	if (!v->prot && v->colors[(*i)].champ_num != 0)
+		wattroff(v->game, COLOR_PAIR(v->colors[(*i)].champ_num));
+	if (v->prot)
+	{
+		wattroff(v->game, COLOR_PAIR(5));
+		wattroff(v->game, COLOR_PAIR(6));
+		wattroff(v->game, COLOR_PAIR(7));
+		wattroff(v->game, COLOR_PAIR(8));
+	}
+	mvwprintw(v->game, *(y) + 1, *(x) + 2, " ", v->arena[(*i)]);
+	(*i)++;
+	(*x) += 1;
+}
+
+void	car_loop2(t_vm *v)
+{
 	int get_int;
+	int	stop_music;
+
 	keypad(stdscr, TRUE);
 	nodelay(stdscr, TRUE);
 	get_int = getch();
-	int	stop_music;
 	stop_music = 0;
 	if (get_int == KEY_DOWN && v->speed >= 10)
 		v->speed -= 10;
@@ -228,25 +248,28 @@ void	car_loop(t_vm *v, WINDOW *game, WINDOW *info)
 		v->speed += 10;
 	if (get_int == 27)
 	{
-		del_win(game, info);
+		del_win(v->game, v->info);
 		exit(1);
 	}
 	if (get_int == 32)
+		stop_and_cont(v, &stop_music, &get_int);
+}
+
+void	stop_and_cont(t_vm *v, int *stop_music, int *get_int)
+{
+	system("pkill -STOP afplay");
+	(*stop_music)++;
+	*(get_int) = 0;
+	while (*(get_int) != 32)
 	{
-		system("pkill -STOP afplay");
-		stop_music++;
-		get_int = 0;
-		while (get_int != 32)
+		if (*(get_int) == 27)
 		{
-			if (get_int == 27)
-			{
-				del_win(game, info);
-				exit(1);
-			}
-			get_int = getch();
+			del_win(v->game, v->info);
+			exit(1);
 		}
-		system("pkill -CONT afplay");
+		*(get_int) = getch();
 	}
+	system("pkill -CONT afplay");
 }
 
 void	print_and_refresh2(t_vm *v)

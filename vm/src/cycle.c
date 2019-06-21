@@ -59,7 +59,7 @@ void			run_cycle(t_vm *v)
 	v->cyc_since_check++;
 	if (v->options[2] == 'v' && speed == v->speed)
 	{
-		car_loop(v, v->game, v->info);
+		car_loop(v);
 		speed = 0;
 	}
 	speed++;
