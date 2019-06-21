@@ -15,7 +15,6 @@
 int			main(int ac, char **av)
 {
 	char		*filename;
-	char		**arr;
 
 	g_files = (t_files *)ft_memalloc(sizeof(t_files));
 	g_str = (t_strings *)ft_memalloc(sizeof(t_strings));
@@ -25,7 +24,6 @@ int			main(int ac, char **av)
 	g_new_l = 0;
 	if (ac != 2)
 		error("Error: incorrect number of files.");
-	arr = ft_strsplit(av[1], '.');
 	if ((g_files->f_fd = open(av[1], O_DIRECTORY)) > 0)
 		error("Error: this is a directory.");
 	g_files->f_fd = open(av[1], O_RDONLY);
