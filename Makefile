@@ -11,14 +11,18 @@
 # **************************************************************************** #
 
 all:
+	@make -C ./libft
 	@make -C ./ass
 	@make -C ./vm
 
 clean:
+	@make clean -C ./libft
 	@make clean -C ./ass
 	@make clean -C ./vm
 
-fclean: clean
+
+fclean:
+	@make fclean -C ./libft
 	@make fclean -C ./ass
 	@make fclean -C ./vm
 

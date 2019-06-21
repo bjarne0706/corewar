@@ -71,18 +71,13 @@ $(OBJ_DIR)%.o: %.c $(INC_DIR)vm.h ../op.h
 	@$(CC) $(FLAGS) -c $< -o $@ -I $(INC_DIR) -I $(LIB_INC)
 	@echo "	\033[96m$@\033[0m"
 
-$(LIBFT):
-	@make -C $(LIB_DIR)
-
 clean:
 	@rm -f $(OBJ)
 	@rm -rf $(OBJ_DIR)
-	@make clean -C $(LIB_DIR)
 	@echo "\033[31mCorewar object files removed.\033[0m"
 
 fclean: clean
 	@rm -f $(NAME)
-	@@make fclean -C $(LIB_DIR)
 	@echo "\033[31mCorewar executable removed.\033[0m"
 
 re: fclean all
