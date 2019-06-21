@@ -118,6 +118,8 @@ void			print_usage(void)
 	ft_printf("\t\t\t{b}1{0} - show lives\n\t\t\t{b}2{0} - show cycles\n");
 	ft_printf("\t\t\t{b}4{0} - show operations\n\t\t\t{b}8{0} - show deaths\n");
 	ft_printf("\t\t\t{b}16{0} - show PC movements (except for jumps)\n");
+	ft_printf("\n{b}{red}AND REMEMBER: DON'T BE A DICK! (c) zaz{0}\n");
+	
 		printf("\n++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");		//
 		system("leaks -q corewar");		//
 	exit(1);
