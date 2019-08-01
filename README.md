@@ -6,8 +6,9 @@ Programming game. Bots, written in assembly-like language, battle in a circular 
 
 ## Description
 
+This is the implementation of the programming game [Core War](https://en.wikipedia.org/wiki/Core_War).
 
-*This is the project of the Algorithms branch of the School 42 curriculum.*
+*This is the project of the Algorithms branch of the School 42 curriculum. As a group project, it's done in collaboration with my 3 awesome schoolmates: @dstepanets, @github/anatoliinerus, @evlasov. I've written almost all VM code.*
 
 **Detailed description of the task: [corewar.en.pdf](https://github.com/bjarne0706/corewar/blob/master/corewar.en.pdf)**
 
@@ -15,13 +16,13 @@ Programming game. Bots, written in assembly-like language, battle in a circular 
 
 Compile with `make`. Two executables will be created.
 
-#### Assembler
+### Assembler
 
 `./asm [bot.s]`   - this will compile a file *bot.s* into a bytecode file *bot.cor*.
 
 Compiled bot then can be loaded into the virtual machine. Test \*.s files are located in `champs_s` directory. There are also precompiled bots \*.cor in `champs_cor` directory.
 
-#### Virtual Machine
+### Virtual Machine
 
 Run like this:
 ```
