@@ -8,7 +8,7 @@ Programming game. Bots, written in assembly-like language, battle in a circular 
 
 This is the implementation of the programming game [Core War](https://en.wikipedia.org/wiki/Core_War).
 
-*This is the project of the Algorithms branch of the School 42 curriculum. As a group project, it's done in collaboration with my 3 awesome schoolmates: @dstepanets, @github/anatoliinerus, @evlasov. I've written almost all VM code.*
+*This is the project of the Algorithms branch of the School 42 curriculum*
 
 **Detailed description of the task: [corewar.en.pdf](https://github.com/bjarne0706/corewar/blob/master/corewar.en.pdf)**
 
@@ -52,3 +52,10 @@ Options:
 ```
 
 **Tested only on Mac OS X.**
+
+## Credits
+As a group project, it's done in collaboration with my 3 awesome schoolmates. Our roles were:
+- [@bjarne0706](https://github.com/bjarne0706) (assembler)
+- [@dstepanets](https://github.com/dstepanets) (virtual machine)
+- [@anatoliinerus](https://github.com/anatoliinerus) (vizualization in ncurses)
+- @evlasov (virtual machine and debugging)
