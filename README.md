@@ -6,7 +6,6 @@ Programming game. Bots, written in assembly-like language, battle in a circular 
 
 ## Description
 
-Algorithmic project on graph theory. It's something like a logistics planner for an ant farm  :) The goal is to move a random number of ants in a labyrinth from the *Start* room to the *End* room in a minimum number of moves.
 
 *This is the project of the Algorithms branch of the School 42 curriculum.*
 
