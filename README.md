@@ -19,11 +19,35 @@ Compile with `make`. Two executables will be created.
 
 `./asm [bot.s]`   - this will compile a file *bot.s* into a bytecode file *bot.cor*.
 
-Compiled bot then can be loaded into the virtual machine. Test \*.s files are located in `champs` directory. There are also precompiled bots \*.cor in `test_bots` directory.
+Compiled bot then can be loaded into the virtual machine. Test \*.s files are located in `champs_s` directory. There are also precompiled bots \*.cor in `champs_cor` directory.
 
+#### Virtual Machine
 
+Run like this:
+```
+	./corewar [-d N] [-s N] [-e / -E] [-v] [-l N] <[-n N] champ1.cor> <...>
+```
 
+Options:
+```
+	-n N	: Specify player's number (N >= 1 && N <= number_of_players (4 max))
 
+	-v	: Visual mode (overrides dumps and logs)
 
+	-d N (-dump N)	: Dump memory (32 octets/line) after N cycles then exit
+	-D N		: same as -d but 64 octets/line
+	-s N	: Run N cycles, dump memory (32 octets/line), pause, then repeat
+	-S N	: same as -s but 64 octets/line
+	-e / -E	: Dump memory at the end of a game (32 / 64 octets)
+
+	-a	: Print output of 'aff' operation
+
+	-l N	: Print logs. Add numbers together to enable several logs:
+			1 - show lives
+			2 - show cycles
+			4 - show operations
+			8 - show deaths
+			16 - show PC movements (except for jumps)
+```
 
 **Tested only on Mac OS X.**
