@@ -8,8 +8,8 @@ Programming game. Bots, written in assembly-like language, battle in a circular 
 
 This is the implementation of the programming game [Core War](https://en.wikipedia.org/wiki/Core_War). The project has 3 distinct parts:
 
-1. **Assembler**. Converts file .s, written in assembly-like language into bytecode file .cor. Compiled bot then can be loaded into the virtual machine.
-2. **Virtual Machine**. Runs the game. Loads bytecode of up to 4 players into a circular memory area. Then executes each champion's code operation after operation. Wins a player, who created the last active process - i.e. the process which executed the last *live* operation.
+1. **Assembler**. Converts file .s, written in assembly-like language, into bytecode file .cor. Compiled bot then can be loaded into the virtual machine.
+2. **Virtual Machine**. Runs the game. Loads bytecode of up to 4 players into a circular memory area. Then executes each champion's code operation after operation. Wins a player who created the last active process, i.e. the process which executed the last *live* operation.
 3. **Visualization**. Displays the game in a terminal with formatting by ncurses library (screencast above).
 
 Writing a smart bot was not the task here, as there is a separate project for that.
