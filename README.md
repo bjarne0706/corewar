@@ -57,7 +57,7 @@ Options:
             16 - show PC movements (except for jumps)
 ```
 
-**Tested only on Mac OS X.**
+**Tested only on Mac OS X.** 
 
 ## Credits
 As a group project, it's done in collaboration with my 3 awesome schoolmates. Our roles were:
